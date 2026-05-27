@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('home renders core structure', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('nav.nav .logo')).toHaveText('Veloxcore');
+  await expect(page.locator('nav.nav .brand-name')).toHaveAttribute('alt', 'Veloxcore');
   await expect(page.locator('.hero-h1')).toContainText('The studio that ships');
   await expect(page.locator('.wp-featured')).toContainText('Veloxhire.AI');
   await expect(page.locator('.wp-card')).toHaveCount(3);
