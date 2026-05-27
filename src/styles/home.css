@@ -1,3 +1,9 @@
+/* ── HERO CANVAS / DOT CANVAS ───────────────── */
+#hero-canvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; opacity:.85; }
+.cta { position:relative; }
+#dot-canvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.cta > .wrap { position:relative; z-index:2; }
+
 /* ── KEYFRAMES ──────────────────────────────── */
 @keyframes blink      { 0%,100%{opacity:1} 50%{opacity:0} }
 @keyframes caret-color{ 0%{background:var(--accent)} 50%{background:#ea4335} 100%{background:var(--accent)} }
