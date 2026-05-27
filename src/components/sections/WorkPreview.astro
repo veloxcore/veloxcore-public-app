@@ -45,7 +45,7 @@ const rest = all.filter((c) => !c.data.featured).slice(0, 3);
             <h3 class="wp-card-h">{c.data.title}</h3>
             <p class="wp-card-desc">{c.data.excerpt}</p>
             <div class="wp-card-foot">
-              <span class="wp-card-tag">{c.data.category.split('·').pop()?.trim()}</span><span class="wp-dot"></span><span class="wp-client">{c.data.client}</span>
+              <span class="wp-card-tag">{c.data.shortTag ?? c.data.category.split('·').pop()?.trim()}</span><span class="wp-dot"></span><span class="wp-client">{c.data.client}</span>
             </div>
           </div>
         </a>
