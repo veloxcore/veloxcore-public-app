@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:wght@500&display=swap');
+
+/* ── TOKEN LAYER ───────────────────────────────────────────── */
+:root {
+  /* Surfaces */
+  --bg:            #ffffff;
+  --canvas:        #F8F9FA;
+  --surface:       #ffffff;
+
+  /* Foreground */
+  --fg1:           #1a1c1c;
+  --fg2:           #5f6368;
+  --fg3:           #6b6f72;
+
+  /* Borders */
+  --border:        #eef0f1;
+  --border-strong: #e6e8ea;
+
+  /* Brand accent (overridable per page) */
+  --accent:        #1a73e8;
+  --accent-soft:   #adc6ff;
+  --tag-bg:        #e8f0fe;
+  --tag-fg:        #1a73e8;
+
+  /* Dark surface system */
+  --dark-surface:  #1E2127;
+  --dark-card:     #262A31;
+  --dark-divider:  #353941;
+  --dark-fg1:      #f7f8fa;
+  --dark-fg2:      #bcc1c7;
+  --dark-fg3:      #9ea3aa;
+
+  /* Typography */
+  --display: 'Google Sans Flex', system-ui, sans-serif;
+  --sans:    'Google Sans Flex', system-ui, sans-serif;
+  --mono:    'JetBrains Mono', monospace;
+
+  /* Easing */
+  --eq:   cubic-bezier(.25, .46, .45, .94);
+  --eqt:  cubic-bezier(.165, .84, .44, 1);
+  --eic:  cubic-bezier(.785, .135, .15, .86);
+  --eiqt: cubic-bezier(.77, 0, .175, 1);
+
+  /* Layout */
+  --w: 1320px;
+  --m: 48px;
+}
