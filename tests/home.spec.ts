@@ -22,3 +22,16 @@ test('honors reduced motion', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.sec-head.reveal').first()).toHaveClass(/visible/);
 });
+
+test('feature stats animate in after scroll', async ({ page }) => {
+  await page.goto('/');
+  const stat = page.locator('.stat-num').first();
+  await stat.scrollIntoViewIfNeeded();
+  await expect(stat).toHaveClass(/anim-in/, { timeout: 5000 });
+});
+
+test('feature stats are visible under reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await expect(page.locator('.stat-num').first()).toHaveClass(/anim-in/, { timeout: 5000 });
+});

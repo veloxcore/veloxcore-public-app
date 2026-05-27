@@ -21,6 +21,18 @@
     });
   }
 
+  // 2b. Feature stat entrance — add .anim-in (mirrors prototype scroll trigger)
+  const stats = document.querySelectorAll<HTMLElement>('.stat-num');
+  if (stats.length) {
+    if (reduce) {
+      stats.forEach((s) => s.classList.add('anim-in'));
+    } else {
+      inView(stats[0], () => {
+        stats.forEach((s, i) => { s.style.animationDelay = `${i * 0.1}s`; s.classList.add('anim-in'); });
+      });
+    }
+  }
+
   // 3. Scroll-linked parallax on hero device (skip when reduced)
   if (!reduce) {
     const device = document.querySelector<HTMLElement>('.hero-device');
