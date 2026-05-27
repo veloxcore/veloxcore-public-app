@@ -1,0 +1,26 @@
+---
+import HeroCanvas from './HeroCanvas.astro';
+import WordRotator from './WordRotator.astro';
+import DeviceMock from './DeviceMock.astro';
+import FloatChip from './FloatChip.astro';
+---
+<section class="hero" data-screen-label="01 Hero">
+  <HeroCanvas />
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-tag"><span class="dot"></span>Microsoft Gold Partner &nbsp;·&nbsp; AI-Native Engineering</div>
+        <h1 class="hero-h1">The studio that ships <WordRotator /></h1>
+        <p class="hero-sub">Not demos. Not proofs-of-concept. Production-grade AI for enterprise and growth-stage teams — LLM pipelines, autonomous agents, RAG systems — built on Azure by engineers who run their own AI products.</p>
+        <div class="hero-acts">
+          <a class="btn-pill btn-dark" href="Veloxcore Contact.html">Book a discovery call</a>
+          <a class="btn-pill btn-soft" href="Veloxcore Work.html">See our work <span class="arr">→</span></a>
+        </div>
+      </div>
+      <div class="hero-device">
+        <DeviceMock />
+        <FloatChip />
+      </div>
+    </div>
+  </div>
+</section>

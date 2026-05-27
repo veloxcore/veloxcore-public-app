@@ -1,0 +1,7 @@
+---
+interface Props { variant?: 'dark' | 'soft' | 'accent' | 'white' | 'ghost'; href?: string; arrow?: boolean; }
+const { variant = 'dark', href = '#', arrow = false } = Astro.props;
+---
+<a class={`btn-pill btn-${variant}`} href={href}>
+  <slot />{arrow && <span class="arr">→</span>}
+</a>

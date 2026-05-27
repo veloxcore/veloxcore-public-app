@@ -1,0 +1,24 @@
+<canvas id="dot-canvas" aria-hidden="true" data-dot-canvas></canvas>
+<script>
+  const c = document.querySelector('[data-dot-canvas]') as HTMLCanvasElement | null;
+  if (c) {
+    const canvas = c;
+    const ctx = canvas.getContext('2d')!;
+    function draw() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      const sp = 18;
+      for (let x = 0; x < canvas.width; x += sp) {
+        for (let y = 0; y < canvas.height; y += sp) {
+          ctx.beginPath();
+          ctx.arc(x, y, 1, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(26,28,28,0.10)';
+          ctx.fill();
+        }
+      }
+    }
+    window.addEventListener('load', draw);
+    window.addEventListener('resize', draw);
+    draw();
+  }
+</script>

@@ -1,0 +1,32 @@
+/* ── RESET ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html  { scroll-behavior: smooth; }
+body  {
+  font-family: var(--sans);
+  color: var(--fg1);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a   { text-decoration: none; color: inherit; cursor: pointer; }
+img, svg { display: block; }
+button { cursor: pointer; font-family: inherit; border: none; background: none; }
+
+/* ── LAYOUT ────────────────────────────────────────────────── */
+.wrap { max-width: var(--w); margin: 0 auto; padding: 0 var(--m); }
+
+/* ── REVEAL ────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .65s var(--eqt), transform .65s var(--eqt);
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* Home-page reveal variants */
+.pillar.reveal  { transform:translateY(24px) scale(0.98); transition:opacity .65s var(--eqt), transform .65s var(--eqt); }
+.pillar.reveal.visible { opacity:1; transform:none; }
+.blog-card.reveal { transform:translateY(28px); transition:opacity .6s var(--eqt), transform .6s var(--eqt); }
+.blog-card.reveal.visible { opacity:1; transform:none; }
+.scale-enter { opacity:0; transform:scale(0.9); transition:transform 700ms var(--eic), opacity 500ms var(--eqt); }
+.scale-enter.in-view { opacity:1; transform:none; }

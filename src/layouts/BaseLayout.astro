@@ -1,0 +1,31 @@
+---
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/system.css';
+import '../styles/home.css';
+import Nav from '../components/nav/Nav.astro';
+import Footer from '../components/footer/Footer.astro';
+import MotionGlue from '../components/motion/MotionGlue.astro';
+
+interface Props { title: string; description?: string; }
+const { title, description = 'Production-grade AI for enterprise and growth-stage teams.' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="/assets/veloxcore-logo-mark.svg" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <Nav />
+  <slot />
+  <Footer />
+  <MotionGlue />
+</body>
+</html>

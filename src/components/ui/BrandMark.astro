@@ -1,0 +1,8 @@
+---
+interface Props { withWordmark?: boolean; href?: string; }
+const { withWordmark = true, href = '/' } = Astro.props;
+---
+<a class="brand" href={href} aria-label="Veloxcore">
+  <img class="brand-mark" src="/assets/veloxcore-logo-mark.svg" alt="" width="24" height="24" />
+  {withWordmark && <img class="brand-name" src="/assets/veloxcore-name.svg" alt="Veloxcore" />}
+</a>
