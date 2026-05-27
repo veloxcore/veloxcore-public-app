@@ -4,6 +4,25 @@ const { words = ['AI', 'agents', 'copilots', 'RAG'] } = Astro.props;
 ---
 <span style="white-space:nowrap"><span class="typed" data-word-rotator data-words={JSON.stringify(words)}>AI</span><span class="caret"></span></span>
 <script>
-  // Word rotator implemented in Task 9.
-  export {};
+  const el = document.querySelector('[data-word-rotator]') as HTMLElement | null;
+  if (el && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const elem = el;
+    const words: string[] = JSON.parse(elem.dataset.words || '["AI"]');
+    let i = 0, ch = words[0].length, del = false;
+    function tick() {
+      const w = words[i];
+      if (!del) {
+        ch++;
+        elem.textContent = w.slice(0, ch);
+        if (ch === w.length) { del = true; setTimeout(tick, 2000); return; }
+        setTimeout(tick, 70 + Math.random() * 50);
+      } else {
+        ch--;
+        elem.textContent = w.slice(0, ch);
+        if (ch === 0) { del = false; i = (i + 1) % words.length; setTimeout(tick, 280); return; }
+        setTimeout(tick, 40);
+      }
+    }
+    setTimeout(tick, 2800);
+  }
 </script>

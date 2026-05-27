@@ -1,5 +1,74 @@
 <canvas id="hero-canvas" aria-hidden="true" data-hero-canvas></canvas>
 <script>
-  // Particle network implemented in Task 9.
-  export {};
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const c = document.querySelector('[data-hero-canvas]') as HTMLCanvasElement | null;
+    if (c) {
+      const canvas = c;
+      const ctx = canvas.getContext('2d')!;
+      const N = 72, MAXD = 150;
+      const COLS: string[] = ['rgba(61,126,255,', 'rgba(0,212,232,', 'rgba(0,221,106,', 'rgba(61,126,255,'];
+      let W: number = 0, H: number = 0;
+      interface Particle { x: number; y: number; vx: number; vy: number; r: number; col: string; }
+      let pts: Particle[] = [];
+      const mouse = { x: -9999, y: -9999 };
+      function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
+      function init() {
+        pts = Array.from({ length: N }, () => ({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - .5) * .28,
+          vy: (Math.random() - .5) * .28,
+          r: Math.random() * 1.6 + 0.6,
+          col: COLS[Math.floor(Math.random() * COLS.length)]
+        }));
+      }
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < pts.length; i++) {
+          for (let j = i + 1; j < pts.length; j++) {
+            const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y, d = Math.hypot(dx, dy);
+            if (d < MAXD) {
+              ctx.beginPath();
+              ctx.moveTo(pts[i].x, pts[i].y);
+              ctx.lineTo(pts[j].x, pts[j].y);
+              ctx.strokeStyle = `rgba(61,126,255,${(1 - d / MAXD) * 0.08})`;
+              ctx.lineWidth = .6;
+              ctx.stroke();
+            }
+          }
+          const dm = Math.hypot(pts[i].x - mouse.x, pts[i].y - mouse.y);
+          if (dm < MAXD * 1.6) {
+            ctx.beginPath();
+            ctx.moveTo(pts[i].x, pts[i].y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `rgba(61,126,255,${(1 - dm / (MAXD * 1.6)) * 0.16})`;
+            ctx.lineWidth = .7;
+            ctx.stroke();
+          }
+          ctx.beginPath();
+          ctx.arc(pts[i].x, pts[i].y, pts[i].r, 0, Math.PI * 2);
+          ctx.fillStyle = pts[i].col + '0.55)';
+          ctx.fill();
+        }
+      }
+      function loop() {
+        pts.forEach(p => {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > W) p.vx *= -1;
+          if (p.y < 0 || p.y > H) p.vy *= -1;
+        });
+        draw();
+        requestAnimationFrame(loop);
+      }
+      window.addEventListener('resize', () => { resize(); init(); });
+      document.addEventListener('mousemove', e => {
+        const r = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - r.left;
+        mouse.y = e.clientY - r.top;
+      });
+      resize();
+      init();
+      loop();
+    }
+  }
 </script>
