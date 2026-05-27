@@ -1,0 +1,9 @@
+---
+interface Props { words?: string[]; }
+const { words = ['AI', 'agents', 'copilots', 'RAG'] } = Astro.props;
+---
+<span style="white-space:nowrap"><span class="typed" data-word-rotator data-words={JSON.stringify(words)}>AI</span><span class="caret"></span></span>
+<script>
+  // Word rotator implemented in Task 9.
+  export {};
+</script>
