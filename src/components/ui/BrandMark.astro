@@ -1,0 +1,8 @@
+---
+interface Props { withWordmark?: boolean; href?: string; }
+const { withWordmark = true, href = '/' } = Astro.props;
+---
+<a class="brand" href={href}>
+  <span class="mark"></span>
+  {withWordmark && <span class="logo">Veloxcore</span>}
+</a>

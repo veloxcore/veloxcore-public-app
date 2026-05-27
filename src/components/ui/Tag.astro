@@ -1,0 +1,5 @@
+---
+interface Props { kind: string; }
+const { kind } = Astro.props;
+---
+<span class={`tag tag-${kind}`}><slot /></span>
