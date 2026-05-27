@@ -1,0 +1,18 @@
+<div class="code-panel scale-enter">
+  <div class="code-tabs">
+    <span class="code-tab active">pipeline.ts</span>
+    <span class="code-tab">stream.config</span>
+    <span class="code-tab">model.py</span>
+  </div>
+  <div><span class="ln">1</span><span class="com">// real-time analytics → ML model</span></div>
+  <div><span class="ln">2</span><span class="kw">import</span> &#123; Pipeline &#125; <span class="kw">from</span> <span class="str">'@veloxcore/azure'</span>;</div>
+  <div><span class="ln">3</span></div>
+  <div><span class="ln">4</span><span class="kw">const</span> p = <span class="kw">new</span> <span class="fn">Pipeline</span>(&#123;</div>
+  <div><span class="ln">5</span>&nbsp;&nbsp;source: <span class="str">'eventhub://prod-events'</span>,</div>
+  <div><span class="ln">6</span>&nbsp;&nbsp;sink:&nbsp;&nbsp; <span class="str">'cosmosdb://forecasts'</span>,</div>
+  <div><span class="ln">7</span>&nbsp;&nbsp;window: <span class="str">'5m'</span>,</div>
+  <div><span class="ln">8</span>&#125;);</div>
+  <div><span class="ln">9</span></div>
+  <div><span class="ln">10</span><span class="kw">await</span> p.<span class="fn">deploy</span>();</div>
+  <div class="out-line"><span class="ok">✓</span><span>Deployed to <b>azure-westeurope</b> · 1.8s</span></div>
+</div>

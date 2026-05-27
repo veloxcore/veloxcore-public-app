@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import ButtonPill from '../ui/ButtonPill.astro';
+
+const all = (await getCollection('case-studies')).sort((a, b) => a.data.order - b.data.order);
+const featured = all.find((c) => c.data.featured)!;
+const rest = all.filter((c) => !c.data.featured).slice(0, 3);
+---
+<section class="section" data-screen-label="02 Selected Work">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">Selected work</span>
+      <h2 class="sec-h2">Proof, not promises.</h2>
+      <p class="sec-sub">Real clients. Production systems. Measurable outcomes.</p>
+    </div>
+
+    <a class="wp-featured reveal" href="#">
+      <div class={`wp-feat-cover ${featured.data.coverTheme}`}>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:36px;background:linear-gradient(to top,rgba(55,48,163,.88),transparent)">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.55);margin-bottom:6px">Our own product · in production</div>
+          <div style="font-family:var(--display);font-size:30px;font-weight:800;letter-spacing:-.045em;color:#fff">{featured.data.client}</div>
+        </div>
+      </div>
+      <div class="wp-feat-body">
+        <div class="wp-eyebrow">{featured.data.category}</div>
+        <h3 class="wp-feat-h">{featured.data.title}</h3>
+        <p class="wp-feat-desc">{featured.data.excerpt}</p>
+        <div class="wp-stats">
+          {featured.data.stats.map((s) => (
+            <div><div class="wp-stat-val">{s.value}</div><div class="wp-stat-label">{s.label}</div></div>
+          ))}
+        </div>
+        <span class="pillar-link">View case study →</span>
+      </div>
+    </a>
+
+    <div class="wp-grid">
+      {rest.map((c, i) => (
+        <a class="wp-card reveal" style={`transition-delay:${i * 0.07}s`} href="#">
+          <div class={`wp-card-cover ${c.data.coverTheme}`}>
+            <div style="position:absolute;bottom:20px;left:24px;font-family:var(--display);font-size:15px;font-weight:700;letter-spacing:-.025em;color:rgba(255,255,255,.9)">{c.data.client}</div>
+          </div>
+          <div class="wp-card-body">
+            <div class="wp-eyebrow">{c.data.category}</div>
+            <h3 class="wp-card-h">{c.data.title}</h3>
+            <p class="wp-card-desc">{c.data.excerpt}</p>
+            <div class="wp-card-foot">
+              <span class="wp-card-tag">{c.data.category.split('·').pop()?.trim()}</span><span class="wp-dot"></span><span class="wp-client">{c.data.client}</span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="wp-cta"><ButtonPill variant="soft" href="#" arrow>View all work</ButtonPill></div>
+  </div>
+</section>

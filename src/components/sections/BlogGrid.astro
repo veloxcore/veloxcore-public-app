@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import ButtonPill from '../ui/ButtonPill.astro';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+<section class="section" data-screen-label="04 Blog">
+  <div class="wrap">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;gap:24px">
+      <div class="reveal">
+        <span class="sec-eyebrow">From the blog</span>
+        <h2 class="sec-h2" style="margin-bottom:0">Latest thinking on data &amp; cloud</h2>
+      </div>
+      <ButtonPill variant="soft" href="#" arrow>View all posts</ButtonPill>
+    </div>
+    <div class="blog-grid">
+      {posts.map((p, i) => (
+        <article class="blog-card reveal" style={`transition-delay:${i * 0.08}s`}>
+          <div class={`blog-cover ${p.data.coverTheme}`}></div>
+          <div class="blog-meta"><span class="tag-text">{p.data.tag}</span><span>·</span><span>{fmt(p.data.date)}</span></div>
+          <h3 class="blog-title">{p.data.title}</h3>
+          <span class="blog-link">Read blog ›</span>
+        </article>
+      ))}
+    </div>
+    <div class="blog-controls">
+      <button class="blog-btn" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+      <button class="blog-btn" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></button>
+    </div>
+  </div>
+</section>
