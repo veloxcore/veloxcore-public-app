@@ -1,0 +1,512 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Contact — Veloxcore">
+
+  <!-- HERO -->
+  <section class="hero contact-hero">
+    <canvas class="hero-canvas" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="hero-inner">
+        <div class="page-eyebrow">Get in touch</div>
+        <h1 class="hero-h1">Let's talk about<br>your data problem.</h1>
+        <p class="hero-sub">Pick your path. Book a quick call with one of our engineers — or send us the details and we'll come back with a project estimate within 48 hours.</p>
+        <div class="path-cards">
+          <div class="path-card primary" id="card-call">
+            <div class="path-card-badge">Fastest</div>
+            <div class="path-card-ico" style="background:rgba(255,255,255,.15);color:#fff">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.27 10a19.79 19.79 0 01-3.07-8.67A2 2 0 013.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>
+            </div>
+            <div class="path-card-title">Book a free call</div>
+            <div class="path-card-desc">45 minutes with a senior engineer. No sales pitch — just an honest look at your problem. Pick a slot that works for you.</div>
+            <div class="path-card-cta">Choose a time <span class="path-card-arrow"><svg viewBox="0 0 10 10"><line x1="2" y1="8" x2="8" y2="2"/><polyline points="4 2 8 2 8 6"/></svg></span></div>
+          </div>
+          <div class="path-card secondary" id="card-estimate">
+            <div class="path-card-ico" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div class="path-card-title">Get a project estimate</div>
+            <div class="path-card-desc">Tell us what you're building. We'll scope the work, advise on architecture, and send you a written estimate — no obligation.</div>
+            <div class="path-card-cta">Fill in the brief <span class="path-card-arrow"><svg viewBox="0 0 10 10"><line x1="2" y1="8" x2="8" y2="2"/><polyline points="4 2 8 2 8 6"/></svg></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT BODY -->
+  <div class="contact-body" id="contact-form">
+    <div class="wrap">
+      <div class="contact-grid">
+
+        <!-- FORM AREA -->
+        <div class="form-wrap reveal">
+          <div class="form-tabs">
+            <div class="form-tab active" id="tab-call">Book a call</div>
+            <div class="form-tab" id="tab-estimate">Get an estimate</div>
+            <div class="form-tab" id="tab-general">General enquiry</div>
+          </div>
+
+          <!-- BOOK A CALL -->
+          <div id="form-call">
+            <div class="form-title">Book a free 45-min call</div>
+            <div class="form-sub">Tell us a little about your project and pick a slot. A senior engineer — not a sales rep — will join the call.</div>
+            <div class="field-group">
+              <div class="field-row">
+                <div class="field"><label>First name <span class="req">*</span></label><input type="text" placeholder="Pradeep"></div>
+                <div class="field"><label>Last name <span class="req">*</span></label><input type="text" placeholder="Nair"></div>
+              </div>
+              <div class="field"><label>Work email <span class="req">*</span></label><input type="email" placeholder="pradeep@company.com"></div>
+              <div class="field"><label>Company</label><input type="text" placeholder="Acme Corp"></div>
+              <div class="field">
+                <label>What's the main topic? <span class="req">*</span></label>
+                <select>
+                  <option value="" disabled selected>Select a topic</option>
+                  <option>Data Engineering &amp; Pipelines</option>
+                  <option>Azure Architecture &amp; Migration</option>
+                  <option>Machine Learning &amp; AI</option>
+                  <option>IoT &amp; Edge</option>
+                  <option>.NET Development</option>
+                  <option>Veloxhire.AI</option>
+                  <option>Something else</option>
+                </select>
+              </div>
+              <div class="field"><label>Anything we should know before the call?</label><textarea placeholder="Brief context — what you're building, what's broken, what you've tried…"></textarea></div>
+            </div>
+            <div class="form-actions">
+              <button class="btn-submit" id="btn-book-call">Book call <svg viewBox="0 0 14 14"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5 2 12 2 12 9"/></svg></button>
+            </div>
+            <div class="form-note"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>We respond within one business day to confirm your slot. All information stays confidential.</div>
+          </div>
+
+          <!-- GET AN ESTIMATE -->
+          <div id="form-estimate" style="display:none">
+            <div class="steps-row">
+              <div class="step-dot active" id="sdot-1">1</div>
+              <div class="step-line" id="sline-1"></div>
+              <div class="step-dot future" id="sdot-2">2</div>
+              <div class="step-line" id="sline-2"></div>
+              <div class="step-dot future" id="sdot-3">3</div>
+            </div>
+            <div class="step-label-row">
+              <div class="step-label active" id="slabel-1">About you</div>
+              <div class="step-label" id="slabel-2">Your project</div>
+              <div class="step-label" id="slabel-3">Details</div>
+            </div>
+
+            <!-- Step 1 -->
+            <div id="est-step-1">
+              <div class="form-title">About you</div>
+              <div class="form-sub">Let's start with the basics.</div>
+              <div class="field-group">
+                <div class="field-row">
+                  <div class="field"><label>First name <span class="req">*</span></label><input type="text" placeholder="Pradeep"></div>
+                  <div class="field"><label>Last name <span class="req">*</span></label><input type="text" placeholder="Nair"></div>
+                </div>
+                <div class="field"><label>Work email <span class="req">*</span></label><input type="email" placeholder="pradeep@company.com"></div>
+                <div class="field-row">
+                  <div class="field"><label>Company</label><input type="text" placeholder="Acme Corp"></div>
+                  <div class="field">
+                    <label>Company size</label>
+                    <select>
+                      <option value="" disabled selected>Select size</option>
+                      <option>1–10 employees</option>
+                      <option>11–50 employees</option>
+                      <option>51–200 employees</option>
+                      <option>201–1,000 employees</option>
+                      <option>1,000+ employees</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn-submit" id="btn-est-step1">Continue <svg viewBox="0 0 14 14"><polyline points="3 7 7 11 11 7"/><line x1="7" y1="3" x2="7" y2="11"/></svg></button>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div id="est-step-2" style="display:none">
+              <div class="form-title">Your project</div>
+              <div class="form-sub">Tell us what you're trying to build or solve.</div>
+              <div class="field-group">
+                <div class="field">
+                  <label>What type of engagement are you looking for? <span class="req">*</span></label>
+                  <div class="radio-group" id="engagement-radio">
+                    <div class="radio-opt selected"><div class="radio-dot"></div><div class="radio-text"><div class="radio-label">Project build</div><div class="radio-desc">A scoped piece of work with defined outputs and timeline</div></div></div>
+                    <div class="radio-opt"><div class="radio-dot"></div><div class="radio-text"><div class="radio-label">Embedded team / staff augmentation</div><div class="radio-desc">Veloxcore engineers join your team for an extended period</div></div></div>
+                    <div class="radio-opt"><div class="radio-dot"></div><div class="radio-text"><div class="radio-label">AI discovery sprint</div><div class="radio-desc">2-week sprint to define your AI roadmap and architecture</div></div></div>
+                    <div class="radio-opt"><div class="radio-dot"></div><div class="radio-text"><div class="radio-label">Not sure yet</div><div class="radio-desc">Let's talk first and figure it out together</div></div></div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Service area <span class="req">*</span></label>
+                  <select>
+                    <option value="" disabled selected>Select service</option>
+                    <option>Data Engineering &amp; Pipelines</option>
+                    <option>Azure Architecture &amp; Migration</option>
+                    <option>Machine Learning &amp; AI</option>
+                    <option>IoT &amp; Edge Intelligence</option>
+                    <option>.NET &amp; Application Development</option>
+                    <option>Data Visualisation</option>
+                    <option>Multiple / not sure</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn-submit" id="btn-est-step2">Continue <svg viewBox="0 0 14 14"><polyline points="3 7 7 11 11 7"/><line x1="7" y1="3" x2="7" y2="11"/></svg></button>
+                <button class="btn-back" id="btn-est-back1">← Back</button>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div id="est-step-3" style="display:none">
+              <div class="form-title">Project details</div>
+              <div class="form-sub">The more context you give us, the more useful our estimate will be.</div>
+              <div class="field-group">
+                <div class="field"><label>Describe the project or problem <span class="req">*</span></label><textarea style="min-height:120px" placeholder="What are you trying to build? What's currently broken? What does success look like?"></textarea></div>
+                <div class="field-row">
+                  <div class="field">
+                    <label>Timeline</label>
+                    <select>
+                      <option value="" disabled selected>When do you need this?</option>
+                      <option>ASAP (within 4 weeks)</option>
+                      <option>1–3 months</option>
+                      <option>3–6 months</option>
+                      <option>6+ months / ongoing</option>
+                      <option>Exploring for now</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label>Budget range</label>
+                    <select>
+                      <option value="" disabled selected>Approximate budget</option>
+                      <option>Under £20k</option>
+                      <option>£20k – £50k</option>
+                      <option>£50k – £150k</option>
+                      <option>£150k – £500k</option>
+                      <option>£500k+</option>
+                      <option>Prefer not to say</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>How did you find us?</label>
+                  <select>
+                    <option value="" disabled selected>Select source</option>
+                    <option>Google search</option>
+                    <option>LinkedIn</option>
+                    <option>Referral from a colleague</option>
+                    <option>Microsoft partner marketplace</option>
+                    <option>Veloxhire.AI</option>
+                    <option>Blog / article</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn-submit" id="btn-est-submit">Send estimate request <svg viewBox="0 0 14 14"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5 2 12 2 12 9"/></svg></button>
+                <button class="btn-back" id="btn-est-back2">← Back</button>
+              </div>
+              <div class="form-note"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>We'll send a written estimate within 48 business hours. No obligation, no spam.</div>
+            </div>
+
+            <!-- Estimate success -->
+            <div id="est-success" class="success-state">
+              <div class="success-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div class="success-h">Request received!</div>
+              <div class="success-sub">We'll have a written estimate in your inbox within 48 business hours. Check your spam just in case.</div>
+            </div>
+          </div>
+
+          <!-- GENERAL ENQUIRY -->
+          <div id="form-general" style="display:none">
+            <div class="form-title">General enquiry</div>
+            <div class="form-sub">For anything that doesn't fit the other categories — press, partnerships, billing, or just a hello.</div>
+            <div class="field-group">
+              <div class="field-row">
+                <div class="field"><label>Name <span class="req">*</span></label><input type="text" placeholder="Your name"></div>
+                <div class="field"><label>Email <span class="req">*</span></label><input type="email" placeholder="you@email.com"></div>
+              </div>
+              <div class="field">
+                <label>Subject <span class="req">*</span></label>
+                <select>
+                  <option value="" disabled selected>What's this about?</option>
+                  <option>Press / media enquiry</option>
+                  <option>Partnership</option>
+                  <option>Billing or account</option>
+                  <option>Career (not a listed role)</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="field"><label>Message <span class="req">*</span></label><textarea style="min-height:120px" placeholder="Your message…"></textarea></div>
+            </div>
+            <div class="form-actions">
+              <button class="btn-submit" id="btn-general-submit">Send message <svg viewBox="0 0 14 14"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5 2 12 2 12 9"/></svg></button>
+            </div>
+          </div>
+
+          <!-- Call success -->
+          <div id="call-success" class="success-state">
+            <div class="success-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="success-h">You're booked!</div>
+            <div class="success-sub">Check your inbox for a calendar invite. A senior Veloxcore engineer will be on the call — not a sales rep.</div>
+          </div>
+
+          <!-- General success -->
+          <div id="general-success" class="success-state">
+            <div class="success-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="success-h">Message sent!</div>
+            <div class="success-sub">We'll get back to you within one business day. Thanks for reaching out.</div>
+          </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <aside class="contact-sidebar reveal" style="transition-delay:.1s">
+
+          <!-- Who you'll talk to -->
+          <div class="sidebar-block">
+            <div class="sb-title">Who you'll talk to</div>
+            <div class="team-preview">
+              <div class="tp-person">
+                <div class="tp-ava" style="background:linear-gradient(135deg,#1a73e8,#00d4e8)"></div>
+                <div>
+                  <div class="tp-name">Karan Shah</div>
+                  <div class="tp-role">Co-Founder &amp; CEO</div>
+                  <div class="tp-resp">Responds within 4 hrs</div>
+                </div>
+              </div>
+              <div class="tp-person">
+                <div class="tp-ava" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"></div>
+                <div>
+                  <div class="tp-name">Priya Mehta</div>
+                  <div class="tp-role">Co-Founder &amp; CTO</div>
+                  <div class="tp-resp">For technical questions</div>
+                </div>
+              </div>
+              <div class="tp-person">
+                <div class="tp-ava" style="background:linear-gradient(135deg,#137333,#00dd6a)"></div>
+                <div>
+                  <div class="tp-name">Rahul Mehta</div>
+                  <div class="tp-role">Lead Data Architect</div>
+                  <div class="tp-resp">For data engineering</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mini calendar -->
+          <div class="sidebar-block dark">
+            <div class="sb-title light">Available slots · June 2026</div>
+            <div class="calendly-placeholder">
+              <div class="cal-month">June 2026</div>
+              <div class="cal-days">
+                <div class="cal-day">M</div><div class="cal-day">T</div><div class="cal-day">W</div><div class="cal-day">T</div><div class="cal-day">F</div><div class="cal-day">S</div><div class="cal-day">S</div>
+              </div>
+              <div class="cal-days">
+                <div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell available">4</div><div class="cal-cell available">5</div><div class="cal-cell available">6</div><div class="cal-cell empty">7</div><div class="cal-cell empty">8</div>
+              </div>
+              <div class="cal-days">
+                <div class="cal-cell available">9</div><div class="cal-cell available">10</div><div class="cal-cell selected">11</div><div class="cal-cell available">12</div><div class="cal-cell available">13</div><div class="cal-cell empty">14</div><div class="cal-cell empty">15</div>
+              </div>
+              <div class="cal-days">
+                <div class="cal-cell available">16</div><div class="cal-cell available">17</div><div class="cal-cell available">18</div><div class="cal-cell available">19</div><div class="cal-cell available">20</div><div class="cal-cell empty">21</div><div class="cal-cell empty">22</div>
+              </div>
+              <a class="cal-btn" href="/contact#contact-form">Pick your slot →</a>
+            </div>
+          </div>
+
+          <!-- Direct contact -->
+          <div class="sidebar-block">
+            <div class="sb-title">Direct contact</div>
+            <div class="contact-info">
+              <div class="ci-item">
+                <div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+                <div><div class="ci-val">hello@veloxcore.com</div><div class="ci-sub">General enquiries</div></div>
+              </div>
+              <div class="ci-item">
+                <div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.27 10a19.79 19.79 0 01-3.07-8.67A2 2 0 013.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg></div>
+                <div><div class="ci-val">+91 79 4890 XXXX</div><div class="ci-sub">Ahmedabad HQ</div></div>
+              </div>
+              <div class="ci-item">
+                <div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div><div class="ci-val">Ahmedabad · London · Dubai</div><div class="ci-sub">Office locations</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trust signals -->
+          <div class="sidebar-block">
+            <div class="sb-title">Why teams trust us</div>
+            <div class="trust-row">
+              <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Senior engineers on every call — no juniors or sales</div>
+              <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>48-hour written estimate, no obligation</div>
+              <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Microsoft Gold Partner · certified Azure engineers</div>
+              <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>NDA available before any project discussion</div>
+              <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>40+ enterprise clients across 6 countries</div>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+    </div>
+  </div>
+
+</BaseLayout>
+
+<script>
+(function(){
+  /* Tab switching */
+  window.switchTab = function(tab) {
+    ['call','estimate','general'].forEach(function(t) {
+      var form = document.getElementById('form-' + t);
+      if (form) form.style.display = t === tab ? '' : 'none';
+      var tabEl = document.getElementById('tab-' + t);
+      if (tabEl) tabEl.classList.toggle('active', t === tab);
+      var s = document.getElementById(t + '-success');
+      if (s) s.classList.remove('visible');
+      var es = document.getElementById('est-success');
+      if (es) es.classList.remove('visible');
+    });
+    if (tab === 'estimate') { goStep(1); }
+  };
+
+  /* Multi-step estimate */
+  window.goStep = function(n) {
+    [1,2,3].forEach(function(i) {
+      var s = document.getElementById('est-step-' + i);
+      if (s) s.style.display = i === n ? '' : 'none';
+      var dot = document.getElementById('sdot-' + i);
+      if (dot) dot.className = 'step-dot ' + (i < n ? 'done' : i === n ? 'active' : 'future');
+      var label = document.getElementById('slabel-' + i);
+      if (label) label.className = 'step-label' + (i === n ? ' active' : '');
+      if (i < 3) {
+        var line = document.getElementById('sline-' + i);
+        if (line) line.className = 'step-line' + (i < n ? ' done' : '');
+      }
+    });
+  };
+
+  /* Radio select */
+  window.selectRadio = function(el, groupId) {
+    document.querySelectorAll('#' + groupId + ' .radio-opt').forEach(function(o) {
+      o.classList.remove('selected');
+    });
+    el.classList.add('selected');
+  };
+
+  /* Success states */
+  window.showSuccess = function(type) {
+    if (type === 'call') {
+      var fc = document.getElementById('form-call');
+      if (fc) fc.style.display = 'none';
+      var cs = document.getElementById('call-success');
+      if (cs) cs.classList.add('visible');
+    } else if (type === 'estimate') {
+      var fe = document.getElementById('est-step-3');
+      if (fe) fe.style.display = 'none';
+      var es = document.getElementById('est-success');
+      if (es) es.classList.add('visible');
+    } else if (type === 'general') {
+      var fg = document.getElementById('form-general');
+      if (fg) fg.style.display = 'none';
+      var gs = document.getElementById('general-success');
+      if (gs) gs.classList.add('visible');
+    }
+  };
+
+  /* Wire up tab clicks */
+  ['call','estimate','general'].forEach(function(tab) {
+    var el = document.getElementById('tab-' + tab);
+    if (el) el.addEventListener('click', function() { window.switchTab(tab); });
+  });
+
+  /* Wire up path card clicks */
+  var cardCall = document.getElementById('card-call');
+  if (cardCall) cardCall.addEventListener('click', function() {
+    window.switchTab('call');
+    var form = document.getElementById('contact-form');
+    if (form) form.scrollIntoView({ behavior: 'smooth' });
+  });
+  var cardEstimate = document.getElementById('card-estimate');
+  if (cardEstimate) cardEstimate.addEventListener('click', function() {
+    window.switchTab('estimate');
+    var form = document.getElementById('contact-form');
+    if (form) form.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  /* Wire up form buttons */
+  var btnBookCall = document.getElementById('btn-book-call');
+  if (btnBookCall) btnBookCall.addEventListener('click', function() { window.showSuccess('call'); });
+
+  var btnEstStep1 = document.getElementById('btn-est-step1');
+  if (btnEstStep1) btnEstStep1.addEventListener('click', function() { window.goStep(2); });
+
+  var btnEstStep2 = document.getElementById('btn-est-step2');
+  if (btnEstStep2) btnEstStep2.addEventListener('click', function() { window.goStep(3); });
+
+  var btnEstBack1 = document.getElementById('btn-est-back1');
+  if (btnEstBack1) btnEstBack1.addEventListener('click', function() { window.goStep(1); });
+
+  var btnEstBack2 = document.getElementById('btn-est-back2');
+  if (btnEstBack2) btnEstBack2.addEventListener('click', function() { window.goStep(2); });
+
+  var btnEstSubmit = document.getElementById('btn-est-submit');
+  if (btnEstSubmit) btnEstSubmit.addEventListener('click', function() { window.showSuccess('estimate'); });
+
+  var btnGeneralSubmit = document.getElementById('btn-general-submit');
+  if (btnGeneralSubmit) btnGeneralSubmit.addEventListener('click', function() { window.showSuccess('general'); });
+
+  /* Radio opts in estimate step 2 */
+  document.querySelectorAll('#engagement-radio .radio-opt').forEach(function(opt) {
+    opt.addEventListener('click', function() { window.selectRadio(opt, 'engagement-radio'); });
+  });
+
+  /* Hero particles */
+  (function(){
+    var c = document.querySelector('.hero-canvas');
+    if (!c) return;
+    var ctx = c.getContext('2d');
+    var N = 72, MAXD = 150;
+    var COLS = ['rgba(61,126,255,','rgba(0,212,232,','rgba(0,221,106,','rgba(61,126,255,'];
+    var W, H, pts = [], mouse = {x:-9999,y:-9999};
+    function resize() { W = c.width = c.offsetWidth; H = c.height = c.offsetHeight; }
+    function init() {
+      pts = Array.from({length:N}, function() {
+        return {
+          x: Math.random()*W, y: Math.random()*H,
+          vx: (Math.random()-.5)*.28, vy: (Math.random()-.5)*.28,
+          r: Math.random()*1.6+0.6,
+          col: COLS[Math.floor(Math.random()*COLS.length)]
+        };
+      });
+    }
+    function draw() {
+      ctx.clearRect(0,0,W,H);
+      for (var i=0;i<pts.length;i++){
+        for (var j=i+1;j<pts.length;j++){
+          var dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);
+          if(d<MAXD){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle='rgba(61,126,255,'+(1-d/MAXD)*0.08+')';ctx.lineWidth=.6;ctx.stroke();}
+          var dm=Math.hypot(pts[i].x-mouse.x,pts[i].y-mouse.y);
+          if(dm<MAXD*1.6){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle='rgba(61,126,255,'+(1-dm/(MAXD*1.6))*0.16+')';ctx.lineWidth=.7;ctx.stroke();}
+        }
+        ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,pts[i].r,0,Math.PI*2);ctx.fillStyle=pts[i].col+'0.55)';ctx.fill();
+      }
+    }
+    function loop(){
+      pts.forEach(function(p){
+        p.x+=p.vx;p.y+=p.vy;
+        if(p.x<0||p.x>W)p.vx*=-1;
+        if(p.y<0||p.y>H)p.vy*=-1;
+      });
+      draw();
+      requestAnimationFrame(loop);
+    }
+    window.addEventListener('resize',function(){resize();init();});
+    document.addEventListener('mousemove',function(e){
+      var r=c.getBoundingClientRect();
+      mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;
+    });
+    resize();init();loop();
+  })();
+})();
+</script>
