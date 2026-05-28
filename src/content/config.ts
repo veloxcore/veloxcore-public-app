@@ -9,6 +9,8 @@ const blog = defineCollection({
     coverTheme: z.enum(['cover-a', 'cover-b', 'cover-c']),
     coverImage: z.string().optional(),
     excerpt: z.string().optional(),
+    author: z.string().default('Veloxcore Team'),
+    readTime: z.string().optional(),
   }),
 });
 
