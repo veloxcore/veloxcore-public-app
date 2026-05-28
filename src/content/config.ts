@@ -23,6 +23,29 @@ const caseStudies = defineCollection({
     featured: z.boolean().default(false),
     order: z.number().default(99),
     shortTag: z.string().optional(),
+    // Detail page fields
+    heroGradient: z.string().optional(),
+    meta: z.object({
+      client: z.string(),
+      industry: z.string(),
+      engagement: z.string(),
+      delivered: z.string(),
+      region: z.string(),
+    }).optional(),
+    tags: z.array(z.object({ label: z.string(), cls: z.string() })).default([]),
+    sidebarOutcomes: z.array(z.object({ num: z.string(), label: z.string() })).default([]),
+    techStack: z.array(z.object({
+      name: z.string(),
+      iconBg: z.string(),
+      iconColor: z.string(),
+      icon: z.string(),
+    })).default([]),
+    related: z.array(z.object({
+      slug: z.string(),
+      category: z.string(),
+      title: z.string(),
+      thumbStyle: z.string(),
+    })).default([]),
   }),
 });
 

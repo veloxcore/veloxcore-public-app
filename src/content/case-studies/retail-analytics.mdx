@@ -1,12 +1,140 @@
 ---
 title: "140M daily transactions. 6 countries. 99.97% uptime."
-client: "Retail Co."
+client: "National Retail Co."
 category: "Retail · Data Engineering"
-coverTheme: "cov-retail-home"
+coverTheme: "cov-aurora"
+heroGradient: "radial-gradient(circle at 25% 65%,#3d7eff 0%,#00d4e8 28%,#00dd6a 58%,#8ce800 100%)"
 stats: []
 excerpt: "End-to-end Azure pipeline redesign for a national retailer — from legacy Hadoop to streaming in 14 weeks."
-featured: false
-order: 4
+featured: true
+order: 1
 shortTag: "Data Eng"
+meta:
+  client: "National Retail Co."
+  industry: "Retail"
+  engagement: "14 weeks"
+  delivered: "Q4 2025"
+  region: "India · 6 countries"
+tags:
+  - label: "Data Engineering"
+    cls: "tag-data"
+  - label: "Azure"
+    cls: "tag-azure"
+sidebarOutcomes:
+  - num: "38%"
+    label: "Cloud cost reduction"
+  - num: "99.97%"
+    label: "Pipeline uptime"
+  - num: "48ms"
+    label: "p99 latency"
+  - num: "0"
+    label: "On-call incidents"
+  - num: "14 wks"
+    label: "Delivered in"
+techStack:
+  - name: "Azure Event Hubs"
+    iconBg: "#e8f0fe"
+    iconColor: "#1a73e8"
+    icon: "waveform"
+  - name: "Stream Analytics"
+    iconBg: "#e8f0fe"
+    iconColor: "#1a73e8"
+    icon: "monitor"
+  - name: "Data Lake Gen 2"
+    iconBg: "#e6f4ea"
+    iconColor: "#137333"
+    icon: "database"
+  - name: "Synapse Analytics"
+    iconBg: "#f3e8ff"
+    iconColor: "#7c3aed"
+    icon: "synapse"
+  - name: "Power BI Premium"
+    iconBg: "#fef3e2"
+    iconColor: "#a06000"
+    icon: "bar-chart"
+  - name: "Schema Registry (Avro)"
+    iconBg: "#fce8e6"
+    iconColor: "#c5221f"
+    icon: "lock"
+related:
+  - slug: "azure-migration"
+    category: "Logistics · Azure Migration"
+    title: "Zero-downtime Azure migration for a 6-region logistics platform"
+    thumbStyle: "background:linear-gradient(130deg,#0d3d8a,#1a73e8,#00d4e8)"
+  - slug: "ml-forecasting"
+    category: "FMCG · Machine Learning"
+    title: "Demand forecasting model that reduced overstock by 22% in Q1"
+    thumbStyle: "background:#100a20"
 ---
-Case study body placeholder (detail page out of scope this session).
+
+<div class="section-label">Context</div>
+
+## A 140-million-event-a-day problem
+
+Our client — a national retail chain operating across six countries — had built their analytics infrastructure in 2017 on a self-managed Hadoop cluster. By 2025 it was processing 140 million transactions a day at peak, and the engineering team was spending 40% of their time on cluster maintenance rather than building product. SLA breaches during sale events were costing the business millions in lost visibility.
+
+The brief was direct: redesign the ingestion and transformation layer on Azure, reduce operational overhead, cut cloud cost, and do it without a single day of analytics downtime. We had 14 weeks.
+
+<div class="section-label" style="margin-top:44px">The challenge</div>
+
+## Four problems to solve simultaneously
+
+<ul>
+  <li><strong>Volume at peak:</strong> Black Friday traffic spikes the event rate to 4× baseline. The old cluster couldn't autoscale — it had to be pre-provisioned at peak capacity year-round.</li>
+  <li><strong>Schema instability:</strong> Upstream teams pushed schema changes without notice. The existing pipeline had no contract enforcement — a bad event could silently corrupt downstream dashboards.</li>
+  <li><strong>Late-arriving data:</strong> Point-of-sale terminals in low-connectivity regions sent events up to 45 minutes late. The batch jobs treated these as missing data, producing incorrect regional reports.</li>
+  <li><strong>Cost:</strong> The self-managed cluster ran at 100% provisioned capacity 24/7. The actual compute utilisation was under 35% outside peak windows.</li>
+</ul>
+
+<div class="section-label" style="margin-top:44px">Architecture</div>
+
+## The pipeline we built
+
+We replaced the monolithic cluster with a layered Azure architecture that separates ingestion, streaming transformation, batch enrichment, and serving into independently scalable components.
+
+<div class="arch-panel">
+  <div class="arch-panel-label">Production pipeline · Azure · 6 regions</div>
+  <div class="arch-flow">
+    <div class="arch-node"><div class="arch-node-name">Event Hubs</div><div class="arch-node-sub">32 partitions · Kafka compat.</div></div>
+    <div class="arch-arr">→</div>
+    <div class="arch-node"><div class="arch-node-name">Stream Analytics</div><div class="arch-node-sub">5-min tumbling window · late-arrival 45m</div></div>
+    <div class="arch-arr">→</div>
+    <div class="arch-node"><div class="arch-node-name">Data Lake Gen 2</div><div class="arch-node-sub">Delta format · schema enforcement</div></div>
+    <div class="arch-arr">→</div>
+    <div class="arch-node"><div class="arch-node-name">Synapse Pipelines</div><div class="arch-node-sub">Nightly enrichment · star schema</div></div>
+    <div class="arch-arr">→</div>
+    <div class="arch-node"><div class="arch-node-name">Power BI</div><div class="arch-node-sub">DirectQuery · sub-60s refresh</div></div>
+  </div>
+  <div class="arch-metrics">
+    <div class="arch-metric"><div class="arch-metric-num">1.62M</div><div class="arch-metric-label">Events/sec peak</div></div>
+    <div class="arch-metric"><div class="arch-metric-num">48ms</div><div class="arch-metric-label">p99 latency</div></div>
+    <div class="arch-metric"><div class="arch-metric-num">99.97%</div><div class="arch-metric-label">Uptime SLA</div></div>
+    <div class="arch-metric"><div class="arch-metric-num">$0.018</div><div class="arch-metric-label">Per GB processed</div></div>
+  </div>
+</div>
+
+The late-arrival problem was solved using Stream Analytics' native late-arrival tolerance — set to 45 minutes — combined with watermark-based event time processing. Events that arrive inside the tolerance window are merged into the correct five-minute bucket; anything outside is written to a reconciliation table and surfaced in the monitoring dashboard.
+
+Schema enforcement runs at the Event Hubs producer level using an Avro schema registry. Any producer pushing a breaking schema change gets a client-side exception before the event reaches the pipeline. We also implemented contract tests in the CI pipeline of every upstream team — a breaking change is caught in PR, not at 11 PM on a Saturday.
+
+<div class="pull-quote">
+  <div class="pull-quote-text">"The pipeline Veloxcore built handles 140M events a day without breaking a sweat. Our old Hadoop cluster couldn't touch that — and we used to have an on-call rotation just for it."</div>
+  <div class="pull-quote-attr"><div class="pull-ava"></div>Pradeep Nair, CTO · National Retail Co.</div>
+</div>
+
+<div class="section-label" style="margin-top:44px">Outcomes</div>
+
+## The numbers, 90 days after go-live
+
+<div class="outcomes-grid">
+  <div class="outcome-cell"><div class="outcome-num">38%</div><div class="outcome-label">Reduction in monthly cloud spend</div></div>
+  <div class="outcome-cell"><div class="outcome-num">99.97%</div><div class="outcome-label">Pipeline uptime · 12-month rolling</div></div>
+  <div class="outcome-cell"><div class="outcome-num">48ms</div><div class="outcome-label">p99 end-to-end latency</div></div>
+  <div class="outcome-cell"><div class="outcome-num">0</div><div class="outcome-label">On-call incidents since go-live</div></div>
+  <div class="outcome-cell"><div class="outcome-num">140M</div><div class="outcome-label">Events processed daily</div></div>
+  <div class="outcome-cell"><div class="outcome-num">14 wks</div><div class="outcome-label">Delivered — on time, on budget</div></div>
+</div>
+
+The cost reduction came primarily from two sources: Event Hubs Standard tier with autoscale (versus 24/7 fully-provisioned HDInsight) and the elimination of the engineering team's cluster maintenance burden — equivalent to approximately 1.5 FTE freed back to product work.
+
+The regional dashboard, which used to show data that was 6–8 hours old at the start of business, now refreshes every 60 seconds via Power BI DirectQuery against Synapse. Regional buyers can see yesterday's sell-through data by 6 AM local time in all six markets.
