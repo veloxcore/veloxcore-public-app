@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ServiceHero from '../../components/services/ServiceHero.astro';
+import ServiceWho from '../../components/services/ServiceWho.astro';
+import ServiceDeliver from '../../components/services/ServiceDeliver.astro';
+import ServiceApproach from '../../components/services/ServiceApproach.astro';
+import ServiceTech from '../../components/services/ServiceTech.astro';
+import ServiceProof from '../../components/services/ServiceProof.astro';
+import ServiceFaq from '../../components/services/ServiceFaq.astro';
+import ServicePricing from '../../components/services/ServicePricing.astro';
+import { visualMap } from '../../components/services/visuals/index.ts';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map(s => ({ params: { slug: s.slug }, props: { service: s } }));
+}
+
+const { service } = Astro.props;
+const d = service.data;
+const Visual = visualMap[d.visual];
+---
+<BaseLayout title={`${d.title} — Veloxcore`} accent={d.accent}>
+  <ServiceHero badge={d.badge} heroTheme={d.heroTheme} heroH1={d.heroH1} heroSub={d.heroSub} kpis={d.kpis} />
+  <ServiceWho whoH={d.whoH} whoSub={d.whoSub} who={d.who} />
+  <ServiceDeliver deliverH={d.deliverH} deliverSub={d.deliverSub} deliver={d.deliver} Visual={Visual} />
+  <ServiceApproach approachH={d.approachH} approach={d.approach} />
+  <ServiceTech techH={d.techH} techSub={d.techSub} tech={d.tech} />
+  {d.pricing && <ServicePricing pricingH={d.pricingH} pricing={d.pricing} />}
+  <ServiceProof proofH={d.proofH} ctaGradient={d.ctaGradient} proof={d.proof} />
+  <ServiceFaq faqSub={d.faqSub} faqs={d.faqs} />
+  <section class="cta-section" data-screen-label="08 CTA">
+    <div class="wrap">
+      <div class="cta-inner">
+        <div>
+          <h2 class="cta-h reveal">{d.ctaH}</h2>
+          <p class="cta-sub reveal">{d.ctaSub}</p>
+        </div>
+        <div class="cta-acts reveal">
+          <a class="btn-white" href="/contact">Book a free call</a>
+          <a class="btn-ghost" href="/work">See our work →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
