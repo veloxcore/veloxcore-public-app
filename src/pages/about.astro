@@ -1,0 +1,458 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="About & Leadership — Veloxcore">
+
+<!-- ── HERO ──────────────────────────────────────── -->
+<section class="about-hero" data-screen-label="01 Hero">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="page-eyebrow">Who we are</div>
+        <h1 class="hero-h1">The engineering studio that ships <em>AI</em> for serious companies.</h1>
+        <p class="hero-sub">Founded in 2013 in Ahmedabad. Built on 12 years of Azure engineering. Now AI-native — and building AI products we use ourselves.</p>
+      </div>
+      <div class="hero-right">
+        <div class="hero-stat-row">
+          <div class="h-stat"><div class="h-stat-num">2013</div><div class="h-stat-label">Year founded</div></div>
+          <div class="h-stat"><div class="h-stat-num">40+</div><div class="h-stat-label">Enterprise clients</div></div>
+          <div class="h-stat"><div class="h-stat-num">12 yrs</div><div class="h-stat-label">Azure depth</div></div>
+          <div class="h-stat"><div class="h-stat-num">6</div><div class="h-stat-label">Countries served</div></div>
+        </div>
+        <div class="partner-badge reveal">
+          <div class="partner-logo-box">
+            <svg viewBox="0 0 23 23"><path d="M1 1h10v10H1z" fill="#f25022"/><path d="M12 1h10v10H12z" fill="#7fba00"/><path d="M1 12h10v10H1z" fill="#00a4ef"/><path d="M12 12h10v10H12z" fill="#ffb900"/></svg>
+          </div>
+          <div>
+            <div class="partner-text-main">Microsoft Gold Partner</div>
+            <div class="partner-text-sub">Cloud Platform · Application Integration</div>
+          </div>
+          <div class="partner-badge-pill">Gold certified</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STORY ──────────────────────────────────────── -->
+<section class="story" data-screen-label="02 Story">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="reveal">
+        <div class="story-label">Our story</div>
+        <h2 class="story-h">Built for depth, not breadth.</h2>
+        <p class="story-p">Veloxcore was founded in 2013 by a team of engineers who had spent years inside enterprise data teams, watching the same problems repeat: pipelines that broke silently, dashboards that were three days stale, ML models that never made it to production. We started the company to fix that — not with a new tool, but with better engineering practice.</p>
+        <p class="story-p">For the first seven years, we focused entirely on the <strong>Microsoft Azure data platform</strong> — Event Hubs, HDInsight, Data Factory, Stream Analytics, Power BI. We went deep. Gold Partner status. Certified engineers. Dozens of enterprise migrations. The kind of depth that comes from doing the same work, again and again, for demanding clients with real SLAs.</p>
+        <p class="story-p">In 2023, the world changed. LLMs became production-viable, and every enterprise client we served started asking the same question: <em>how do we actually ship AI?</em> We had a clear answer — because we had the data infrastructure, the Azure depth, and the engineering discipline to build AI systems that work in production, not just in demos. We also decided to prove it by building our own: <strong>Veloxhire.AI</strong>, launched in 2024, now used by over 100 companies to run AI video interviews at scale.</p>
+        <p class="story-p">That's who we are. An engineering studio that ships AI for serious companies — and eats its own cooking.</p>
+      </div>
+      <div class="reveal" style="transition-delay:.1s">
+        <div class="story-label">Timeline</div>
+        <div class="story-right">
+          <div class="timeline-item">
+            <div class="timeline-year">2013</div>
+            <div class="timeline-body">
+              <div class="timeline-title">Founded in Ahmedabad</div>
+              <div class="timeline-desc">First client: a mid-market retail chain needing a data warehouse on Azure. Delivered in 8 weeks. They're still a client.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2016</div>
+            <div class="timeline-body">
+              <div class="timeline-title">Microsoft Gold Partner</div>
+              <div class="timeline-desc">Achieved Gold Partnership for Cloud Platform and Application Integration — the validation of the depth we'd been building.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2019</div>
+            <div class="timeline-body">
+              <div class="timeline-title">Expanded to 6 countries</div>
+              <div class="timeline-desc">First international client in the UK. By year-end, active engagements across India, UK, UAE, US, Singapore, and Australia.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2022</div>
+            <div class="timeline-body">
+              <div class="timeline-title">40+ enterprise clients</div>
+              <div class="timeline-desc">Crossed 40 live enterprise clients. The team grew to 60 engineers — all specialist Azure and data engineers, no generalists.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2024</div>
+            <div class="timeline-body">
+              <div class="timeline-title">Launched Veloxhire.AI</div>
+              <div class="timeline-desc">Our first AI product. Built on Azure OpenAI. 100+ companies now use it. The proof that we don't just consult on AI — we ship it.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2025</div>
+            <div class="timeline-body">
+              <div class="timeline-title">AI-native repositioning</div>
+              <div class="timeline-desc">Formally repositioned as an AI-forward hybrid — services that build production AI systems, products that demonstrate we can ship them.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRINCIPLES ─────────────────────────────────── -->
+<section class="principles" data-screen-label="03 Principles">
+  <div class="wrap">
+    <h2 class="principles-h reveal">How we think.</h2>
+    <p class="principles-sub reveal">Six principles that govern every engagement, every line of code, every conversation with a client.</p>
+    <div class="principles-grid">
+      <div class="principle-card reveal">
+        <div class="principle-num">01</div>
+        <div class="principle-title">Production over demos</div>
+        <div class="principle-desc">An AI model that works in a Colab notebook is not an AI product. We measure ourselves by what's running in production at scale — not by what looked good in the presentation.</div>
+      </div>
+      <div class="principle-card reveal" style="transition-delay:.06s">
+        <div class="principle-num">02</div>
+        <div class="principle-title">Honest engineering</div>
+        <div class="principle-desc">We tell clients when a problem doesn't need LLMs. We tell clients when their data isn't ready. We'd rather lose a deal than set up an engagement we can't deliver.</div>
+      </div>
+      <div class="principle-card reveal" style="transition-delay:.12s">
+        <div class="principle-num">03</div>
+        <div class="principle-title">Depth, not breadth</div>
+        <div class="principle-desc">We don't work in every cloud. We don't support every ML framework. We go very deep on Azure and the Microsoft AI ecosystem because depth compounds in ways that breadth doesn't.</div>
+      </div>
+      <div class="principle-card reveal" style="transition-delay:.04s">
+        <div class="principle-num">04</div>
+        <div class="principle-title">We eat our own cooking</div>
+        <div class="principle-desc">Veloxhire.AI is built on the same Azure infrastructure we build for clients. If we recommend a pattern, we've run it in production ourselves. That's not marketing — it's accountability.</div>
+      </div>
+      <div class="principle-card reveal" style="transition-delay:.10s">
+        <div class="principle-num">05</div>
+        <div class="principle-title">Your team, not our dependency</div>
+        <div class="principle-desc">Every engagement ends with the client's team owning what we built. Runbooks, documentation, training — the goal is always a handover that doesn't require us to exist.</div>
+      </div>
+      <div class="principle-card reveal" style="transition-delay:.16s">
+        <div class="principle-num">06</div>
+        <div class="principle-title">Cost is a feature</div>
+        <div class="principle-desc">Cloud cost is part of every architecture decision, not an afterthought. We've reduced client bills by 30–40% post-engagement — because we build systems that are efficient, not just functional.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LEADERSHIP ─────────────────────────────────── -->
+<section class="leadership" data-screen-label="04 Leadership">
+  <div class="wrap">
+    <div class="lead-header">
+      <h2 class="lead-h reveal">Leadership</h2>
+      <p class="lead-sub reveal">The people responsible for the work — and available to talk to you directly.</p>
+    </div>
+
+    <!-- Founders -->
+    <div class="founders-grid reveal">
+      <div class="founder-card">
+        <div class="founder-photo" style="background:linear-gradient(160deg,#e8f0fe,#d2e3fc)">
+          <div class="founder-photo-inner">
+            <svg class="founder-avatar" viewBox="0 0 80 80" fill="none">
+              <circle cx="40" cy="40" r="40" fill="#1a73e8" opacity=".12"/>
+              <circle cx="40" cy="30" r="14" fill="#1a73e8" opacity=".5"/>
+              <ellipse cx="40" cy="68" rx="22" ry="14" fill="#1a73e8" opacity=".3"/>
+            </svg>
+          </div>
+        </div>
+        <div class="founder-body">
+          <div>
+            <div class="founder-name">Karan Shah</div>
+            <div class="founder-role">Co-Founder &amp; CEO</div>
+            <div class="founder-bio">12 years building enterprise data systems on Azure. Led 40+ client engagements across retail, logistics, and financial services. Ahmedabad born; spent 3 years at Microsoft India before founding Veloxcore.</div>
+            <div class="founder-expertise">
+              <span class="exp-tag">Azure Strategy</span>
+              <span class="exp-tag">Enterprise AI</span>
+              <span class="exp-tag">Product</span>
+            </div>
+          </div>
+          <div class="founder-links">
+            <a class="founder-link" href="#">
+              <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              LinkedIn
+            </a>
+            <a class="founder-link" href="#">
+              <svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+              Twitter
+            </a>
+            <a class="founder-link" href="/">
+              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              veloxcore.com
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="founder-card">
+        <div class="founder-photo" style="background:linear-gradient(160deg,#f3e8ff,#e9d5ff)">
+          <div class="founder-photo-inner">
+            <svg class="founder-avatar" viewBox="0 0 80 80" fill="none">
+              <circle cx="40" cy="40" r="40" fill="#7c3aed" opacity=".12"/>
+              <circle cx="40" cy="30" r="14" fill="#7c3aed" opacity=".5"/>
+              <ellipse cx="40" cy="68" rx="22" ry="14" fill="#7c3aed" opacity=".3"/>
+            </svg>
+          </div>
+        </div>
+        <div class="founder-body">
+          <div>
+            <div class="founder-name">Priya Mehta</div>
+            <div class="founder-role">Co-Founder &amp; CTO</div>
+            <div class="founder-bio">Data systems architect with a decade of experience in high-throughput pipeline design. Built the original Veloxhire.AI inference architecture. Evangelist for honest ML engineering — "a model in a notebook is not a product."</div>
+            <div class="founder-expertise">
+              <span class="exp-tag">ML Engineering</span>
+              <span class="exp-tag">Data Architecture</span>
+              <span class="exp-tag">Azure AI</span>
+            </div>
+          </div>
+          <div class="founder-links">
+            <a class="founder-link" href="#">
+              <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              LinkedIn
+            </a>
+            <a class="founder-link" href="#">
+              <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+              GitHub
+            </a>
+            <a class="founder-link" href="#">
+              <svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+              Twitter
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Senior team -->
+    <div class="team-grid reveal">
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#137333,#00dd6a)"></div>
+        <div>
+          <div class="team-name">Rahul Mehta</div>
+          <div class="team-role">Lead Data Architect</div>
+          <span class="team-dept" style="background:#e6f4ea;color:#137333">Data Engineering</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#1a73e8,#00d4e8)"></div>
+        <div>
+          <div class="team-name">Priya Shah</div>
+          <div class="team-role">Azure Solutions Lead</div>
+          <span class="team-dept" style="background:#e8f0fe;color:#1a73e8">Azure</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"></div>
+        <div>
+          <div class="team-name">Divya Patel</div>
+          <div class="team-role">Head of ML Engineering</div>
+          <span class="team-dept" style="background:#f3e8ff;color:#7c3aed">Machine Learning</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#a06000,#febc2e)"></div>
+        <div>
+          <div class="team-name">Anil Kumar</div>
+          <div class="team-role">IoT Platform Engineer</div>
+          <span class="team-dept" style="background:#fef3e2;color:#a06000">IoT</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#3949ab,#7986cb)"></div>
+        <div>
+          <div class="team-name">Vikram Joshi</div>
+          <div class="team-role">Principal .NET Engineer</div>
+          <span class="team-dept" style="background:#e8eaf6;color:#3949ab">.NET</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#c5221f,#ff7850)"></div>
+        <div>
+          <div class="team-name">Smita Rao</div>
+          <div class="team-role">Data Architecture Lead</div>
+          <span class="team-dept" style="background:#fce8e6;color:#c5221f">Architecture</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#0f766e,#14b8a6)"></div>
+        <div>
+          <div class="team-name">Arjun Nair</div>
+          <div class="team-role">AI Engineering Lead</div>
+          <span class="team-dept" style="background:#f0fdf4;color:#166534">AI Engineering</span>
+        </div>
+      </div>
+      <div class="team-card" style="border-style:dashed;background:transparent;align-items:center;justify-content:center;text-align:center;cursor:pointer;">
+        <div style="width:52px;height:52px;border-radius:50%;border:2px dashed var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--fg3)">+</div>
+        <div>
+          <div class="team-name" style="color:var(--fg3);font-size:15px">You?</div>
+          <div class="team-role">We're hiring</div>
+          <span class="team-dept" style="background:var(--border);color:var(--fg3)">See open roles</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AI PROOF ───────────────────────────────────── -->
+<section class="ai-proof" data-screen-label="05 AI Proof">
+  <div class="wrap">
+    <div class="ai-proof-inner">
+      <div>
+        <div class="ai-proof-label">We ship AI products</div>
+        <h2 class="ai-proof-h reveal">We don't just consult on AI. We run it in production — ourselves.</h2>
+        <p class="ai-proof-sub reveal">Veloxhire.AI is our AI video interview platform. Built on Azure OpenAI. Used by 100+ companies. Maintained by the same team that builds your pipeline. If a pattern is good enough to sell, it has to be good enough for us to run.</p>
+        <a class="ai-proof-btn reveal" href="/products">Explore Veloxhire.AI →</a>
+      </div>
+      <div class="reveal" style="transition-delay:.1s">
+        <div class="ai-card">
+          <div class="ai-card-row">
+            <div class="ai-card-name">Velox<span>hire.AI</span></div>
+            <div class="live-pill"><div class="live-dot"></div>Live product</div>
+          </div>
+          <div class="ai-card-tagline">AI video interviews that hire 5× faster.</div>
+          <div class="ai-metrics">
+            <div class="ai-metric"><div class="ai-metric-num">5×</div><div class="ai-metric-label">Faster hiring</div></div>
+            <div class="ai-metric"><div class="ai-metric-num">100+</div><div class="ai-metric-label">Companies</div></div>
+            <div class="ai-metric"><div class="ai-metric-num">24/7</div><div class="ai-metric-label">AI interviewer</div></div>
+          </div>
+          <div class="ai-test-strip">
+            <div class="ai-test-ava"></div>
+            <div>
+              <div class="ai-test-text">"Veloxhire cut our hiring from 15–20 days to 2–3 days. The rest of our team, initially skeptical, quickly recognised its value."</div>
+              <div class="ai-test-attr">Vinod Satapara, Co-Founder · iFour Technolab</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TEAM PHOTOS ────────────────────────────────── -->
+<section class="team-photos" data-screen-label="06 Team Photos">
+  <div class="wrap">
+    <div class="tp-header">
+      <h2 class="tp-h reveal">Meet the team<br>behind the work.</h2>
+      <p class="tp-sub reveal">60+ engineers across Ahmedabad, London, and Dubai. Specialists, not generalists — every one of them Azure-certified.</p>
+    </div>
+    <div class="tp-grid">
+      <div class="tp-featured tp-slot" aria-label="Team group photo placeholder"></div>
+      <div class="tp-slot" aria-label="Team photo placeholder"></div>
+      <div class="tp-slot" aria-label="Team photo placeholder"></div>
+      <div class="tp-slot" aria-label="Team photo placeholder"></div>
+      <div class="tp-slot" aria-label="Team photo placeholder"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CULTURE / OUTINGS ──────────────────────────── -->
+<section class="culture" data-screen-label="07 Culture">
+  <div class="wrap">
+    <div class="culture-header">
+      <h2 class="culture-h reveal">Life at Veloxcore.</h2>
+      <p class="culture-sub reveal">We work hard and we go on day outs together. Here's what that looks like.</p>
+    </div>
+    <div class="culture-strip">
+      <div class="culture-slot" aria-label="Day outing / team event"></div>
+      <div class="culture-slot" aria-label="Day outing / team event"></div>
+      <div class="culture-slot" aria-label="Day outing / team event"></div>
+      <div class="culture-slot" aria-label="Day outing / team event"></div>
+    </div>
+    <div class="culture-wide">
+      <div class="culture-wide-slot" aria-label="Office / workspace"></div>
+      <div class="culture-wide-slot" aria-label="Team celebration / milestone"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────── -->
+<section class="about-cta" data-screen-label="08 CTA">
+  <div class="wrap">
+    <div class="about-cta-inner">
+      <div>
+        <h2 class="about-cta-h reveal">Want to work with us — or work for us?</h2>
+        <p class="about-cta-sub reveal">Book a call with our team, or see what roles we're currently hiring for.</p>
+      </div>
+      <div class="about-cta-acts reveal">
+        <a class="btn-white" href="/contact">Book a free call</a>
+        <a class="btn-ghost" href="/careers">See open roles →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</BaseLayout>
+
+<script>
+(function () {
+  /* Hero canvas particles */
+  var c = document.querySelector('.about-hero .hero-canvas');
+  if (c) {
+    var ctx = c.getContext('2d');
+    var N = 72, MAXD = 150;
+    var COLS = ['rgba(61,126,255,','rgba(0,212,232,','rgba(0,221,106,','rgba(61,126,255,'];
+    var W, H, pts = [], mouse = { x: -9999, y: -9999 };
+    function resize() { W = c.width = c.offsetWidth; H = c.height = c.offsetHeight; }
+    function init() {
+      pts = Array.from({ length: N }, function () {
+        return {
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - .5) * .28, vy: (Math.random() - .5) * .28,
+          r: Math.random() * 1.6 + 0.6,
+          col: COLS[Math.floor(Math.random() * COLS.length)]
+        };
+      });
+    }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < pts.length; i++) {
+        for (var j = i + 1; j < pts.length; j++) {
+          var dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y, d = Math.hypot(dx, dy);
+          if (d < MAXD) {
+            ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.strokeStyle = 'rgba(61,126,255,' + (1 - d / MAXD) * 0.08 + ')';
+            ctx.lineWidth = .6; ctx.stroke();
+          }
+        }
+        var dm = Math.hypot(pts[i].x - mouse.x, pts[i].y - mouse.y);
+        if (dm < MAXD * 1.6) {
+          ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = 'rgba(61,126,255,' + (1 - dm / (MAXD * 1.6)) * 0.16 + ')';
+          ctx.lineWidth = .7; ctx.stroke();
+        }
+        ctx.beginPath(); ctx.arc(pts[i].x, pts[i].y, pts[i].r, 0, Math.PI * 2);
+        ctx.fillStyle = pts[i].col + '0.55)'; ctx.fill();
+      }
+    }
+    function loop() {
+      pts.forEach(function (p) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > W) p.vx *= -1;
+        if (p.y < 0 || p.y > H) p.vy *= -1;
+      });
+      draw(); requestAnimationFrame(loop);
+    }
+    window.addEventListener('resize', function () { resize(); init(); });
+    document.addEventListener('mousemove', function (e) {
+      var r = c.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+    });
+    resize(); init(); loop();
+  }
+
+  /* Scroll reveal */
+  var els = Array.from(document.querySelectorAll('.reveal'));
+  function check() {
+    var vh = window.innerHeight;
+    els.forEach(function (el) {
+      if (el.classList.contains('visible')) return;
+      var r = el.getBoundingClientRect();
+      if (r.top < vh * .93 && r.bottom > 0) el.classList.add('visible');
+    });
+  }
+  window.addEventListener('scroll', check, { passive: true });
+  window.addEventListener('resize', check);
+  setTimeout(check, 80); setTimeout(check, 500);
+})();
+</script>
