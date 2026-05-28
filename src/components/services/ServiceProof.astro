@@ -10,7 +10,7 @@ const { proofH, ctaGradient, proof } = Astro.props;
 <section class="proof" data-screen-label="06 Proof">
   <div class="wrap">
     <div class="sec-label">Proof</div>
-    <h2 class="sec-h reveal">{proofH}</h2>
+    {proofH && <h2 class="sec-h reveal">{proofH}</h2>}
     <div class="proof-grid reveal">
       <div class="cs-tile" onclick="location.href='/work'">
         <div class="cs-cover" style={`background:${ctaGradient}`}></div>
