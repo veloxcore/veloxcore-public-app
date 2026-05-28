@@ -7,6 +7,7 @@ const blog = defineCollection({
     tag: z.string(),
     date: z.coerce.date(),
     coverTheme: z.enum(['cover-a', 'cover-b', 'cover-c']),
+    coverImage: z.string().optional(),
     excerpt: z.string().optional(),
   }),
 });
@@ -23,6 +24,7 @@ const caseStudies = defineCollection({
     featured: z.boolean().default(false),
     order: z.number().default(99),
     shortTag: z.string().optional(),
+    coverImage: z.string().optional(),
     // Detail page fields
     heroGradient: z.string().optional(),
     meta: z.object({

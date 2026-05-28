@@ -234,6 +234,7 @@
 .cover-c { background:#0b0b0e; position:relative; overflow:hidden; }
 .cover-c::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(173,198,255,0.7) 1px,transparent 1px); background-size:14px 14px; opacity:.5; }
 .cover-c::after { content:'Agent Teams'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:var(--display); font-size:22px; font-weight:700; color:#fff; letter-spacing:-.03em; z-index:1; }
+.blog-cover.has-image::before, .blog-cover.has-image::after { display:none; }
 .blog-title { font-family:var(--display); font-size:24px; font-weight:600; letter-spacing:-.025em; line-height:32px; color:var(--fg1); text-wrap:pretty; }
 .blog-meta { display:flex; align-items:center; gap:14px; font-size:14px; color:var(--fg2); letter-spacing:-.005em; }
 .blog-meta .tag-text { color:var(--fg1); font-weight:500; }
