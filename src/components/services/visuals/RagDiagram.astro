@@ -1,0 +1,27 @@
+<div class="rag-vis reveal" style="transition-delay:.1s">
+  <div class="rv-label">RAG query · live</div>
+  <div class="rv-query">
+    <div class="rv-q-label">User query</div>
+    <div class="rv-q-text">"What is our data retention policy for customer PII in the EU?"</div>
+  </div>
+  <div class="rv-label" style="margin-top:4px">Retrieved chunks</div>
+  <div class="rv-chunks">
+    <div class="rv-chunk">
+      <div class="rv-chunk-score score-high">0.94</div>
+      <div><div class="rv-chunk-text">EU customer PII must be retained for no more than 24 months from last interaction, per GDPR Article 5(1)(e)…</div><div class="rv-chunk-src">privacy-policy-v4.pdf · p.12</div></div>
+    </div>
+    <div class="rv-chunk">
+      <div class="rv-chunk-score score-high">0.87</div>
+      <div><div class="rv-chunk-text">Data subject requests for erasure must be fulfilled within 30 days. Backups are purged on the next 90-day cycle…</div><div class="rv-chunk-src">data-handling-guide.pdf · p.7</div></div>
+    </div>
+    <div class="rv-chunk">
+      <div class="rv-chunk-score score-med">0.71</div>
+      <div><div class="rv-chunk-text">Regional data residency requirements apply to all Tier 1 customer data stored in Azure West Europe…</div><div class="rv-chunk-src">compliance-framework.pdf · p.3</div></div>
+    </div>
+  </div>
+  <div class="rv-answer">
+    <div class="rv-a-label">Generated answer</div>
+    <div class="rv-a-text">EU customer PII is retained for a maximum of 24 months from last interaction. Erasure requests must be fulfilled within 30 days, with backup purging on a 90-day cycle.</div>
+    <div class="rv-a-cite">↳ Sources: privacy-policy-v4.pdf p.12, data-handling-guide.pdf p.7</div>
+  </div>
+</div>

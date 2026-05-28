@@ -1,0 +1,20 @@
+<div class="deliver-visual reveal" style="transition-delay:.1s">
+  <div class="dv-label"><span class="live-dot"></span>Live pipeline · Production</div>
+  <div class="pipeline-row">
+    <div class="p-node"><div class="p-node-name">Event Hubs</div><div class="p-node-val">32 partitions</div></div>
+    <div class="p-arr">→</div>
+    <div class="p-node"><div class="p-node-name">Stream Analytics</div><div class="p-node-val">5-min window</div></div>
+    <div class="p-arr">→</div>
+    <div class="p-node"><div class="p-node-name">Data Lake</div><div class="p-node-val">Delta format</div></div>
+  </div>
+  <div class="pipeline-row">
+    <div class="p-node"><div class="p-node-name">Synapse</div><div class="p-node-val">Nightly enrich</div></div>
+    <div class="p-arr">→</div>
+    <div class="p-node"><div class="p-node-name">Power BI</div><div class="p-node-val">DirectQuery</div></div>
+  </div>
+  <div class="metrics-row">
+    <div class="m-cell"><div class="m-num" style="color:#00dd6a">1.62M</div><div class="m-label">events/sec</div></div>
+    <div class="m-cell"><div class="m-num">48ms</div><div class="m-label">p99 latency</div></div>
+    <div class="m-cell"><div class="m-num" style="color:#00dd6a">99.97%</div><div class="m-label">uptime</div></div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="pipeline-vis reveal" style="transition-delay:.1s">
+  <div class="pv-label">LLM pipeline · production</div>
+  <div class="pv-step">
+    <div class="pv-step-num">1</div>
+    <div><div class="pv-step-name">User input</div><div class="pv-step-sub">Input validation · PII detection · rate limit</div></div>
+    <div class="pv-step-badge">guarded</div>
+  </div>
+  <div class="pv-step">
+    <div class="pv-step-num">2</div>
+    <div><div class="pv-step-name">Retrieval</div><div class="pv-step-sub">Azure AI Search · vector + keyword hybrid</div></div>
+    <div class="pv-step-badge">live</div>
+  </div>
+  <div class="pv-step">
+    <div class="pv-step-num">3</div>
+    <div><div class="pv-step-name">LLM call</div><div class="pv-step-sub">Azure OpenAI GPT-4o · private endpoint</div></div>
+    <div class="pv-step-badge">42ms p99</div>
+  </div>
+  <div class="pv-step">
+    <div class="pv-step-num">4</div>
+    <div><div class="pv-step-name">Output filter</div><div class="pv-step-sub">Content filter · groundedness check · log</div></div>
+    <div class="pv-step-badge">98.3%</div>
+  </div>
+  <div class="pv-stats">
+    <div class="pv-stat"><div class="pv-stat-num">2.4M</div><div class="pv-stat-label">Req/month</div></div>
+    <div class="pv-stat"><div class="pv-stat-num">60%</div><div class="pv-stat-label">Cost saving</div></div>
+    <div class="pv-stat"><div class="pv-stat-num">0</div><div class="pv-stat-label">Data leaks</div></div>
+  </div>
+</div>

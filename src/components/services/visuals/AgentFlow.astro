@@ -1,0 +1,33 @@
+<div class="agent-vis reveal" style="transition-delay:.1s">
+  <div class="av-label">Agent run · contract review workflow</div>
+  <div class="agent-flow">
+    <div class="agent-node">
+      <div class="agent-node-ico" style="background:rgba(8,145,178,.15);color:#67e8f9"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div><div class="agent-node-name">Read contract PDF</div><div class="agent-node-sub">Tool: azure_blob_read · 47 pages</div></div>
+      <div class="agent-node-status status-done">done</div>
+    </div>
+    <div class="agent-arrow">↓</div>
+    <div class="agent-node">
+      <div class="agent-node-ico" style="background:rgba(8,145,178,.15);color:#67e8f9"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div><div class="agent-node-name">Extract key clauses</div><div class="agent-node-sub">Tool: llm_extract · GPT-4o</div></div>
+      <div class="agent-node-status status-done">done</div>
+    </div>
+    <div class="agent-arrow">↓</div>
+    <div class="agent-node">
+      <div class="agent-node-ico" style="background:rgba(8,145,178,.15);color:#67e8f9"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div><div class="agent-node-name">Risk assessment</div><div class="agent-node-sub">Tool: policy_check · 3 flags</div></div>
+      <div class="agent-node-status status-run">running</div>
+    </div>
+    <div class="agent-arrow">↓</div>
+    <div class="agent-node">
+      <div class="agent-node-ico" style="background:rgba(255,255,255,.06);color:var(--dark-fg3)"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <div><div class="agent-node-name">Human review</div><div class="agent-node-sub">Escalation gate · awaiting approval</div></div>
+      <div class="agent-node-status status-wait">waiting</div>
+    </div>
+  </div>
+  <div class="agent-stats">
+    <div class="as-cell"><div class="as-num">85%</div><div class="as-label">Task automation</div></div>
+    <div class="as-cell"><div class="as-num">3 min</div><div class="as-label">vs 2hrs manual</div></div>
+    <div class="as-cell"><div class="as-num">100%</div><div class="as-label">Audit coverage</div></div>
+  </div>
+</div>
