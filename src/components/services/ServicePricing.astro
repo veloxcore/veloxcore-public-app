@@ -1,0 +1,24 @@
+---
+interface PriceCard { tag: string; featured?: boolean; name: string; desc: string; dur: string; items: string[]; ctaLabel: string; ctaStyle: 'dark' | 'soft'; }
+interface Props { pricingH?: string; pricing: PriceCard[]; }
+const { pricingH = 'Engagement options.', pricing } = Astro.props;
+---
+<section class="pricing" data-screen-label="Pricing">
+  <div class="wrap">
+    <h2 class="pricing-h reveal">{pricingH}</h2>
+    <div class="pricing-grid">
+      {pricing.map(card => (
+        <div class={`price-card${card.featured ? ' featured' : ''} reveal`}>
+          <div class={`price-tag${card.featured ? ' accent' : ''}`}>{card.tag}</div>
+          <div class="price-name">{card.name}</div>
+          <div class="price-desc">{card.desc}</div>
+          <div class="price-dur">{card.dur}</div>
+          <ul class="price-items">
+            {card.items.map(item => <li class="price-item">{item}</li>)}
+          </ul>
+          <a class={`price-cta price-cta-${card.ctaStyle}`} href="/contact">{card.ctaLabel}</a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

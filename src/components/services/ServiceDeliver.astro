@@ -1,0 +1,28 @@
+---
+interface Props {
+  deliverH: string; deliverSub: string;
+  deliver: { label: string; detail: string }[];
+  Visual: any;
+}
+const { deliverH, deliverSub, deliver, Visual } = Astro.props;
+---
+<section class="deliver" data-screen-label="03 Deliver">
+  <div class="wrap">
+    <div class="deliver-grid">
+      <div>
+        <div class="sec-label">What you get</div>
+        <h2 class="sec-h reveal">{deliverH}</h2>
+        <p class="sec-sub reveal" style="margin-bottom:0">{deliverSub}</p>
+        <div class="deliver-list reveal">
+          {deliver.map(item => (
+            <div class="deliver-item">
+              <div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+              <div class="d-text"><strong>{item.label}</strong><span>{item.detail}</span></div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <Visual />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,26 @@
+---
+interface Props { faqSub?: string; faqs: { q: string; a: string }[]; }
+const { faqSub, faqs } = Astro.props;
+---
+<section class="faq" data-screen-label="07 FAQ">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div>
+        <div class="sec-label">FAQ</div>
+        <h2 class="sec-h reveal">Common questions.</h2>
+        {faqSub && <p class="sec-sub reveal" style="margin-bottom:0;max-width:36ch">{faqSub}</p>}
+      </div>
+      <div class="faq-list reveal">
+        {faqs.map((item, i) => (
+          <div class={`faq-item${i === 0 ? ' open' : ''}`}>
+            <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+              <span class="faq-q-text">{item.q}</span>
+              <div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div>
+            </div>
+            <div class="faq-a">{item.a}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

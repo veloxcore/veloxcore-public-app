@@ -1,0 +1,40 @@
+---
+interface Stat { val: string; label: string; }
+interface QuoteObj { text: string; name: string; role: string; }
+interface Props {
+  proofH: string; ctaGradient: string;
+  proof: { category: string; title: string; stats: Stat[]; quote1: QuoteObj; quote2: QuoteObj; };
+}
+const { proofH, ctaGradient, proof } = Astro.props;
+---
+<section class="proof" data-screen-label="06 Proof">
+  <div class="wrap">
+    <div class="sec-label">Proof</div>
+    <h2 class="sec-h reveal">{proofH}</h2>
+    <div class="proof-grid reveal">
+      <div class="cs-tile" onclick="location.href='/work'">
+        <div class="cs-cover" style={`background:${ctaGradient}`}></div>
+        <div class="cs-body">
+          <div class="cs-cat">{proof.category}</div>
+          <div class="cs-title">{proof.title}</div>
+          <div class="cs-nums">
+            {proof.stats.map(s => (
+              <div class="cs-n"><div class="cs-n-val">{s.val}</div><div class="cs-n-label">{s.label}</div></div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div class="quotes">
+        {[proof.quote1, proof.quote2].map((q, i) => (
+          <div class="quote-card reveal" style={i > 0 ? 'transition-delay:.08s' : ''}>
+            <div class="quote-text">"{q.text}"</div>
+            <div class="quote-foot">
+              <div class="q-ava" style={`background:linear-gradient(135deg,${i === 0 ? '#6366f1,#a5b4fc' : '#0f0a2e,#6366f1'})`}></div>
+              <div><div class="q-name">{q.name}</div><div class="q-role">{q.role}</div></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

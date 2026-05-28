@@ -1,0 +1,23 @@
+---
+interface Props {
+  approachH: string;
+  approach: { num: string; title: string; desc: string; dur: string }[];
+}
+const { approachH, approach } = Astro.props;
+---
+<section class="approach" data-screen-label="04 Approach">
+  <div class="wrap">
+    <div class="sec-label">Our approach</div>
+    <h2 class="sec-h reveal">{approachH}</h2>
+    <div class="approach-grid">
+      {approach.map((s, i) => (
+        <div class="ap-step reveal" style={i > 0 ? `transition-delay:${i * 0.06}s` : ''}>
+          <div class="ap-num">{s.num}</div>
+          <div class="ap-title">{s.title}</div>
+          <div class="ap-desc">{s.desc}</div>
+          <div class="ap-dur">{s.dur}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
