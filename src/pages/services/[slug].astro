@@ -27,7 +27,7 @@ const Visual = visualMap[d.visual];
   <ServiceApproach approachH={d.approachH} approach={d.approach} />
   <ServiceTech techH={d.techH} techSub={d.techSub} tech={d.tech} />
   {d.pricing && <ServicePricing pricingH={d.pricingH} pricing={d.pricing} />}
-  <ServiceProof proofH={d.proofH} ctaGradient={d.ctaGradient} proof={d.proof} />
+  {d.proof && <ServiceProof proofH={d.proofH} ctaGradient={d.ctaGradient} proof={d.proof} />}
   <ServiceFaq faqSub={d.faqSub} faqs={d.faqs} />
   <section class="cta-section" data-screen-label="08 CTA">
     <div class="wrap">

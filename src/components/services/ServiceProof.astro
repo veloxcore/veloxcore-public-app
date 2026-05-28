@@ -2,7 +2,7 @@
 interface Stat { val: string; label: string; }
 interface QuoteObj { text: string; name: string; role: string; }
 interface Props {
-  proofH: string; ctaGradient: string;
+  proofH?: string; ctaGradient: string;
   proof: { category: string; title: string; stats: Stat[]; quote1: QuoteObj; quote2: QuoteObj; };
 }
 const { proofH, ctaGradient, proof } = Astro.props;
