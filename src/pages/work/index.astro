@@ -1,0 +1,249 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Work & Case Studies — Veloxcore">
+
+<!-- ── HERO ──────────────────────────────────────── -->
+<header class="work-hero" data-screen-label="01 Hero">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="page-eyebrow">Our work</div>
+        <h1 class="hero-h1">Proof, not promises.</h1>
+        <p class="hero-sub">Six case studies across data engineering, AI, Azure migrations, IoT, and product development. Real clients, real numbers, real architecture.</p>
+      </div>
+      <div class="hero-nums reveal">
+        <div class="hnum"><div class="hnum-val">40+</div><div class="hnum-label">Enterprise clients</div></div>
+        <div class="hnum"><div class="hnum-val">6</div><div class="hnum-label">Countries served</div></div>
+        <div class="hnum"><div class="hnum-val">99.97%</div><div class="hnum-label">Avg pipeline uptime</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── FILTER BAR ──────────────────────────────── -->
+<div class="filter-section" data-screen-label="02 Filters">
+  <div class="wrap">
+    <div class="filter-inner">
+      <span class="filter-label">Filter by</span>
+      <div class="filter-group" id="filter-service">
+        <button class="fpill active" data-filter="all">All work</button>
+        <button class="fpill" data-filter="data">Data Engineering</button>
+        <button class="fpill" data-filter="azure">Azure</button>
+        <button class="fpill" data-filter="ml">Machine Learning</button>
+        <button class="fpill" data-filter="iot">IoT</button>
+        <button class="fpill" data-filter="dotnet">.NET</button>
+        <button class="fpill" data-filter="ai">AI Product</button>
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-group" id="filter-industry">
+        <button class="fpill active" data-ind="all">All industries</button>
+        <button class="fpill" data-ind="retail">Retail</button>
+        <button class="fpill" data-ind="logistics">Logistics</button>
+        <button class="fpill" data-ind="fmcg">FMCG</button>
+        <button class="fpill" data-ind="hiring">Hiring Tech</button>
+        <button class="fpill" data-ind="manufacturing">Manufacturing</button>
+        <button class="fpill" data-ind="saas">SaaS</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CASE STUDIES ────────────────────────────── -->
+<section class="cs-section" data-screen-label="03 Case Studies">
+  <div class="wrap">
+
+    <!-- Featured: Retail Analytics -->
+    <a class="cs-featured cs-item reveal" data-service="data" data-ind="retail" href="/work/retail-analytics">
+      <div class="cs-feat-visual cov-aurora"></div>
+      <div class="cs-feat-body">
+        <div class="cs-eyebrow"><div class="cs-eyebrow-dot" style="background:#137333"></div>Retail &nbsp;·&nbsp; Data Engineering</div>
+        <h2 class="cs-feat-h">How we built a pipeline processing 140M daily transactions across 6 countries — with 99.97% uptime.</h2>
+        <p class="cs-feat-desc">A national retail chain's legacy Hadoop cluster couldn't handle peak-day load. We redesigned the entire ingestion and transformation layer on Azure in 14 weeks.</p>
+        <div class="cs-outcomes">
+          <div class="cs-out"><div class="cs-out-num">140M</div><div class="cs-out-label">Events/day processed</div></div>
+          <div class="cs-out"><div class="cs-out-num">38%</div><div class="cs-out-label">Cloud cost reduction</div></div>
+          <div class="cs-out"><div class="cs-out-num">48ms</div><div class="cs-out-label">p99 latency</div></div>
+        </div>
+        <div class="cs-feat-tags"><span class="tag tag-data">Big Data</span><span class="tag tag-azure">Azure</span></div>
+        <span class="cs-read">Read case study <span class="cs-arrow"><svg viewBox="0 0 13 13"><line x1="2" y1="11" x2="11" y2="2"/><polyline points="5 2 11 2 11 8"/></svg></span></span>
+      </div>
+    </a>
+
+    <!-- 3-col grid -->
+    <div class="cs-grid">
+
+      <a class="cs-card cs-item reveal" data-service="azure" data-ind="logistics" href="/work/azure-migration">
+        <div class="cs-card-visual cov-azure"></div>
+        <div class="cs-card-body">
+          <div class="cs-card-eyebrow"><div class="cs-eyebrow-dot" style="background:#1a73e8;width:4px;height:4px"></div>Logistics · Azure Migration</div>
+          <h3 class="cs-card-h">Zero-downtime Azure migration for a 6-region logistics platform</h3>
+          <p class="cs-card-desc">12-week migration with parallel-run validation, zero maintenance windows, and a signed 99.9% SLA on day one.</p>
+          <div class="cs-card-nums">
+            <div class="cs-card-num"><div class="cs-card-num-val">12 wks</div><div class="cs-card-num-label">Delivered in</div></div>
+            <div class="cs-card-num"><div class="cs-card-num-val">0</div><div class="cs-card-num-label">Minutes downtime</div></div>
+            <div class="cs-card-num"><div class="cs-card-num-val">40%</div><div class="cs-card-num-label">Cost saved</div></div>
+          </div>
+          <div class="cs-card-foot"><span class="tag tag-azure">Azure</span><span class="dot-sep"></span><span>Logistics Ltd.</span></div>
+        </div>
+      </a>
+
+      <a class="cs-card cs-item reveal" style="transition-delay:.07s" data-service="ml" data-ind="fmcg" href="/work/ml-forecasting">
+        <div class="cs-card-visual cov-neural"></div>
+        <div class="cs-card-body">
+          <div class="cs-card-eyebrow"><div class="cs-eyebrow-dot" style="background:#7c3aed;width:4px;height:4px"></div>FMCG · Machine Learning</div>
+          <h3 class="cs-card-h">Demand forecasting model that reduced overstock by 22% in Q1</h3>
+          <p class="cs-card-desc">Azure ML + feature store + streaming inference pipeline — from notebook to production in 8 weeks. Now retraining nightly on fresh sales data.</p>
+          <div class="cs-card-nums">
+            <div class="cs-card-num"><div class="cs-card-num-val">22%</div><div class="cs-card-num-label">Overstock reduction</div></div>
+            <div class="cs-card-num"><div class="cs-card-num-val">94.3%</div><div class="cs-card-num-label">Forecast accuracy</div></div>
+          </div>
+          <div class="cs-card-foot"><span class="tag tag-ml">ML</span><span class="dot-sep"></span><span>FMCG Corp.</span></div>
+        </div>
+      </a>
+
+      <a class="cs-card cs-item reveal" style="transition-delay:.14s" data-service="ai" data-ind="hiring" href="/products/veloxhire">
+        <div class="cs-card-visual cov-mesh"></div>
+        <div class="cs-card-body">
+          <div class="cs-card-eyebrow"><div class="cs-eyebrow-dot" style="background:#a855f7;width:4px;height:4px"></div>Hiring Tech · AI Product</div>
+          <h3 class="cs-card-h">We built Veloxhire.AI — an AI video interviewer used by 100+ companies</h3>
+          <p class="cs-card-desc">Our own AI product. Built on Azure OpenAI. Cuts hiring cycles from 15–20 days to 2–3 days. We dogfood it ourselves.</p>
+          <div class="cs-card-nums">
+            <div class="cs-card-num"><div class="cs-card-num-val">5×</div><div class="cs-card-num-label">Faster hiring</div></div>
+            <div class="cs-card-num"><div class="cs-card-num-val">80%</div><div class="cs-card-num-label">Time saved</div></div>
+            <div class="cs-card-num"><div class="cs-card-num-val">100+</div><div class="cs-card-num-label">Companies</div></div>
+          </div>
+          <div class="cs-card-foot"><span class="tag tag-ai">AI Product</span><span class="dot-sep"></span><span>Veloxhire.AI</span></div>
+        </div>
+      </a>
+
+      <a class="cs-card cs-item reveal" data-service="iot" data-ind="manufacturing" href="/work/iot-platform">
+        <div class="cs-card-visual cov-circuit"></div>
+        <div class="cs-card-body">
+          <div class="cs-card-eyebrow"><div class="cs-eyebrow-dot" style="background:#8ce800;width:4px;height:4px"></div>Manufacturing · IoT</div>
+          <h3 class="cs-card-h">Provisioning 10,842 industrial sensors on Azure IoT Hub — with predictive maintenance</h3>
+          <p class="cs-card-desc">Zero-touch DPS provisioning, ONNX edge inference, and an anomaly detection pipeline that surfaces equipment failures days before they happen.</p>
+          <div class="cs-card-nums">
+            <div class="cs-card-num"><div class="cs-card-num-val">10,842</div><div class="cs-card-num-label">Devices live</div></div>
+            <div class="cs-card-num"><div class="cs-card-num-val">3 days</div><div class="cs-card-num-label">Failure lead time</div></div>
+          </div>
+          <div class="cs-card-foot"><span class="tag tag-iot">IoT</span><span class="dot-sep"></span><span>Industrial Co.</span></div>
+        </div>
+      </a>
+
+      <a class="cs-card cs-item reveal" style="transition-delay:.07s" data-service="dotnet" data-ind="saas" href="/work/dotnet-sharepoint">
+        <div class="cs-card-visual cov-slate"></div>
+        <div class="cs-card-body">
+          <div class="cs-card-eyebrow"><div class="cs-eyebrow-dot" style="background:#adc6ff;width:4px;height:4px"></div>SaaS · .NET Development</div>
+          <h3 class="cs-card-h">SharePoint modernisation for 4,000 enterprise users — delivered on time across 6 rollouts</h3>
+          <p class="cs-card-desc">Migrated a legacy SharePoint estate to ASP.NET 8 + Angular + MSAL. Multi-tenant architecture with row-level data isolation and full audit logging.</p>
+          <div class="cs-card-nums">
+            <div class="cs-card-num"><div class="cs-card-num-val">6</div><div class="cs-card-num-label">Rollouts delivered</div></div>
+            <div class="cs-card-num"><div class="cs-card-num-val">4,000</div><div class="cs-card-num-label">Active users</div></div>
+          </div>
+          <div class="cs-card-foot"><span class="tag tag-dotnet">.NET</span><span class="dot-sep"></span><span>Enterprise SaaS</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA BAND ────────────────────────────────── -->
+<section class="cta-band" data-screen-label="04 CTA">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div>
+        <h2 class="cta-h reveal">Your project could be next.</h2>
+        <p class="cta-sub reveal">Book a free 45-minute discovery call with one of our engineers.</p>
+      </div>
+      <div class="cta-acts reveal">
+        <a class="btn-white" href="/contact">Book a free call</a>
+        <a class="btn-ghost" href="/services">Our services →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  /* Reveal */
+  const els = Array.from(document.querySelectorAll('.reveal'));
+  function check(){
+    const vh = window.innerHeight;
+    els.forEach(el => {
+      if(el.classList.contains('visible')) return;
+      const r = el.getBoundingClientRect();
+      if(r.top < vh * .93 && r.bottom > 0) el.classList.add('visible');
+    });
+  }
+  window.addEventListener('scroll', check, {passive:true});
+  window.addEventListener('resize', check);
+  setTimeout(check, 80); setTimeout(check, 500);
+
+  /* Filters */
+  let activeService = 'all', activeInd = 'all';
+  const items = Array.from(document.querySelectorAll('.cs-item'));
+
+  function applyFilters(){
+    items.forEach(item => {
+      const svc = item.dataset.service;
+      const ind = item.dataset.ind;
+      const svcMatch = activeService === 'all' || svc === activeService;
+      const indMatch = activeInd === 'all' || ind === activeInd;
+      item.classList.toggle('hidden', !(svcMatch && indMatch));
+    });
+  }
+
+  document.querySelectorAll('#filter-service .fpill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#filter-service .fpill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeService = btn.dataset.filter;
+      applyFilters();
+    });
+  });
+
+  document.querySelectorAll('#filter-industry .fpill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#filter-industry .fpill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeInd = btn.dataset.ind;
+      applyFilters();
+    });
+  });
+})();
+</script>
+<script>
+/* Hero particles */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const c = document.querySelector('.work-hero .hero-canvas');
+  if(!c) return;
+  const ctx = c.getContext('2d');
+  const N = 72, MAXD = 150;
+  const COLS = ['rgba(61,126,255,','rgba(0,212,232,','rgba(0,221,106,'];
+  let W, H, pts = [], mouse = {x:-9999, y:-9999};
+  function resize(){ W = c.width = c.offsetWidth; H = c.height = c.offsetHeight; }
+  function init(){ pts = Array.from({length:N}, () => ({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.28, vy:(Math.random()-.5)*.28, r:Math.random()*1.6+0.6, col:COLS[Math.floor(Math.random()*COLS.length)]})); }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y, d=Math.hypot(dx,dy);
+        if(d<MAXD){ ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.strokeStyle=`rgba(61,126,255,${(1-d/MAXD)*0.06})`; ctx.lineWidth=.6; ctx.stroke(); }
+      }
+      const dm = Math.hypot(pts[i].x-mouse.x, pts[i].y-mouse.y);
+      if(dm<MAXD*1.6){ ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(mouse.x,mouse.y); ctx.strokeStyle=`rgba(61,126,255,${(1-dm/(MAXD*1.6))*0.14})`; ctx.lineWidth=.7; ctx.stroke(); }
+      ctx.beginPath(); ctx.arc(pts[i].x,pts[i].y,pts[i].r,0,Math.PI*2); ctx.fillStyle=pts[i].col+'0.4)'; ctx.fill();
+    }
+  }
+  function loop(){ pts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1; }); draw(); requestAnimationFrame(loop); }
+  window.addEventListener('resize', ()=>{ resize(); init(); });
+  document.addEventListener('mousemove', e=>{ const r=c.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; });
+  resize(); init(); loop();
+})();
+</script>
+
+</BaseLayout>

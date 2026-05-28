@@ -1,0 +1,71 @@
+/* ── WORK & CASE STUDIES PAGE ─────────────────────── */
+
+/* Hero (light) */
+.work-hero { padding: 148px 0 72px; position: relative; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--bg); }
+.work-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 50% 60% at 85% 35%, rgba(61,126,255,.06) 0%, transparent 60%), radial-gradient(ellipse 35% 45% at 5% 80%, rgba(0,221,106,.05) 0%, transparent 55%); pointer-events: none; }
+.work-hero .wrap { position: relative; z-index: 2; }
+.work-hero .hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .4; }
+.work-hero .hero-h1 { color: var(--fg1); }
+.work-hero .hero-sub { color: var(--fg2); max-width: 50ch; }
+
+/* Hero grid (text left, nums right) */
+.hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 64px; align-items: end; }
+.hero-nums { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; align-self: end; flex-shrink: 0; background: #fff; }
+.hnum { padding: 20px 32px; border-bottom: 1px solid var(--border); text-align: right; }
+.hnum:last-child { border-bottom: none; }
+.hnum-val { font-family: var(--display); font-size: 36px; font-weight: 800; letter-spacing: -.04em; color: var(--fg1); line-height: 1; }
+.hnum-label { font-size: 12px; color: var(--fg3); margin-top: 4px; letter-spacing: -.005em; }
+
+/* Filter bar */
+.filter-section { padding: 36px 0; border-bottom: 1px solid var(--border); background: var(--canvas); position: sticky; top: 68px; z-index: 20; }
+.filter-inner { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.filter-label { font-size: 13px; color: var(--fg3); font-weight: 500; flex-shrink: 0; letter-spacing: -.005em; }
+.filter-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.fpill { display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 9999px; font-size: 13px; border: 1.5px solid var(--border-strong); color: var(--fg2); background: #fff; cursor: pointer; transition: all .15s; letter-spacing: -.005em; }
+.fpill:hover { border-color: var(--fg1); color: var(--fg1); }
+.fpill.active { background: var(--fg1); color: #fff; border-color: var(--fg1); font-weight: 500; }
+.filter-divider { width: 1px; height: 20px; background: var(--border-strong); flex-shrink: 0; }
+
+/* Case studies section */
+.cs-section { padding: 72px 0 96px; }
+.cs-item.hidden { display: none; }
+
+/* Featured large card */
+.cs-featured { display: grid; grid-template-columns: 1fr 1fr; border-radius: 28px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 28px; cursor: pointer; transition: box-shadow .25s var(--eqt), transform .25s var(--eqt); }
+.cs-featured:hover { box-shadow: 0 20px 56px -20px rgba(26,28,28,.16); transform: translateY(-4px); }
+.cs-feat-visual { min-height: 420px; position: relative; overflow: hidden; }
+.cs-feat-body { padding: 52px 48px; display: flex; flex-direction: column; justify-content: flex-end; background: #fff; }
+.cs-eyebrow { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--fg3); margin-bottom: 18px; }
+.cs-eyebrow-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.cs-feat-h { font-family: var(--display); font-size: 32px; font-weight: 700; letter-spacing: -.035em; line-height: 38px; color: var(--fg1); margin-bottom: 14px; text-wrap: pretty; }
+.cs-feat-desc { font-size: 15px; line-height: 25px; color: var(--fg2); margin-bottom: 28px; max-width: 42ch; text-wrap: pretty; letter-spacing: -.005em; }
+.cs-outcomes { display: flex; gap: 24px; margin-bottom: 28px; }
+.cs-out { display: flex; flex-direction: column; gap: 3px; }
+.cs-out-num { font-family: var(--display); font-size: 28px; font-weight: 800; letter-spacing: -.04em; color: var(--fg1); }
+.cs-out-label { font-size: 12px; color: var(--fg3); letter-spacing: -.005em; }
+.cs-read { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: var(--fg1); }
+.cs-arrow { width: 28px; height: 28px; border-radius: 50%; background: var(--fg1); display: flex; align-items: center; justify-content: center; transition: transform .2s var(--eqt); flex-shrink: 0; }
+.cs-featured:hover .cs-arrow { transform: translateX(3px); }
+.cs-arrow svg { width: 11px; height: 11px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.cs-feat-tags { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+
+/* Card grid */
+.cs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+.cs-card { border-radius: 22px; overflow: hidden; border: 1px solid var(--border); background: #fff; cursor: pointer; display: flex; flex-direction: column; transition: border-color .2s, transform .25s var(--eqt), box-shadow .25s var(--eqt); }
+.cs-card:hover { border-color: var(--border-strong); transform: translateY(-5px); box-shadow: 0 14px 44px -18px rgba(26,28,28,.13); }
+.cs-card-visual { height: 180px; position: relative; overflow: hidden; flex-shrink: 0; }
+.cs-card-body { padding: 26px 24px 30px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.cs-card-eyebrow { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--fg3); margin-bottom: 2px; }
+.cs-card-h { font-family: var(--display); font-size: 18px; font-weight: 600; letter-spacing: -.025em; line-height: 25px; color: var(--fg1); text-wrap: pretty; }
+.cs-card:hover .cs-card-h { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--border-strong); }
+.cs-card-desc { font-size: 13.5px; line-height: 21px; color: var(--fg2); text-wrap: pretty; }
+.cs-card-nums { display: flex; gap: 18px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border); }
+.cs-card-num { display: flex; flex-direction: column; gap: 2px; }
+.cs-card-num-val { font-family: var(--display); font-size: 18px; font-weight: 700; letter-spacing: -.03em; color: var(--fg1); }
+.cs-card-num-label { font-size: 11px; color: var(--fg3); }
+.cs-card-foot { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--fg3); padding-top: 12px; }
+.dot-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); flex-shrink: 0; }
+
+/* CTA band (work page variant — no side border, 1fr auto grid) */
+.cta-band { background: var(--dark-surface); padding: 88px 0; }
+.cta-band .cta-inner { grid-template-columns: 1fr auto; gap: 64px; }
