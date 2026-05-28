@@ -252,7 +252,7 @@
 .cta h2.tw-target { transition:opacity .4s var(--eqt),transform .4s var(--eqt); }
 
 /* ── FOOTER (dark animated) ──────────────────────── */
-.footer { background:radial-gradient(ellipse 70% 50% at 50% 110%, rgba(61,126,255,0.09) 0%, transparent 65%), #0b0b0e; overflow:hidden; position:relative; border-top:none; }
+.footer { background:#0b0b0e; overflow:hidden; position:relative; border-top:none; }
 
 
 .foot-ticker { overflow:hidden; padding:14px 0; position:relative; z-index:2; }
