@@ -4,21 +4,71 @@
   if (c) {
     const canvas = c;
     const ctx = canvas.getContext('2d')!;
-    function draw() {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      const sp = 18;
-      for (let x = 0; x < canvas.width; x += sp) {
-        for (let y = 0; y < canvas.height; y += sp) {
-          ctx.beginPath();
-          ctx.arc(x, y, 1, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(26,28,28,0.10)';
-          ctx.fill();
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const SP = 22;          // dot spacing
+    const R = 200;          // cursor influence radius
+    // Brand palette: blue → cyan → green → lime
+    const COLORS: number[][] = [[61, 126, 255], [0, 212, 232], [0, 221, 106], [140, 232, 0]];
+    interface Dot { x: number; y: number; col: number[]; }
+    let W = 0, H = 0, dots: Dot[] = [];
+    const mouse = { x: -9999, y: -9999 };
+
+    function build() {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+      dots = [];
+      for (let x = SP / 2; x < W; x += SP) {
+        for (let y = SP / 2; y < H; y += SP) {
+          // colour ramps diagonally across the field
+          const idx = Math.min(COLORS.length - 1, Math.floor(((x / W) + (y / H)) / 2 * COLORS.length));
+          dots.push({ x, y, col: COLORS[idx] });
         }
       }
     }
-    window.addEventListener('load', draw);
-    window.addEventListener('resize', draw);
-    draw();
+
+    function paintStatic() {
+      ctx.clearRect(0, 0, W, H);
+      for (const d of dots) {
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, 1, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(26,28,28,0.10)';   // canonical faint dot at rest
+        ctx.fill();
+      }
+    }
+
+    function frame() {
+      ctx.clearRect(0, 0, W, H);
+      for (const d of dots) {
+        const t = Math.max(0, 1 - Math.hypot(d.x - mouse.x, d.y - mouse.y) / R);
+        ctx.beginPath();
+        if (t > 0.02) {
+          // near the cursor: ignite in brand colour and grow
+          const e = t * t;
+          ctx.arc(d.x, d.y, 1 + e * 2.6, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${d.col[0]},${d.col[1]},${d.col[2]},${0.1 + e * 0.85})`;
+        } else {
+          ctx.arc(d.x, d.y, 1, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(26,28,28,0.10)';
+        }
+        ctx.fill();
+      }
+      requestAnimationFrame(frame);
+    }
+
+    build();
+    window.addEventListener('resize', () => { build(); if (reduce) paintStatic(); });
+
+    if (reduce) {
+      window.addEventListener('load', paintStatic);
+      paintStatic();
+    } else {
+      document.addEventListener('pointermove', (e) => {
+        const r = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - r.left;
+        mouse.y = e.clientY - r.top;
+      });
+      document.addEventListener('pointerleave', () => { mouse.x = -9999; mouse.y = -9999; });
+      requestAnimationFrame(frame);
+    }
   }
 </script>

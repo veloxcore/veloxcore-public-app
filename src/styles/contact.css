@@ -525,15 +525,15 @@
 .ci-val { font-weight: 500; color: var(--fg1); }
 .ci-sub { font-size: 11.5px; color: var(--fg3); }
 
-/* Trust signals */
-.trust-row {
+/* Trust signals (contact sidebar checklist — distinct from the home .trust-row logo bar) */
+.trust-list {
   display: flex; flex-direction: column; gap: 8px;
 }
-.trust-item {
+.trust-list-item {
   display: flex; align-items: center; gap: 8px;
   font-size: 13px; color: var(--fg2);
 }
-.trust-item svg {
+.trust-list-item svg {
   width: 14px; height: 14px;
   stroke: #137333; fill: none;
   stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;

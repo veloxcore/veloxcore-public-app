@@ -21,6 +21,19 @@
     });
   }
 
+  // 2a. Scale-enter entrance — add .in-view (restores prototype's per-page hook;
+  //     dropped in the original port, which left CodePanel stuck at opacity:0)
+  const scaleEls = document.querySelectorAll<HTMLElement>('.scale-enter');
+  if (scaleEls.length) {
+    if (reduce) {
+      scaleEls.forEach((el) => el.classList.add('in-view'));
+    } else {
+      scaleEls.forEach((el) => {
+        inView(el, () => { el.classList.add('in-view'); }, { margin: '0px 0px -10% 0px' });
+      });
+    }
+  }
+
   // 2b. Feature stat entrance — add .anim-in (mirrors prototype scroll trigger)
   const stats = document.querySelectorAll<HTMLElement>('.stat-num');
   if (stats.length) {
@@ -80,5 +93,18 @@
       cx += (tx - cx) * 0.09; cy += (ty - cy) * 0.09;
       glow.style.background = `radial-gradient(circle 700px at ${Math.round(cx)}px ${Math.round(cy)}px, rgba(61,126,255,0.13) 0%, rgba(61,126,255,0.08) 25%, rgba(61,126,255,0.03) 55%, transparent 78%)`;
     })();
+  }
+
+  // 6. Section spotlight on the dark feature block — cursor-tracked colour glow.
+  //    Sets --fx/--fy (px, relative to the block) consumed by .feature::after.
+  const feature = document.querySelector<HTMLElement>('.feature');
+  if (feature && !reduce && window.matchMedia('(hover: hover)').matches) {
+    feature.addEventListener('pointermove', (e) => {
+      const r = feature.getBoundingClientRect();
+      feature.style.setProperty('--fx', `${e.clientX - r.left}px`);
+      feature.style.setProperty('--fy', `${e.clientY - r.top}px`);
+      feature.classList.add('glow-on');
+    });
+    feature.addEventListener('pointerleave', () => feature.classList.remove('glow-on'));
   }
 </script>
