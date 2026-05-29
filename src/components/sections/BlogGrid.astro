@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import ButtonPill from '../ui/ButtonPill.astro';
 
 const posts = (await getCollection('blog'))
+  .filter(p => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -12,18 +13,18 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month:
     <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;gap:24px">
       <div class="reveal">
         <span class="sec-eyebrow">From the blog</span>
-        <h2 class="sec-h2" style="margin-bottom:0">Latest thinking on data &amp; cloud</h2>
+        <h2 class="sec-h2" style="margin-bottom:0">Latest thinking on AI &amp; engineering</h2>
       </div>
-      <ButtonPill variant="soft" href="#" arrow>View all posts</ButtonPill>
+      <ButtonPill variant="soft" href="/blog" arrow>View all posts</ButtonPill>
     </div>
     <div class="blog-grid">
       {posts.map((p, i) => (
-        <article class="blog-card reveal" style={`transition-delay:${i * 0.08}s`}>
+        <a class="blog-card reveal" style={`transition-delay:${i * 0.08}s`} href={`/blog/${p.slug}`}>
           <div class={`blog-cover ${p.data.coverTheme}${p.data.coverImage ? ' has-image' : ''}`} style={p.data.coverImage ? `background-image:url(${p.data.coverImage});background-size:cover;background-position:center` : undefined}></div>
           <div class="blog-meta"><span class="tag-text">{p.data.tag}</span><span>·</span><span>{fmt(p.data.date)}</span></div>
           <h3 class="blog-title">{p.data.title}</h3>
           <span class="blog-link">Read blog ›</span>
-        </article>
+        </a>
       ))}
     </div>
     <div class="blog-controls">

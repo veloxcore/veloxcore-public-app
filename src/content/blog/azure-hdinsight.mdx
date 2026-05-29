@@ -6,6 +6,31 @@ coverTheme: "cover-b"
 coverImage: "/assets/blog/azure-hdinsight.png"
 excerpt: "Managed Hadoop on Azure, without the operational overhead."
 author: "Priya Shah"
+authorRole: "Azure Solutions Lead"
+authorBio: "Eight years building managed-data platforms on Azure for regulated industries."
 readTime: "6 min"
+template: "sidebar"
+draft: true
+coverClass: "cov-azure"
+topics: ["Azure", "Big Data"]
+toc:
+  - { id: "intro", label: "Why managed Hadoop matters" }
+  - { id: "ops", label: "Operational tradeoffs" }
+  - { id: "cost", label: "Cost model" }
 ---
-Body content placeholder for the standalone post (detail page is out of scope this session).
+
+<p id="intro">For most enterprises, "we run Hadoop" used to mean a dedicated platform team, a permanent cluster, and a queue of jobs nobody wanted to touch. HDInsight removes the cluster as a permanent artefact — and that single change cascades through every operational decision downstream.</p>
+
+## Why managed Hadoop matters
+
+The promise of HDInsight is straightforward: a fully managed Hadoop, Spark, HBase, or Kafka cluster, provisioned in minutes, scaled on demand, torn down when the workload finishes.
+
+<h2 id="ops">Operational tradeoffs</h2>
+
+You lose some control. You can't ship a custom kernel. You can't pin to a specific Spark patch level. But for 95% of teams, those constraints are features, not bugs.
+
+> The best ops decision a data team can make is to give up the parts of ops that don't differentiate them.
+
+<h2 id="cost">Cost model</h2>
+
+Pay for what runs. A 200-node cluster that exists for 90 minutes is dramatically cheaper than a 50-node cluster that exists 24/7.

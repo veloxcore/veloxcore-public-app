@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RAG & Knowledge Systems — Veloxcore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="veloxcore.css">
+  <style>
+    :root { --accent: #0d9488; }
+    /* RAG query visual */
+    .rag-vis{background:var(--dark-surface);border-radius:22px;padding:32px;display:flex;flex-direction:column;gap:14px;}
+    .rv-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--dark-fg3);}
+    .rv-query{background:var(--dark-card);border:1px solid var(--dark-divider);border-radius:10px;padding:12px 14px;}
+    .rv-q-label{font-size:10px;font-weight:600;color:var(--dark-fg3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+    .rv-q-text{font-size:13px;color:var(--dark-fg1);letter-spacing:-.01em;}
+    .rv-chunks{display:flex;flex-direction:column;gap:6px;}
+    .rv-chunk{background:var(--dark-card);border:1px solid var(--dark-divider);border-radius:8px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;}
+    .rv-chunk-score{font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:9999px;flex-shrink:0;margin-top:1px;}
+    .score-high{background:rgba(13,148,136,.15);color:#5eead4;}
+    .score-med{background:rgba(254,188,46,.1);color:#febc2e;}
+    .rv-chunk-text{font-size:11.5px;color:var(--dark-fg2);line-height:18px;}
+    .rv-chunk-src{font-size:9.5px;color:var(--dark-fg3);margin-top:3px;font-family:var(--mono);}
+    .rv-answer{background:rgba(13,148,136,.08);border:1px solid rgba(13,148,136,.2);border-radius:10px;padding:12px 14px;}
+    .rv-a-label{font-size:10px;font-weight:600;color:#5eead4;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+    .rv-a-text{font-size:12.5px;color:var(--dark-fg1);line-height:20px;letter-spacing:-.005em;}
+    .rv-a-cite{font-size:10px;color:var(--dark-fg3);margin-top:6px;font-family:var(--mono);}
+    .tech-card:hover{border-color:rgba(13,148,136,.3);}
+    .cs-cover{background:linear-gradient(130deg,#021a17,#0d9488,#5eead4);}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Veloxcore Home.html"><span class="mark"></span><span class="logo">Veloxcore</span></a>
+    <div class="nav-links">
+      <div class="nav-item has-dropdown">
+        <a class="nav-link active" href="Veloxcore Services.html">Services <span class="chev"></span></a>
+        <div class="nav-dropdown">
+          <div class="nd-section">
+            <span class="nd-label">AI Services</span>
+            <a class="nd-link" href="Veloxcore Service - Generative AI.html"><span class="nd-name">Generative AI &amp; LLMs</span><span class="nd-desc">LLM apps, copilots, evaluation harnesses</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Agents.html"><span class="nd-name">AI Agents &amp; Automation</span><span class="nd-desc">Multi-step agents, tool-calling, human-in-loop</span></a>
+            <a class="nd-link" href="Veloxcore Service - RAG.html"><span class="nd-name">RAG &amp; Knowledge Systems</span><span class="nd-desc">Retrieval pipelines with citations &amp; hybrid search</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Strategy.html"><span class="nd-name">AI Strategy &amp; Discovery</span><span class="nd-desc">2-week sprint to your AI roadmap</span></a>
+          </div>
+          <div class="nd-section">
+            <span class="nd-label">Platform &amp; Data</span>
+            <a class="nd-link" href="Veloxcore Service - Azure AI.html"><span class="nd-name">Azure AI &amp; Cloud</span><span class="nd-desc">Azure OpenAI, AI Foundry, migrations</span></a>
+            <a class="nd-link" href="Veloxcore Service - Data Engineering.html"><span class="nd-name">Data Engineering</span><span class="nd-desc">Pipelines, lakehouses, real-time analytics</span></a>
+            <a class="nd-link" href="Veloxcore Service - Machine Learning.html"><span class="nd-name">Machine Learning</span><span class="nd-desc">Custom models, MLOps, evaluation</span></a>
+            <a class="nd-link" href="Veloxcore Service - IoT.html"><span class="nd-name">IoT &amp; Edge Intelligence</span><span class="nd-desc">Device fleets, edge ML, Azure IoT Hub</span></a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-link" href="Veloxhire.AI.html">Products</a>
+      <a class="nav-link" href="Veloxcore Work.html">Work</a>
+      <div class="nav-item has-dropdown">
+        <a class="nav-link" href="Veloxcore About.html">Company <span class="chev"></span></a>
+        <div class="nav-dropdown nd-small">
+          <div class="nd-section">
+            <a class="nd-link" href="Veloxcore About.html"><span class="nd-name">About</span><span class="nd-desc">Story, team &amp; values</span></a>
+            <a class="nd-link" href="Veloxcore Blog.html"><span class="nd-name">Blog</span><span class="nd-desc">Insights on AI, Azure &amp; data</span></a>
+            <a class="nd-link" href="Veloxcore Contact.html"><span class="nd-name">Contact</span><span class="nd-desc">Get in touch with our team</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="nav-cta" href="Veloxcore Contact.html">Book a call<span class="nav-cta-ico"><svg viewBox="0 0 8 8"><polyline points="1 4 4 7 7 4"></polyline><line x1="4" y1="1" x2="4" y2="7"></line></svg></span></a>
+  </div>
+</nav>
+
+<section class="hero" data-screen-label="01 Hero">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-breadcrumb"><a href="Veloxcore Services.html">Services</a><span class="sep">›</span><span>RAG &amp; Knowledge Systems</span></div>
+        <div class="svc-badge"><span class="svc-badge-dot"></span>RAG &amp; Knowledge Systems</div>
+        <h1 class="hero-h1">Your knowledge. Searchable. Trustworthy. Cited.</h1>
+        <p class="hero-sub">We build retrieval-augmented generation systems that make your enterprise documents, databases, and knowledge bases queryable by AI — with chunk-level citations, hybrid search, and the evaluation harness to catch hallucinations before they reach users.</p>
+        <div class="hero-acts">
+          <a class="btn-accent" href="Veloxcore Contact.html">Book a free call</a>
+          <a class="btn-ghost-light" href="Veloxcore Work.html">See our work →</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="h-kpi"><div class="h-kpi-num">96.4%</div><div class="h-kpi-label">Groundedness score in production</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">2.4M</div><div class="h-kpi-label">Chunks indexed in largest deployment</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">6 wks</div><div class="h-kpi-label">Avg time to production RAG pipeline</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">0</div><div class="h-kpi-label">Data sent to OpenAI training</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="who" data-screen-label="02 Who">
+  <div class="wrap">
+    <div class="sec-label">Who this is for</div>
+    <h2 class="sec-h reveal">Three teams that need RAG.</h2>
+    <p class="sec-sub reveal">You have documents, databases, or knowledge bases that your team searches manually today. You want AI to answer questions from them — accurately, with citations.</p>
+    <div class="persona-grid">
+      <div class="persona reveal">
+        <div class="persona-role">Head of AI / Digital Product</div>
+        <div class="persona-title">The internal knowledge builder</div>
+        <div class="persona-pain">You have 50,000 documents — policies, contracts, product specs, support history — that your team searches manually. You want a natural-language interface that finds the right answer in seconds, not the right search result in minutes.</div>
+        <div class="persona-quote">"Our team spends 30% of their time searching for information they know exists somewhere."</div>
+      </div>
+      <div class="persona reveal" style="transition-delay:.07s">
+        <div class="persona-role">CTO / Head of Product</div>
+        <div class="persona-title">The customer-facing builder</div>
+        <div class="persona-pain">You want to add a knowledge base chatbot to your product — support, onboarding, documentation. It needs to answer from your specific content, cite its sources, and never hallucinate. A generic ChatGPT integration won't do.</div>
+        <div class="persona-quote">"A hallucination in our support chatbot becomes a customer complaint. We need citations."</div>
+      </div>
+      <div class="persona reveal" style="transition-delay:.14s">
+        <div class="persona-role">Enterprise Architect / CISO</div>
+        <div class="persona-title">The governance owner</div>
+        <div class="persona-pain">You have regulatory documents, legal contracts, and compliance policies that need to be searchable by AI. You need retrieval that stays within your Azure tenant, with row-level security and a clear data lineage.</div>
+        <div class="persona-quote">"Our legal team needs AI search, but data residency is non-negotiable."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="deliver" data-screen-label="03 Deliver">
+  <div class="wrap">
+    <div class="deliver-grid">
+      <div>
+        <div class="sec-label">What you get</div>
+        <h2 class="sec-h reveal">Production RAG.<br>Not a search wrapper.</h2>
+        <p class="sec-sub reveal" style="margin-bottom:0">A production RAG system is not a call to embeddings + a call to GPT. It's a chunking strategy, a retrieval pipeline, a re-ranking layer, an evaluation harness, and a citation system.</p>
+        <div class="deliver-list reveal">
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Production RAG pipeline</strong><span>Document ingestion, chunking strategy (semantic or fixed, with overlap), embedding generation, and Azure AI Search index — set up for your document types and query patterns.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Hybrid retrieval</strong><span>Vector similarity + BM25 keyword search + semantic ranker — so keyword-exact queries and semantic queries both return the best chunks, not just the most similar ones.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Citation system</strong><span>Every LLM response includes chunk-level citations — document name, page, and the exact passage retrieved. Users can verify every answer against the source.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Groundedness evaluation</strong><span>An automated evaluation harness that checks every response against retrieved chunks — flagging answers that are not supported by the retrieved context before they reach users.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Document update pipeline</strong><span>When source documents change, the index updates automatically — via Azure Blob Storage triggers or scheduled re-indexing. No manual re-ingestion required.</span></div></div>
+        </div>
+      </div>
+      <div class="rag-vis reveal" style="transition-delay:.1s">
+        <div class="rv-label">RAG query · live</div>
+        <div class="rv-query">
+          <div class="rv-q-label">User query</div>
+          <div class="rv-q-text">"What is our data retention policy for customer PII in the EU?"</div>
+        </div>
+        <div class="rv-label" style="margin-top:4px">Retrieved chunks</div>
+        <div class="rv-chunks">
+          <div class="rv-chunk">
+            <div class="rv-chunk-score score-high">0.94</div>
+            <div><div class="rv-chunk-text">EU customer PII must be retained for no more than 24 months from last interaction, per GDPR Article 5(1)(e)…</div><div class="rv-chunk-src">privacy-policy-v4.pdf · p.12</div></div>
+          </div>
+          <div class="rv-chunk">
+            <div class="rv-chunk-score score-high">0.87</div>
+            <div><div class="rv-chunk-text">Data subject requests for erasure must be fulfilled within 30 days. Backups are purged on the next 90-day cycle…</div><div class="rv-chunk-src">data-handling-guide.pdf · p.7</div></div>
+          </div>
+          <div class="rv-chunk">
+            <div class="rv-chunk-score score-med">0.71</div>
+            <div><div class="rv-chunk-text">Regional data residency requirements apply to all Tier 1 customer data stored in Azure West Europe…</div><div class="rv-chunk-src">compliance-framework.pdf · p.3</div></div>
+          </div>
+        </div>
+        <div class="rv-answer">
+          <div class="rv-a-label">Generated answer</div>
+          <div class="rv-a-text">EU customer PII is retained for a maximum of 24 months from last interaction. Erasure requests must be fulfilled within 30 days, with backup purging on a 90-day cycle.</div>
+          <div class="rv-a-cite">↳ Sources: privacy-policy-v4.pdf p.12, data-handling-guide.pdf p.7</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="approach" data-screen-label="04 Approach">
+  <div class="wrap">
+    <div class="sec-label">Our approach</div>
+    <h2 class="sec-h reveal">Chunk strategy first. Index second.</h2>
+    <div class="approach-grid">
+      <div class="ap-step reveal"><div class="ap-num">01</div><div class="ap-title">Document audit</div><div class="ap-desc">We analyse your document corpus — formats, sizes, structure, languages, update frequency. We design a chunking strategy appropriate for your content types before touching any embedding model.</div><div class="ap-dur">Week 1</div></div>
+      <div class="ap-step reveal" style="transition-delay:.06s"><div class="ap-num">02</div><div class="ap-title">Index &amp; retrieval</div><div class="ap-desc">We build the Azure AI Search index with your chunked documents, set up hybrid retrieval (vector + keyword + semantic ranker), and run retrieval quality tests on 100+ representative queries.</div><div class="ap-dur">Weeks 2–3</div></div>
+      <div class="ap-step reveal" style="transition-delay:.12s"><div class="ap-num">03</div><div class="ap-title">Generation &amp; citations</div><div class="ap-desc">We integrate the retrieval layer with Azure OpenAI, build the citation system, tune the system prompt for your use case, and run groundedness evaluation on a held-out test set.</div><div class="ap-dur">Weeks 3–5</div></div>
+      <div class="ap-step reveal" style="transition-delay:.18s"><div class="ap-num">04</div><div class="ap-title">Deploy &amp; monitor</div><div class="ap-desc">Go-live with query logging, retrieval quality monitoring, and a groundedness dashboard — so you can see when retrieval degrades and why, before your users notice.</div><div class="ap-dur">Week 6</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="tech" data-screen-label="05 Tech">
+  <div class="wrap">
+    <h2 class="tech-h reveal">Our RAG stack.</h2>
+    <p class="tech-sub reveal">The components we use to build retrieval systems that stay grounded in your documents.</p>
+    <div class="tech-grid">
+      <div class="tech-card reveal"><div class="tech-ico" style="background:rgba(13,148,136,.12);color:#5eead4"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="tech-name">Azure AI Search</div><div class="tech-desc">Vector indexes, BM25 keyword search, and semantic ranker — the retrieval backbone of every RAG system we build.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.05s"><div class="tech-ico" style="background:rgba(61,126,255,.1);color:#82baff"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div class="tech-name">Azure OpenAI Embeddings</div><div class="tech-desc">text-embedding-3-large for semantic chunk representation — or smaller models where cost-per-token matters.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.1s"><div class="tech-ico" style="background:rgba(99,102,241,.1);color:#a5b4fc"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="tech-name">Azure Blob Storage</div><div class="tech-desc">Document storage with event-driven re-indexing triggers — so your RAG index stays current as source documents change.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.15s"><div class="tech-ico" style="background:rgba(0,212,232,.1);color:#00d4e8"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="tech-name">Semantic Kernel</div><div class="tech-desc">Orchestration layer that connects retrieval, generation, and citation — with memory plugins for multi-turn conversations.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.05s"><div class="tech-ico" style="background:rgba(0,221,106,.1);color:#00dd6a"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><div class="tech-name">Azure Document Intelligence</div><div class="tech-desc">Extracts text, tables, and structure from PDFs, Word docs, and scanned images before chunking — critical for complex document types.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.1s"><div class="tech-ico" style="background:rgba(254,188,46,.12);color:#febc2e"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="tech-name">Azure AI Foundry Evaluation</div><div class="tech-desc">Automated groundedness, relevance, and coherence scoring — run on every deployment to catch retrieval regressions.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.15s"><div class="tech-ico" style="background:rgba(139,92,246,.12);color:#c084fc"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="tech-name">Row-Level Security</div><div class="tech-desc">Azure AI Search security filters enforce document-level access control — users only retrieve chunks they're authorised to see.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.2s"><div class="tech-ico" style="background:rgba(192,132,252,.12);color:#c084fc"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="tech-name">pgvector / Cosmos DB</div><div class="tech-desc">For teams already on PostgreSQL or Cosmos — vector search without migrating to a dedicated search service.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="proof" data-screen-label="06 Proof">
+  <div class="wrap">
+    <div class="sec-label">Proof</div>
+    <h2 class="sec-h reveal">From a real RAG deployment.</h2>
+    <div class="proof-grid reveal">
+      <div class="cs-tile" onclick="location.href='Veloxcore Work.html'">
+        <div class="cs-cover"></div>
+        <div class="cs-body">
+          <div class="cs-cat">Legal · RAG &amp; Knowledge</div>
+          <div class="cs-title">Enterprise knowledge base — 2.4M chunks, 96.4% groundedness, zero hallucinations in production audit.</div>
+          <div class="cs-nums">
+            <div class="cs-n"><div class="cs-n-val">2.4M</div><div class="cs-n-label">Chunks indexed</div></div>
+            <div class="cs-n"><div class="cs-n-val">96.4%</div><div class="cs-n-label">Groundedness</div></div>
+            <div class="cs-n"><div class="cs-n-val">6 wks</div><div class="cs-n-label">To production</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="quotes">
+        <div class="quote-card reveal">
+          <div class="quote-text">"Our legal team can now ask natural language questions across 40,000 contracts. The citation system means they trust the answers — every response shows exactly where it came from."</div>
+          <div class="quote-foot"><div class="q-ava" style="background:linear-gradient(135deg,#0d9488,#5eead4)"></div><div><div class="q-name">Deepa Krishnan</div><div class="q-role">Head of Legal Ops · Enterprise Co.</div></div></div>
+        </div>
+        <div class="quote-card reveal" style="transition-delay:.08s">
+          <div class="quote-text">"The groundedness evaluation was the thing that got this through our CISO review. We could prove, quantitatively, that the system wasn't making things up."</div>
+          <div class="quote-foot"><div class="q-ava" style="background:linear-gradient(135deg,#021a17,#0d9488)"></div><div><div class="q-name">Vinod Patel</div><div class="q-role">Enterprise Architect · Enterprise Co.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" data-screen-label="07 FAQ">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div>
+        <div class="sec-label">FAQ</div>
+        <h2 class="sec-h reveal">Common questions.</h2>
+        <p class="sec-sub reveal" style="margin-bottom:0;max-width:36ch">Questions we get on almost every RAG discovery call.</p>
+      </div>
+      <div class="faq-list reveal">
+        <div class="faq-item open"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How do you choose chunk size and overlap?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">Chunk size is a function of your document structure and query patterns. For narrative documents (contracts, policies), we typically use 512–1024 token chunks with 15–20% overlap. For structured documents (tables, product specs), we often use smaller chunks or preserve table structure as atomic units. We always run retrieval quality experiments on 50+ representative queries before committing to a strategy.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What if our documents change frequently?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">We set up event-driven re-indexing via Azure Blob Storage triggers — when a document is updated, the affected chunks are automatically re-ingested and the stale vectors replaced. For high-velocity document sets, we can configure near-real-time indexing. The LLM layer always queries the current index state.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How do you handle access control — different users seeing different documents?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">Azure AI Search supports security filters that enforce document-level access control at query time. We tag each chunk with the access groups that can see it, and every retrieval query includes a filter that limits results to chunks the requesting user is authorised to access. This is enforced server-side — it's not possible to retrieve unauthorised chunks by manipulating the query.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What document formats can you ingest?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">PDF, Word, PowerPoint, Excel, HTML, plain text, and markdown natively. For scanned PDFs and images, we use Azure Document Intelligence (Form Recognizer) for OCR. For structured data in databases, we build custom extraction pipelines that convert rows into text chunks. We've ingested everything from 40,000-page legal corpora to real-time database tables.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" data-screen-label="08 CTA">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div>
+        <h2 class="cta-h reveal">Ready to make your knowledge searchable?</h2>
+        <p class="cta-sub reveal">Book a free 45-minute session. Bring your document corpus details and we'll design a RAG architecture on the call.</p>
+      </div>
+      <div class="cta-acts reveal">
+        <a class="btn-white" href="Veloxcore Contact.html">Book a free call</a>
+        <a class="btn-ghost" href="Veloxcore Work.html">See our work →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" data-screen-label="09 Footer">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-brand"><div class="logo-row"><span class="mark"></span><span class="logo">Veloxcore</span></div><p>Microsoft Gold Partner for Cloud Platform and Application Integration.</p></div>
+      <div><div class="foot-h">Services</div><ul class="foot-list"><li><a href="Veloxcore Services.html">All services</a></li><li><a href="Veloxcore Service - Generative AI.html">Generative AI</a></li><li><a href="Veloxcore Service - AI Agents.html">AI Agents</a></li><li><a href="Veloxcore Service - AI Strategy.html">AI Strategy</a></li></ul></div>
+      <div><div class="foot-h">Work</div><ul class="foot-list"><li><a href="Veloxcore Work.html">Case studies</a></li></ul></div>
+      <div><div class="foot-h">Company</div><ul class="foot-list"><li><a href="Veloxcore About.html">About</a></li><li><a href="Veloxcore Blog.html">Blog</a></li><li><a href="Veloxcore Contact.html">Contact</a></li></ul></div>
+      <div><div class="foot-h">Products</div><ul class="foot-list"><li><a href="Veloxhire.AI.html">Veloxhire.AI</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span class="copy">© 2026 Veloxcore Private Limited</span><div class="right"><a>Privacy</a><a>Terms</a><span class="locale">English ▾</span></div></div>
+  </div>
+</footer>
+
+<script>
+(function(){const c=document.querySelector('.hero-canvas');if(!c)return;const ctx=c.getContext('2d');const N=72,MAXD=150;const COLS=['rgba(13,148,136,','rgba(45,212,191,','rgba(94,234,212,','rgba(13,148,136,'];let W,H,pts=[],mouse={x:-9999,y:-9999};function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}function init(){pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.6+0.6,col:COLS[Math.floor(Math.random()*COLS.length)]}));}function draw(){ctx.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);if(d<MAXD){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(13,148,136,${(1-d/MAXD)*0.1})`;ctx.lineWidth=.6;ctx.stroke();}}const dm=Math.hypot(pts[i].x-mouse.x,pts[i].y-mouse.y);if(dm<MAXD*1.6){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=`rgba(13,148,136,${(1-dm/(MAXD*1.6))*0.18})`;ctx.lineWidth=.7;ctx.stroke();}ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,pts[i].r,0,Math.PI*2);ctx.fillStyle=pts[i].col+'0.6)';ctx.fill();}}function loop(){pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;});draw();requestAnimationFrame(loop);}window.addEventListener('resize',()=>{resize();init();});document.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});resize();init();loop();})();
+function toggleFaq(el){el.parentElement.classList.toggle('open');}
+(function(){const els=Array.from(document.querySelectorAll('.reveal'));function check(){const vh=window.innerHeight;els.forEach(el=>{if(el.classList.contains('visible'))return;const r=el.getBoundingClientRect();if(r.top<vh*.93&&r.bottom>0)el.classList.add('visible');});}window.addEventListener('scroll',check,{passive:true});window.addEventListener('resize',check);setTimeout(check,80);setTimeout(check,500);})();
+</script>
+</body>
+</html>

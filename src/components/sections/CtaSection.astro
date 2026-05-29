@@ -1,14 +1,15 @@
 ---
 import DotField from './DotField.astro';
+import ButtonPill from '../ui/ButtonPill.astro';
 ---
 <section class="cta" data-screen-label="05 CTA">
   <DotField />
   <div class="wrap">
-    <h2>Unleash the value of your data.</h2>
-    <p>Be it big or small, we help you understand and act on the data you already possess. Let's talk.</p>
+    <h2>Ship production AI. Sooner.</h2>
+    <p>We take enterprise teams from first LLM prototype to production-grade AI — on Azure, in weeks. Let's talk about your project.</p>
     <div class="cta-acts">
-      <a class="btn-pill btn-dark">Get in touch</a>
-      <a class="btn-pill btn-soft">Explore services <span class="arr">→</span></a>
+      <ButtonPill variant="dark" href="/contact">Get in touch</ButtonPill>
+      <ButtonPill variant="soft" href="/services" arrow>Explore services</ButtonPill>
     </div>
   </div>
 </section>

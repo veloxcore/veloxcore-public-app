@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact & Book a Call — Veloxcore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="veloxcore.css">
+  <style>
+    :root {
+      --bg:#ffffff; --canvas:#F8F9FA; --fg1:#1a1c1c; --fg2:#5f6368; --fg3:#6b6f72;
+      --border:#eef0f1; --border-strong:#e6e8ea; --accent:#1a73e8;
+      --dark-surface:#1E2127; --dark-card:#262A31; --dark-divider:#353941;
+      --dark-fg1:#f7f8fa; --dark-fg2:#bcc1c7; --dark-fg3:#9ea3aa;
+      --display:'Geist',system-ui,sans-serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+      --eq:cubic-bezier(.25,.46,.45,.94); --eqt:cubic-bezier(.165,.84,.44,1);
+      --w:1320px; --m:48px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--sans);color:var(--fg1);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;cursor:pointer;}
+    img,svg{display:block;}
+    button{cursor:pointer;font-family:inherit;border:none;background:none;}
+    .wrap{max-width:var(--w);margin:0 auto;padding:0 var(--m);}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .65s var(--eqt),transform .65s var(--eqt);}
+    .reveal.visible{opacity:1;transform:none;}
+
+    /* NAV */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:50;height:68px;display:flex;align-items:center;padding:0 var(--m);background:rgba(255,255,255,.84);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);border-bottom:1px solid var(--border);}
+    .nav-inner{max-width:var(--w);margin:0 auto;width:100%;display:flex;align-items:center;}
+    .brand{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-right:36px;}
+    .mark{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#3d7eff 0%,#00d4e8 35%,#00dd6a 75%,#8ce800 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .mark::after{content:'';width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:7.5px solid #fff;transform:translateY(-0.5px);}
+    .logo{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.025em;color:var(--fg1);}
+    .nav-links{display:flex;align-items:center;gap:4px;}
+    .nav-link{display:inline-flex;align-items:center;gap:5px;font-size:14.5px;color:var(--fg1);padding:8px 14px;border-radius:9999px;letter-spacing:-.005em;transition:background .15s;cursor:pointer;}
+    .nav-link:hover{background:#f4f6f8;}
+    .nav-link.active{background:#f1f3f4;font-weight:500;}
+    .nav-link .chev{display:inline-block;width:10px;height:6px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none' stroke='%231a1c1c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='1 1 5 5 9 1'/></svg>") center/contain no-repeat;opacity:.65;}
+    .nav-cta{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:var(--fg1);color:#fff;font-size:13.5px;font-weight:500;padding:9px 18px 9px 20px;border-radius:9999px;letter-spacing:-.005em;transition:opacity .15s;}
+    .nav-cta:hover{opacity:.86;}
+    .nav-cta-ico{width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;background:#2f3135;border-radius:50%;}
+    .nav-cta-ico svg{width:8px;height:8px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+    /* ── HERO ─────────────────────────────────── */
+    .hero{padding:148px 0 80px;background:var(--dark-surface);position:relative;overflow:hidden;border-bottom:1px solid var(--dark-divider);}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 80% 35%,rgba(61,126,255,.14) 0%,transparent 55%),radial-gradient(ellipse 35% 45% at 5% 75%,rgba(0,221,106,.07) 0%,transparent 55%);pointer-events:none;}
+    .hero::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:30px 30px;pointer-events:none;}
+    .hero-inner{position:relative;z-index:2;}
+    .page-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--dark-fg3);margin-bottom:20px;letter-spacing:-.005em;}
+    .page-eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#3d7eff,#00dd6a);}
+    .hero-h1{font-family:var(--display);font-size:76px;font-weight:800;letter-spacing:-.055em;line-height:80px;color:var(--dark-fg1);margin-bottom:20px;text-wrap:pretty;}
+    .hero-sub{font-size:19px;line-height:30px;color:var(--dark-fg2);max-width:52ch;margin-bottom:44px;text-wrap:pretty;letter-spacing:-.005em;}
+    .path-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .path-card{border-radius:20px;padding:28px 28px 24px;cursor:pointer;position:relative;overflow:hidden;transition:transform .2s var(--eqt),box-shadow .2s;}
+    .path-card:hover{transform:translateY(-3px);}
+    .path-card.primary{background:linear-gradient(135deg,#1a3a6e,#1a73e8);box-shadow:0 8px 32px -12px rgba(26,115,232,.4);}
+    .path-card.secondary{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);}
+    .path-card.secondary:hover{background:rgba(255,255,255,.09);}
+    .path-card-ico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+    .path-card-ico svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;}
+    .path-card-title{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-.025em;color:#fff;margin-bottom:6px;}
+    .path-card-desc{font-size:14px;color:rgba(255,255,255,.65);line-height:22px;letter-spacing:-.005em;margin-bottom:18px;}
+    .path-card-cta{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:500;color:#fff;}
+    .path-card-arrow{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;transition:background .15s;}
+    .path-card:hover .path-card-arrow{background:rgba(255,255,255,.25);}
+    .path-card-arrow svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+    .path-card-badge{position:absolute;top:20px;right:20px;padding:4px 10px;background:rgba(255,255,255,.15);border-radius:9999px;font-size:11px;font-weight:600;color:rgba(255,255,255,.8);}
+
+    /* ── MAIN CONTENT ─────────────────────────── */
+    .contact-body{padding:80px 0 96px;}
+    .contact-grid{display:grid;grid-template-columns:1fr 420px;gap:72px;align-items:start;}
+
+    /* ── FORM ─────────────────────────────────── */
+    .form-wrap{display:flex;flex-direction:column;gap:0;}
+    .form-tabs{display:flex;gap:4px;background:var(--canvas);border-radius:14px;padding:4px;border:1px solid var(--border);margin-bottom:36px;width:fit-content;}
+    .form-tab{padding:9px 20px;border-radius:10px;font-size:14px;font-weight:500;color:var(--fg2);cursor:pointer;transition:all .15s;letter-spacing:-.005em;}
+    .form-tab.active{background:#fff;color:var(--fg1);box-shadow:0 1px 4px rgba(26,28,28,.08);}
+    .form-title{font-family:var(--display);font-size:36px;font-weight:700;letter-spacing:-.04em;color:var(--fg1);margin-bottom:8px;}
+    .form-sub{font-size:15px;color:var(--fg2);margin-bottom:32px;letter-spacing:-.005em;line-height:23px;}
+
+    /* Step indicator */
+    .steps-row{display:flex;align-items:center;gap:0;margin-bottom:32px;}
+    .step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all .25s;}
+    .step-dot.done{background:var(--fg1);color:#fff;}
+    .step-dot.active{background:var(--accent);color:#fff;}
+    .step-dot.future{background:var(--canvas);border:1.5px solid var(--border-strong);color:var(--fg3);}
+    .step-line{flex:1;height:1.5px;background:var(--border);}
+    .step-line.done{background:var(--fg1);}
+    .step-label-row{display:flex;justify-content:space-between;margin-top:6px;margin-bottom:24px;}
+    .step-label{font-size:11px;color:var(--fg3);text-align:center;flex:1;letter-spacing:-.005em;}
+    .step-label.active{color:var(--fg1);font-weight:600;}
+
+    /* Form fields */
+    .field-group{display:flex;flex-direction:column;gap:20px;margin-bottom:24px;}
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .field{display:flex;flex-direction:column;gap:6px;}
+    .field label{font-size:13px;font-weight:500;color:var(--fg1);letter-spacing:-.005em;}
+    .field label .req{color:var(--accent);}
+    .field input,.field select,.field textarea{padding:11px 14px;border-radius:10px;border:1.5px solid var(--border-strong);font-family:var(--sans);font-size:15px;color:var(--fg1);background:#fff;outline:none;transition:border-color .15s;letter-spacing:-.005em;width:100%;}
+    .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(26,115,232,.1);}
+    .field input::placeholder,.field textarea::placeholder{color:var(--fg3);}
+    .field textarea{resize:vertical;min-height:100px;line-height:22px;}
+    .field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none' stroke='%236b6f72' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='1 1 5 5 9 1'/></svg>");background-repeat:no-repeat;background-position:right 14px center;background-size:10px;padding-right:36px;}
+
+    /* Radio options */
+    .radio-group{display:flex;flex-direction:column;gap:8px;}
+    .radio-opt{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:10px;border:1.5px solid var(--border-strong);cursor:pointer;transition:all .15s;}
+    .radio-opt:hover{border-color:var(--fg1);}
+    .radio-opt.selected{border-color:var(--accent);background:rgba(26,115,232,.03);}
+    .radio-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--border-strong);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+    .radio-opt.selected .radio-dot{border-color:var(--accent);background:var(--accent);}
+    .radio-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;opacity:0;transition:opacity .15s;}
+    .radio-opt.selected .radio-dot::after{opacity:1;}
+    .radio-text{flex:1;}
+    .radio-label{font-size:14px;font-weight:500;color:var(--fg1);letter-spacing:-.005em;}
+    .radio-desc{font-size:12.5px;color:var(--fg3);margin-top:2px;line-height:18px;}
+
+    /* Buttons */
+    .form-actions{display:flex;align-items:center;gap:12px;margin-top:8px;}
+    .btn-submit{display:inline-flex;align-items:center;gap:8px;background:var(--fg1);color:#fff;padding:14px 28px;border-radius:9999px;font-size:15px;font-weight:500;letter-spacing:-.005em;transition:opacity .15s;cursor:pointer;}
+    .btn-submit:hover{opacity:.86;}
+    .btn-submit svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+    .btn-back{font-size:14px;color:var(--fg3);cursor:pointer;transition:color .15s;}
+    .btn-back:hover{color:var(--fg1);}
+    .form-note{font-size:12px;color:var(--fg3);margin-top:12px;letter-spacing:-.005em;display:flex;align-items:flex-start;gap:6px;}
+    .form-note svg{width:13px;height:13px;stroke:var(--fg3);fill:none;stroke-width:1.75;flex-shrink:0;margin-top:1px;}
+
+    /* Success state */
+    .success-state{display:none;flex-direction:column;align-items:center;text-align:center;padding:48px 32px;gap:16px;}
+    .success-state.visible{display:flex;}
+    .success-ico{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#e6f4ea,#ceead6);display:flex;align-items:center;justify-content:center;}
+    .success-ico svg{width:28px;height:28px;stroke:#137333;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+    .success-h{font-family:var(--display);font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--fg1);}
+    .success-sub{font-size:15px;color:var(--fg2);max-width:36ch;line-height:23px;letter-spacing:-.005em;}
+
+    /* ── SIDEBAR ──────────────────────────────── */
+    .contact-sidebar{position:sticky;top:92px;display:flex;flex-direction:column;gap:16px;}
+    .sidebar-block{background:var(--canvas);border:1px solid var(--border);border-radius:18px;padding:24px;}
+    .sb-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--fg3);margin-bottom:16px;}
+    .team-preview{display:flex;flex-direction:column;gap:14px;}
+    .tp-person{display:flex;align-items:center;gap:12px;}
+    .tp-ava{width:40px;height:40px;border-radius:50%;flex-shrink:0;}
+    .tp-name{font-size:14px;font-weight:600;color:var(--fg1);letter-spacing:-.01em;}
+    .tp-role{font-size:12px;color:var(--fg3);margin-top:1px;}
+    .tp-resp{font-size:12px;color:var(--fg3);margin-top:4px;display:flex;align-items:center;gap:5px;}
+    .tp-resp::before{content:'';width:6px;height:6px;border-radius:50%;background:#00dd6a;flex-shrink:0;}
+    .sidebar-block.dark{background:var(--dark-surface);border-color:var(--dark-divider);}
+    .sb-title.light{color:var(--dark-fg3);}
+    .calendly-placeholder{background:var(--dark-card);border:1px solid var(--dark-divider);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px;}
+    .cal-month{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--dark-fg3);text-align:center;margin-bottom:4px;}
+    .cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+    .cal-day{text-align:center;font-size:11px;color:var(--dark-fg3);padding:2px;}
+    .cal-cell{text-align:center;font-size:12px;padding:5px;border-radius:7px;cursor:pointer;transition:background .15s;}
+    .cal-cell.available{color:var(--dark-fg1);background:rgba(255,255,255,.06);}
+    .cal-cell.available:hover{background:rgba(61,126,255,.2);color:#82baff;}
+    .cal-cell.selected{background:var(--accent);color:#fff;}
+    .cal-cell.empty{color:transparent;}
+    .cal-btn{display:block;text-align:center;padding:10px;background:linear-gradient(90deg,#1a73e8,#3d7eff);color:#fff;border-radius:9999px;font-size:13px;font-weight:500;margin-top:4px;cursor:pointer;transition:opacity .15s;}
+    .cal-btn:hover{opacity:.88;}
+    .contact-info{display:flex;flex-direction:column;gap:12px;}
+    .ci-item{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--fg2);}
+    .ci-ico{width:32px;height:32px;border-radius:9px;background:var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .ci-ico svg{width:15px;height:15px;stroke:var(--fg2);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;}
+    .ci-val{font-weight:500;color:var(--fg1);}
+    .ci-sub{font-size:11.5px;color:var(--fg3);}
+    .trust-row{display:flex;flex-direction:column;gap:8px;}
+    .trust-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--fg2);}
+    .trust-item svg{width:14px;height:14px;stroke:#137333;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+
+    /* FOOTER */
+    .footer{background:#F8F9FA;border-top:1px solid var(--border);padding:80px 0 48px;}
+    .foot-cols{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:64px;}
+    .foot-brand .logo-row{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+    .foot-brand p{font-size:15px;color:var(--fg2);max-width:36ch;line-height:24px;}
+    .foot-h{font-size:14px;font-weight:600;color:var(--fg1);margin-bottom:20px;}
+    .foot-list{list-style:none;display:flex;flex-direction:column;gap:14px;}
+    .foot-list a{font-size:14px;color:var(--fg2);cursor:pointer;}
+    .foot-list a:hover{color:var(--fg1);}
+    .foot-bottom{display:flex;align-items:center;gap:24px;margin-top:64px;padding-top:28px;border-top:1px solid var(--border);}
+    .foot-bottom .copy{font-size:13px;color:var(--fg2);}
+    .foot-bottom .right{margin-left:auto;display:flex;gap:24px;font-size:13px;color:var(--fg2);}
+    .locale{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--border-strong);border-radius:9999px;background:#fff;cursor:pointer;font-size:12px;}
+    /* ── HERO CANVAS + ENTRANCE ANIMATIONS ── */
+    .hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.75;}
+    @keyframes hero-up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+    @keyframes pop-in{from{opacity:0;transform:scale(.88) translateY(8px)}to{opacity:1;transform:none}}
+    .hero .page-eyebrow{animation:hero-up .6s .12s var(--eqt) both;}
+    .hero .hero-h1{animation:hero-up .7s .28s var(--eqt) both;}
+    .hero .hero-sub{animation:hero-up .7s .44s var(--eqt) both;}
+    .path-cards{animation:pop-in .8s .60s cubic-bezier(.785,.135,.15,.86) both;}
+    /* ── LIGHT HERO ── */
+    .hero{background:var(--canvas)!important;border-bottom:1px solid var(--border);}
+    .hero::before{background:radial-gradient(ellipse 50% 60% at 80% 35%,rgba(61,126,255,.06) 0%,transparent 55%),radial-gradient(ellipse 35% 45% at 5% 75%,rgba(0,221,106,.04) 0%,transparent 55%)!important;}
+    .hero::after{background-image:radial-gradient(circle,rgba(26,28,28,.05) 1px,transparent 1px)!important;background-size:30px 30px!important;}
+    .hero .page-eyebrow{color:var(--fg2)!important;}
+    .hero-h1{color:var(--fg1)!important;}
+    .hero-sub{color:var(--fg2)!important;}
+    .path-card.secondary{background:rgba(26,28,28,.04)!important;border:1px solid rgba(26,28,28,.1)!important;}
+    .path-card.secondary:hover{background:rgba(26,28,28,.07)!important;}
+    .path-card.secondary .path-card-title{color:var(--fg1)!important;}
+    .path-card.secondary .path-card-desc{color:var(--fg2)!important;}
+    .path-card.secondary .path-card-cta{color:var(--fg1)!important;}
+    .path-card.secondary .path-card-arrow{background:rgba(26,28,28,.1)!important;}
+    .path-card.secondary .path-card-arrow svg{stroke:var(--fg1)!important;}
+    .hero-canvas{opacity:.4!important;}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Veloxcore Home.html"><span class="mark"></span><span class="logo">Veloxcore</span></a>
+    <div class="nav-links">
+      <div class="nav-item has-dropdown">
+        <a class="nav-link" href="Veloxcore Services.html">Services <span class="chev"></span></a>
+        <div class="nav-dropdown">
+          <div class="nd-section">
+            <span class="nd-label">AI Services</span>
+            <a class="nd-link" href="Veloxcore Service - Generative AI.html"><span class="nd-name">Generative AI &amp; LLMs</span><span class="nd-desc">LLM apps, copilots, evaluation harnesses</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Agents.html"><span class="nd-name">AI Agents &amp; Automation</span><span class="nd-desc">Multi-step agents, tool-calling, human-in-loop</span></a>
+            <a class="nd-link" href="Veloxcore Service - RAG.html"><span class="nd-name">RAG &amp; Knowledge Systems</span><span class="nd-desc">Retrieval pipelines with citations &amp; hybrid search</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Strategy.html"><span class="nd-name">AI Strategy &amp; Discovery</span><span class="nd-desc">2-week sprint to your AI roadmap</span></a>
+          </div>
+          <div class="nd-section">
+            <span class="nd-label">Platform &amp; Data</span>
+            <a class="nd-link" href="Veloxcore Service - Azure AI.html"><span class="nd-name">Azure AI &amp; Cloud</span><span class="nd-desc">Azure OpenAI, AI Foundry, migrations</span></a>
+            <a class="nd-link" href="Veloxcore Service - Data Engineering.html"><span class="nd-name">Data Engineering</span><span class="nd-desc">Pipelines, lakehouses, real-time analytics</span></a>
+            <a class="nd-link" href="Veloxcore Service - Machine Learning.html"><span class="nd-name">Machine Learning</span><span class="nd-desc">Custom models, MLOps, evaluation</span></a>
+            <a class="nd-link" href="Veloxcore Service - IoT.html"><span class="nd-name">IoT &amp; Edge Intelligence</span><span class="nd-desc">Device fleets, edge ML, Azure IoT Hub</span></a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-link" href="Veloxhire.AI.html">Products</a>
+      <a class="nav-link" href="Veloxcore Work.html">Work</a>
+      <div class="nav-item has-dropdown">
+        <a class="nav-link" href="Veloxcore About.html">Company <span class="chev"></span></a>
+        <div class="nav-dropdown nd-small">
+          <div class="nd-section">
+            <a class="nd-link" href="Veloxcore About.html"><span class="nd-name">About</span><span class="nd-desc">Story, team &amp; values</span></a>
+            <a class="nd-link" href="Veloxcore Blog.html"><span class="nd-name">Blog</span><span class="nd-desc">Insights on AI, Azure &amp; data</span></a>
+            <a class="nd-link" href="Veloxcore Contact.html"><span class="nd-name">Contact</span><span class="nd-desc">Get in touch with our team</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="nav-cta" href="Veloxcore Contact.html">Book a call<span class="nav-cta-ico"><svg viewBox="0 0 8 8"><polyline points="1 4 4 7 7 4"></polyline><line x1="4" y1="1" x2="4" y2="7"></line></svg></span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" data-screen-label="01 Hero">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="page-eyebrow">Get in touch</div>
+      <h1 class="hero-h1">Let's talk about<br>your data problem.</h1>
+      <p class="hero-sub">Pick your path. Book a quick call with one of our engineers — or send us the details and we'll come back with a project estimate within 48 hours.</p>
+      <div class="path-cards">
+        <div class="path-card primary" onclick="document.getElementById('tab-call').click();document.getElementById('contact-form').scrollIntoView({behavior:'smooth'})">
+          <div class="path-card-badge">Fastest</div>
+          <div class="path-card-ico" style="background:rgba(255,255,255,.15);color:#fff"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.27 10a19.79 19.79 0 01-3.07-8.67A2 2 0 013.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg></div>
+          <div class="path-card-title">Book a free call</div>
+          <div class="path-card-desc">45 minutes with a senior engineer. No sales pitch — just an honest look at your problem. Pick a slot that works for you.</div>
+          <div class="path-card-cta">Choose a time <span class="path-card-arrow"><svg viewBox="0 0 10 10"><line x1="2" y1="8" x2="8" y2="2"/><polyline points="4 2 8 2 8 6"/></svg></span></div>
+        </div>
+        <div class="path-card secondary" onclick="document.getElementById('tab-estimate').click();document.getElementById('contact-form').scrollIntoView({behavior:'smooth'})">
+          <div class="path-card-ico" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+          <div class="path-card-title">Get a project estimate</div>
+          <div class="path-card-desc">Tell us what you're building. We'll scope the work, advise on architecture, and send you a written estimate — no obligation.</div>
+          <div class="path-card-cta">Fill in the brief <span class="path-card-arrow"><svg viewBox="0 0 10 10"><line x1="2" y1="8" x2="8" y2="2"/><polyline points="4 2 8 2 8 6"/></svg></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT BODY -->
+<div class="contact-body" id="contact-form" data-screen-label="02 Contact Form">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <!-- FORM AREA -->
+      <div class="form-wrap reveal">
+        <div class="form-tabs">
+          <div class="form-tab active" id="tab-call" onclick="switchTab('call')">Book a call</div>
+          <div class="form-tab" id="tab-estimate" onclick="switchTab('estimate')">Get an estimate</div>
+          <div class="form-tab" id="tab-general" onclick="switchTab('general')">General enquiry</div>
+        </div>
+
+        <!-- ── BOOK A CALL ─── -->
+        <div id="form-call">
+          <div class="form-title">Book a free 45-min call</div>
+          <div class="form-sub">Tell us a little about your project and pick a slot. A senior engineer — not a sales rep — will join the call.</div>
+          <div class="field-group">
+            <div class="field-row">
+              <div class="field"><label>First name <span class="req">*</span></label><input type="text" placeholder="Pradeep"></div>
+              <div class="field"><label>Last name <span class="req">*</span></label><input type="text" placeholder="Nair"></div>
+            </div>
+            <div class="field"><label>Work email <span class="req">*</span></label><input type="email" placeholder="pradeep@company.com"></div>
+            <div class="field"><label>Company</label><input type="text" placeholder="Acme Corp"></div>
+            <div class="field">
+              <label>What's the main topic? <span class="req">*</span></label>
+              <select>
+                <option value="" disabled selected>Select a topic</option>
+                <option>Data Engineering & Pipelines</option>
+                <option>Azure Architecture & Migration</option>
+                <option>Machine Learning & AI</option>
+                <option>IoT & Edge</option>
+                <option>.NET Development</option>
+                <option>Veloxhire.AI</option>
+                <option>Something else</option>
+              </select>
+            </div>
+            <div class="field"><label>Anything we should know before the call?</label><textarea placeholder="Brief context — what you're building, what's broken, what you've tried…"></textarea></div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-submit" onclick="showSuccess('call')">Book call <svg viewBox="0 0 14 14"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5 2 12 2 12 9"/></svg></button>
+          </div>
+          <div class="form-note"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>We respond within one business day to confirm your slot. All information stays confidential.</div>
+        </div>
+
+        <!-- ── GET AN ESTIMATE ─── -->
+        <div id="form-estimate" style="display:none">
+          <div class="steps-row">
+            <div class="step-dot active" id="sdot-1">1</div>
+            <div class="step-line" id="sline-1"></div>
+            <div class="step-dot future" id="sdot-2">2</div>
+            <div class="step-line" id="sline-2"></div>
+            <div class="step-dot future" id="sdot-3">3</div>
+          </div>
+          <div class="step-label-row">
+            <div class="step-label active" id="slabel-1">About you</div>
+            <div class="step-label" id="slabel-2">Your project</div>
+            <div class="step-label" id="slabel-3">Details</div>
+          </div>
+
+          <!-- Step 1 -->
+          <div id="est-step-1">
+            <div class="form-title">About you</div>
+            <div class="form-sub">Let's start with the basics.</div>
+            <div class="field-group">
+              <div class="field-row">
+                <div class="field"><label>First name <span class="req">*</span></label><input type="text" placeholder="Pradeep"></div>
+                <div class="field"><label>Last name <span class="req">*</span></label><input type="text" placeholder="Nair"></div>
+              </div>
+              <div class="field"><label>Work email <span class="req">*</span></label><input type="email" placeholder="pradeep@company.com"></div>
+              <div class="field-row">
+                <div class="field"><label>Company</label><input type="text" placeholder="Acme Corp"></div>
+                <div class="field">
+                  <label>Company size</label>
+                  <select>
+                    <option value="" disabled selected>Select size</option>
+                    <option>1–10 employees</option>
+                    <option>11–50 employees</option>
+                    <option>51–200 employees</option>
+                    <option>201–1,000 employees</option>
+                    <option>1,000+ employees</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn-submit" onclick="goStep(2)">Continue <svg viewBox="0 0 14 14"><polyline points="3 7 7 11 11 7"/><line x1="7" y1="3" x2="7" y2="11"/></svg></button>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div id="est-step-2" style="display:none">
+            <div class="form-title">Your project</div>
+            <div class="form-sub">Tell us what you're trying to build or solve.</div>
+            <div class="field-group">
+              <div class="field">
+                <label>What type of engagement are you looking for? <span class="req">*</span></label>
+                <div class="radio-group" id="engagement-radio">
+                  <div class="radio-opt selected" onclick="selectRadio(this,'engagement-radio')"><div class="radio-dot"></div><div class="radio-text"><div class="radio-label">Project build</div><div class="radio-desc">A scoped piece of work with defined outputs and timeline</div></div></div>
+                  <div class="radio-opt" onclick="selectRadio(this,'engagement-radio')"><div class="radio-dot"></div><div class="radio-text"><div class="radio-label">Embedded team / staff augmentation</div><div class="radio-desc">Veloxcore engineers join your team for an extended period</div></div></div>
+                  <div class="radio-opt" onclick="selectRadio(this,'engagement-radio')"><div class="radio-dot"></div><div class="radio-text"><div class="radio-label">AI discovery sprint</div><div class="radio-desc">2-week sprint to define your AI roadmap and architecture</div></div></div>
+                  <div class="radio-opt" onclick="selectRadio(this,'engagement-radio')"><div class="radio-dot"></div><div class="radio-text"><div class="radio-label">Not sure yet</div><div class="radio-desc">Let's talk first and figure it out together</div></div></div>
+                </div>
+              </div>
+              <div class="field">
+                <label>Service area <span class="req">*</span></label>
+                <select>
+                  <option value="" disabled selected>Select service</option>
+                  <option>Data Engineering & Pipelines</option>
+                  <option>Azure Architecture & Migration</option>
+                  <option>Machine Learning & AI</option>
+                  <option>IoT & Edge Intelligence</option>
+                  <option>.NET & Application Development</option>
+                  <option>Data Visualisation</option>
+                  <option>Multiple / not sure</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn-submit" onclick="goStep(3)">Continue <svg viewBox="0 0 14 14"><polyline points="3 7 7 11 11 7"/><line x1="7" y1="3" x2="7" y2="11"/></svg></button>
+              <span class="btn-back" onclick="goStep(1)">← Back</span>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div id="est-step-3" style="display:none">
+            <div class="form-title">Project details</div>
+            <div class="form-sub">The more context you give us, the more useful our estimate will be.</div>
+            <div class="field-group">
+              <div class="field"><label>Describe the project or problem <span class="req">*</span></label><textarea style="min-height:120px" placeholder="What are you trying to build? What's currently broken? What does success look like?"></textarea></div>
+              <div class="field-row">
+                <div class="field">
+                  <label>Timeline</label>
+                  <select>
+                    <option value="" disabled selected>When do you need this?</option>
+                    <option>ASAP (within 4 weeks)</option>
+                    <option>1–3 months</option>
+                    <option>3–6 months</option>
+                    <option>6+ months / ongoing</option>
+                    <option>Exploring for now</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Budget range</label>
+                  <select>
+                    <option value="" disabled selected>Approximate budget</option>
+                    <option>Under £20k</option>
+                    <option>£20k – £50k</option>
+                    <option>£50k – £150k</option>
+                    <option>£150k – £500k</option>
+                    <option>£500k+</option>
+                    <option>Prefer not to say</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label>How did you find us?</label>
+                <select>
+                  <option value="" disabled selected>Select source</option>
+                  <option>Google search</option>
+                  <option>LinkedIn</option>
+                  <option>Referral from a colleague</option>
+                  <option>Microsoft partner marketplace</option>
+                  <option>Veloxhire.AI</option>
+                  <option>Blog / article</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn-submit" onclick="showSuccess('estimate')">Send estimate request <svg viewBox="0 0 14 14"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5 2 12 2 12 9"/></svg></button>
+              <span class="btn-back" onclick="goStep(2)">← Back</span>
+            </div>
+            <div class="form-note"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>We'll send a written estimate within 48 business hours. No obligation, no spam.</div>
+          </div>
+
+          <!-- Success -->
+          <div id="est-success" class="success-state">
+            <div class="success-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="success-h">Request received!</div>
+            <div class="success-sub">We'll have a written estimate in your inbox within 48 business hours. Check your spam just in case.</div>
+          </div>
+        </div>
+
+        <!-- ── GENERAL ENQUIRY ─── -->
+        <div id="form-general" style="display:none">
+          <div class="form-title">General enquiry</div>
+          <div class="form-sub">For anything that doesn't fit the other categories — press, partnerships, billing, or just a hello.</div>
+          <div class="field-group">
+            <div class="field-row">
+              <div class="field"><label>Name <span class="req">*</span></label><input type="text" placeholder="Your name"></div>
+              <div class="field"><label>Email <span class="req">*</span></label><input type="email" placeholder="you@email.com"></div>
+            </div>
+            <div class="field">
+              <label>Subject <span class="req">*</span></label>
+              <select>
+                <option value="" disabled selected>What's this about?</option>
+                <option>Press / media enquiry</option>
+                <option>Partnership</option>
+                <option>Billing or account</option>
+                <option>Career (not a listed role)</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field"><label>Message <span class="req">*</span></label><textarea placeholder="Your message…" style="min-height:120px"></textarea></div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-submit" onclick="showSuccess('general')">Send message <svg viewBox="0 0 14 14"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5 2 12 2 12 9"/></svg></button>
+          </div>
+        </div>
+
+        <!-- Call success -->
+        <div id="call-success" class="success-state">
+          <div class="success-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="success-h">You're booked!</div>
+          <div class="success-sub">Check your inbox for a calendar invite. A senior Veloxcore engineer will be on the call — not a sales rep.</div>
+        </div>
+
+        <!-- General success -->
+        <div id="general-success" class="success-state">
+          <div class="success-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="success-h">Message sent!</div>
+          <div class="success-sub">We'll get back to you within one business day. Thanks for reaching out.</div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside class="contact-sidebar reveal" style="transition-delay:.1s">
+
+        <!-- Who you'll talk to -->
+        <div class="sidebar-block">
+          <div class="sb-title">Who you'll talk to</div>
+          <div class="team-preview">
+            <div class="tp-person">
+              <div class="tp-ava" style="background:linear-gradient(135deg,#1a73e8,#00d4e8)"></div>
+              <div>
+                <div class="tp-name">Karan Shah</div>
+                <div class="tp-role">Co-Founder & CEO</div>
+                <div class="tp-resp">Responds within 4 hrs</div>
+              </div>
+            </div>
+            <div class="tp-person">
+              <div class="tp-ava" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"></div>
+              <div>
+                <div class="tp-name">Priya Mehta</div>
+                <div class="tp-role">Co-Founder & CTO</div>
+                <div class="tp-resp">For technical questions</div>
+              </div>
+            </div>
+            <div class="tp-person">
+              <div class="tp-ava" style="background:linear-gradient(135deg,#137333,#00dd6a)"></div>
+              <div>
+                <div class="tp-name">Rahul Mehta</div>
+                <div class="tp-role">Lead Data Architect</div>
+                <div class="tp-resp">For data engineering</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mini calendar -->
+        <div class="sidebar-block dark">
+          <div class="sb-title light">Available slots · June 2026</div>
+          <div class="calendly-placeholder">
+            <div class="cal-month">June 2026</div>
+            <div class="cal-days">
+              <div class="cal-day">M</div><div class="cal-day">T</div><div class="cal-day">W</div><div class="cal-day">T</div><div class="cal-day">F</div><div class="cal-day">S</div><div class="cal-day">S</div>
+            </div>
+            <div class="cal-days">
+              <div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell available">4</div><div class="cal-cell available">5</div><div class="cal-cell available">6</div><div class="cal-cell empty">7</div><div class="cal-cell empty">8</div>
+            </div>
+            <div class="cal-days">
+              <div class="cal-cell available">9</div><div class="cal-cell available">10</div><div class="cal-cell selected">11</div><div class="cal-cell available">12</div><div class="cal-cell available">13</div><div class="cal-cell empty">14</div><div class="cal-cell empty">15</div>
+            </div>
+            <div class="cal-days">
+              <div class="cal-cell available">16</div><div class="cal-cell available">17</div><div class="cal-cell available">18</div><div class="cal-cell available">19</div><div class="cal-cell available">20</div><div class="cal-cell empty">21</div><div class="cal-cell empty">22</div>
+            </div>
+            <a class="cal-btn">Pick your slot →</a>
+          </div>
+        </div>
+
+        <!-- Direct contact -->
+        <div class="sidebar-block">
+          <div class="sb-title">Direct contact</div>
+          <div class="contact-info">
+            <div class="ci-item">
+              <div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="ci-val">hello@veloxcore.com</div><div class="ci-sub">General enquiries</div></div>
+            </div>
+            <div class="ci-item">
+              <div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.27 10a19.79 19.79 0 01-3.07-8.67A2 2 0 013.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg></div>
+              <div><div class="ci-val">+91 79 4890 XXXX</div><div class="ci-sub">Ahmedabad HQ</div></div>
+            </div>
+            <div class="ci-item">
+              <div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <div><div class="ci-val">Ahmedabad · London · Dubai</div><div class="ci-sub">Office locations</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust signals -->
+        <div class="sidebar-block">
+          <div class="sb-title">Why teams trust us</div>
+          <div class="trust-row">
+            <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Senior engineers on every call — no juniors or sales</div>
+            <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>48-hour written estimate, no obligation</div>
+            <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Microsoft Gold Partner · certified Azure engineers</div>
+            <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>NDA available before any project discussion</div>
+            <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>40+ enterprise clients across 6 countries</div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer" data-screen-label="03 Footer">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-brand"><div class="logo-row"><span class="mark"></span><span class="logo">Veloxcore</span></div><p>Microsoft Gold Partner for Cloud Platform and Application Integration. Headquartered in Ahmedabad, India · 6 countries served.</p></div>
+      <div><div class="foot-h">Services</div><ul class="foot-list"><li><a href="Veloxcore Services.html">All services</a></li><li><a>Data Analytics</a></li><li><a>Azure AI</a></li><li><a>Machine Learning</a></li></ul></div>
+      <div><div class="foot-h">Company</div><ul class="foot-list"><li><a href="Veloxcore About.html">About</a></li><li><a>Careers</a></li><li><a href="Veloxcore Blog.html">Blog</a></li><li><a>Contact</a></li></ul></div>
+      <div><div class="foot-h">Work</div><ul class="foot-list"><li><a href="Veloxcore Work.html">Case studies</a></li><li><a href="Veloxhire.AI.html">Veloxhire.AI</a></li></ul></div>
+      <div><div class="foot-h">Legal</div><ul class="foot-list"><li><a>Privacy Policy</a></li><li><a>Terms of Service</a></li><li><a>Cookie Policy</a></li><li><a>AI Use Policy</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span class="copy">© 2026 Veloxcore Private Limited · Ahmedabad, Gujarat, India</span><div class="right"><a>Privacy</a><a>Terms</a><a>Cookies</a><span class="locale">English ▾</span></div></div>
+  </div>
+</footer>
+
+<div id="tweaks-root"></div>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#1a73e8"
+}/*EDITMODE-END*/;
+function ContactTweaks() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  React.useEffect(() => { document.documentElement.style.setProperty('--accent', tweaks.accent); }, [tweaks.accent]);
+  return (
+    <TweaksPanel>
+      <TweakSection label="Accent colour">
+        <TweakColor value={tweaks.accent} options={['#1a73e8','#7c3aed','#00a67e']} onChange={v => setTweak('accent', v)} />
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+const root = document.getElementById('tweaks-root');
+if(root) ReactDOM.createRoot(root).render(<ContactTweaks />);
+</script>
+
+<script>
+/* Tab switching */
+function switchTab(tab) {
+  ['call','estimate','general'].forEach(t => {
+    document.getElementById('form-' + t).style.display = t === tab ? '' : 'none';
+    document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+    const s = document.getElementById(t + '-success');
+    if(s) s.classList.remove('visible');
+    const es = document.getElementById('est-success');
+    if(es) es.classList.remove('visible');
+  });
+  // reset estimate steps
+  if(tab === 'estimate') { goStep(1); }
+}
+
+/* Multi-step estimate */
+function goStep(n) {
+  [1,2,3].forEach(i => {
+    const s = document.getElementById('est-step-' + i);
+    if(s) s.style.display = i === n ? '' : 'none';
+    const dot = document.getElementById('sdot-' + i);
+    if(dot) { dot.className = 'step-dot ' + (i < n ? 'done' : i === n ? 'active' : 'future'); }
+    const label = document.getElementById('slabel-' + i);
+    if(label) { label.className = 'step-label' + (i === n ? ' active' : ''); }
+    if(i < 3) {
+      const line = document.getElementById('sline-' + i);
+      if(line) { line.className = 'step-line' + (i < n ? ' done' : ''); }
+    }
+  });
+}
+
+/* Radio select */
+function selectRadio(el, groupId) {
+  document.querySelectorAll('#' + groupId + ' .radio-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+/* Success states */
+function showSuccess(type) {
+  if(type === 'call') {
+    document.getElementById('form-call').style.display = 'none';
+    document.getElementById('call-success').classList.add('visible');
+  } else if(type === 'estimate') {
+    document.getElementById('est-step-3').style.display = 'none';
+    document.getElementById('est-success').classList.add('visible');
+  } else if(type === 'general') {
+    document.getElementById('form-general').style.display = 'none';
+    document.getElementById('general-success').classList.add('visible');
+  }
+}
+
+/* Reveal */
+(function(){
+  const els = Array.from(document.querySelectorAll('.reveal'));
+  function check(){
+    const vh = window.innerHeight;
+    els.forEach(el => {
+      if(el.classList.contains('visible')) return;
+      const r = el.getBoundingClientRect();
+      if(r.top < vh * .93 && r.bottom > 0) el.classList.add('visible');
+    });
+  }
+  window.addEventListener('scroll', check, {passive:true});
+  window.addEventListener('resize', check);
+  setTimeout(check, 80); setTimeout(check, 500);
+})();
+</script>
+<script>
+/* Hero particles */
+(function(){const c=document.querySelector('.hero-canvas');if(!c)return;const ctx=c.getContext('2d');const N=72,MAXD=150;const COLS=['rgba(61,126,255,','rgba(0,212,232,','rgba(0,221,106,','rgba(61,126,255,'];let W,H,pts=[],mouse={x:-9999,y:-9999};function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}function init(){pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.6+0.6,col:COLS[Math.floor(Math.random()*COLS.length)]}));}function draw(){ctx.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);if(d<MAXD){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(61,126,255,${(1-d/MAXD)*0.08})`;ctx.lineWidth=.6;ctx.stroke();}}const dm=Math.hypot(pts[i].x-mouse.x,pts[i].y-mouse.y);if(dm<MAXD*1.6){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=`rgba(61,126,255,${(1-dm/(MAXD*1.6))*0.16})`;ctx.lineWidth=.7;ctx.stroke();}ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,pts[i].r,0,Math.PI*2);ctx.fillStyle=pts[i].col+'0.55)';ctx.fill();}}function loop(){pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;});draw();requestAnimationFrame(loop);}window.addEventListener('resize',()=>{resize();init();});document.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});resize();init();loop();})();
+</script>
+</body>
+</html>

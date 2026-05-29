@@ -1,0 +1,50 @@
+---
+const { post } = Astro.props as { post: any };
+const { Content } = await post.render();
+const d = post.data;
+const fmt = (date: Date) => date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const TAG_MAP: Record<string, string> = {
+  'Big Data': 'tag-bigdata', 'Azure': 'tag-azure', 'Machine Learning': 'tag-ml',
+  'IoT': 'tag-iot', '.NET': 'tag-dotnet', 'Architecture': 'tag-arch',
+};
+const kicker = `${d.tag} · ${d.date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`;
+---
+<article class="bp-tp-article">
+  <div class="bp-tp-kicker">
+    <div class="bp-tp-kicker-line"></div>
+    <div class="bp-tp-kicker-text">{kicker}</div>
+    <div class="bp-tp-kicker-line"></div>
+  </div>
+
+  <h1 class="bp-tp-h1">{d.title}</h1>
+
+  <div class="bp-tp-lede-grid">
+    <div class="bp-tp-meta-col">
+      <div class="bp-tp-meta-item">
+        <div class="bp-tp-meta-label">Author</div>
+        <div class="bp-tp-meta-value"><div class="bp-tp-avatar"></div>{d.author}</div>
+      </div>
+      <div class="bp-tp-meta-item">
+        <div class="bp-tp-meta-label">Published</div>
+        <div class="bp-tp-meta-value">{fmt(d.date)}</div>
+      </div>
+      {d.readTime && (
+        <div class="bp-tp-meta-item">
+          <div class="bp-tp-meta-label">Reading time</div>
+          <div class="bp-tp-meta-value">{d.readTime}</div>
+        </div>
+      )}
+      <div class="bp-tp-meta-item">
+        <div class="bp-tp-meta-label">Topics</div>
+        <div class="bp-tp-meta-value" style="flex-wrap:wrap;gap:6px;margin-top:2px">
+          {(d.topics ?? [d.tag]).map((t: string) => (
+            <span class={`tag ${TAG_MAP[t] ?? 'tag-azure'}`}>{t}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+    {d.lede && <div class="bp-tp-lede">{d.lede}</div>}
+  </div>
+
+  <div class="art-body bp-tp-body"><Content /></div>
+</article>

@@ -1,0 +1,72 @@
+---
+const { post } = Astro.props as { post: any };
+const { Content } = await post.render();
+const d = post.data;
+const fmt = (date: Date) => date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const TAG_MAP: Record<string, string> = {
+  'Big Data': 'tag-bigdata', 'Azure': 'tag-azure', 'Machine Learning': 'tag-ml',
+  'IoT': 'tag-iot', '.NET': 'tag-dotnet', 'Architecture': 'tag-arch',
+};
+const tagCls = TAG_MAP[d.tag] ?? 'tag-azure';
+const coverCls = d.coverClass ?? 'cov-azure';
+---
+<div class="bp-sb-wrap">
+  <div class="bp-sb-grid">
+    <aside class="bp-sb-side">
+      <div class={`bp-sb-cover ${coverCls}`}
+        style={d.coverImage ? `background-image:url(${d.coverImage});background-size:cover;background-position:center` : undefined}></div>
+
+      {d.toc && d.toc.length > 0 && (
+        <div class="bp-sb-toc">
+          <div class="bp-sb-toc-label">Contents</div>
+          {d.toc.map((t: any, i: number) => (
+            <a class={`bp-sb-toc-item${i === 0 ? ' active' : ''}`} href={`#${t.id}`}>{t.label}</a>
+          ))}
+        </div>
+      )}
+
+      <div class="bp-sb-author-card">
+        <div class="bp-avatar" style="width:36px;height:36px"></div>
+        <div class="bp-sb-author-name">{d.author}</div>
+        {d.authorRole && <div class="bp-sb-author-role">{d.authorRole}</div>}
+        {d.authorBio && <div class="bp-sb-author-bio">{d.authorBio}</div>}
+      </div>
+
+      {d.topics && d.topics.length > 0 && (
+        <div class="bp-sb-topics">
+          <div class="bp-sb-topics-label">Topics</div>
+          <div class="bp-sb-topic-row">
+            {d.topics.map((t: string) => (
+              <span class={`tag ${TAG_MAP[t] ?? 'tag-azure'}`}>{t}</span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div class="bp-sb-prog-wrap">
+        <div class="bp-sb-prog-label">Reading progress</div>
+        <div class="bp-sb-prog-bar"><div class="bp-sb-prog-fill" id="bp-sb-prog" style="width:0%"></div></div>
+      </div>
+    </aside>
+
+    <main class="bp-sb-main">
+      <span class={`tag ${tagCls}`}>{d.tag}</span>
+      <h1 class="bp-sb-h1">{d.title}</h1>
+      <div class="bp-sb-meta">
+        <div style="display:flex;align-items:center;gap:8px"><div class="bp-avatar"></div><span>{d.author}</span></div>
+        <span>·</span><span>{fmt(d.date)}</span>
+        {d.readTime && <><span>·</span><span>{d.readTime} read</span></>}
+      </div>
+      <div class="art-body"><Content /></div>
+    </main>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+    const bar = document.getElementById('bp-sb-prog');
+    if (bar) bar.style.width = Math.min(pct, 100) + '%';
+  }, { passive: true });
+</script>

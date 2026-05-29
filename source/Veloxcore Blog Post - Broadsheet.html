@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cortana Analytics Suite — Veloxcore Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg:#ffffff; --canvas:#F8F9FA; --fg1:#1a1c1c; --fg2:#5f6368; --fg3:#6b6f72;
+      --border:#eef0f1; --border-strong:#e6e8ea; --accent:#7c3aed;
+      --tag-bg:#f3e8ff; --tag-fg:#7c3aed;
+      --dark-surface:#1E2127; --dark-divider:#353941; --dark-fg1:#f7f8fa; --dark-fg2:#bcc1c7; --dark-fg3:#9ea3aa;
+      --display:'Geist',system-ui,sans-serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+      --eq:cubic-bezier(.25,.46,.45,.94); --eqt:cubic-bezier(.165,.84,.44,1);
+      --w:1320px; --m:48px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--sans);color:var(--fg1);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;cursor:pointer;}
+    img,svg{display:block;}
+    button{cursor:pointer;font-family:inherit;border:none;}
+    .wrap{max-width:var(--w);margin:0 auto;padding:0 var(--m);}
+
+    /* NAV */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:50;height:68px;display:flex;align-items:center;padding:0 var(--m);background:rgba(255,255,255,.84);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);border-bottom:1px solid var(--border);}
+    .nav-inner{max-width:var(--w);margin:0 auto;width:100%;display:flex;align-items:center;}
+    .brand{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-right:36px;}
+    .mark{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#3d7eff 0%,#00d4e8 35%,#00dd6a 75%,#8ce800 100%);display:flex;align-items:center;justify-content:center;}
+    .mark::after{content:'';width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:7.5px solid #fff;transform:translateY(-0.5px);}
+    .logo{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.025em;color:var(--fg1);}
+    .nav-links{display:flex;align-items:center;gap:4px;}
+    .nav-link{display:inline-flex;align-items:center;gap:5px;font-size:14.5px;color:var(--fg1);padding:8px 14px;border-radius:9999px;letter-spacing:-.005em;transition:background .15s;cursor:pointer;}
+    .nav-link:hover{background:#f4f6f8;}
+    .nav-link.active{background:#f1f3f4;font-weight:500;}
+    .nav-link .chev{display:inline-block;width:10px;height:6px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none' stroke='%231a1c1c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='1 1 5 5 9 1'/></svg>") center/contain no-repeat;opacity:.65;}
+    .nav-cta{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:var(--fg1);color:#fff;font-size:13.5px;font-weight:500;padding:9px 18px 9px 20px;border-radius:9999px;letter-spacing:-.005em;transition:opacity .15s;cursor:pointer;}
+    .nav-cta:hover{opacity:.86;}
+    .nav-cta-ico{width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;background:#2f3135;border-radius:50%;}
+    .nav-cta-ico svg{width:8px;height:8px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+    /* LAYOUT NAV */
+    .layout-nav{background:#fff;border-bottom:1px solid var(--border);margin-top:68px;}
+    .layout-nav .inner{max-width:var(--w);margin:0 auto;padding:0 var(--m);display:flex;align-items:center;gap:20px;height:44px;}
+    .back-link{font-size:13px;color:var(--fg2);display:flex;align-items:center;gap:5px;flex-shrink:0;transition:color .15s;}
+    .back-link:hover{color:var(--fg1);}
+    .layout-sep{width:1px;height:16px;background:var(--border-strong);flex-shrink:0;}
+    .ls-label{font-size:12px;color:var(--fg3);flex-shrink:0;letter-spacing:-.005em;}
+    .ls-opts{display:flex;align-items:center;gap:3px;}
+    .ls-opt{font-size:13px;padding:5px 11px;border-radius:7px;color:var(--fg2);transition:background .15s,color .15s;cursor:pointer;letter-spacing:-.005em;}
+    .ls-opt:hover{background:var(--canvas);color:var(--fg1);}
+    .ls-opt.active{background:var(--fg1);color:#fff;font-weight:500;}
+
+    /* COVER THEMES */
+    .cov-aurora{background:radial-gradient(circle at 25% 65%,#3d7eff 0%,#00d4e8 28%,#00dd6a 58%,#8ce800 100%);}
+
+    /* TAGS */
+    .tag{display:inline-flex;align-items:center;padding:5px 12px;border-radius:9999px;font-size:12px;font-weight:500;letter-spacing:-.005em;}
+    .tag-bigdata{background:#e6f4ea;color:#137333;}
+
+    /* ART BODY */
+    .art-body p{font-size:17.5px;line-height:31px;color:var(--fg2);margin-bottom:24px;text-wrap:pretty;letter-spacing:-.01em;}
+    .art-body h2{font-family:var(--display);font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--fg1);margin:44px 0 16px;}
+    .art-body blockquote{border-left:3px solid var(--accent);margin:36px 0;padding:12px 24px;font-family:var(--display);font-size:22px;line-height:32px;color:var(--fg1);font-weight:600;letter-spacing:-.025em;}
+    .art-body p strong{color:var(--fg1);font-weight:600;}
+    .avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#3d7eff);flex-shrink:0;}
+
+    /* BROADSHEET */
+    .cover{height:460px;overflow:hidden;position:relative;}
+    .content{max-width:720px;margin:0 auto;padding:52px 24px 88px;}
+    .art-h1{font-family:var(--display);font-size:50px;font-weight:800;letter-spacing:-.05em;line-height:56px;color:var(--fg1);margin:18px 0 22px;text-wrap:pretty;}
+    .art-meta{display:flex;align-items:center;gap:14px;font-size:14px;color:var(--fg2);margin-bottom:36px;padding-bottom:32px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+    .share-row{display:flex;align-items:center;gap:8px;margin-left:auto;}
+    .share-btn{width:32px;height:32px;border-radius:50%;background:var(--canvas);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s;}
+    .share-btn:hover{background:var(--border-strong);}
+    .share-btn svg{width:14px;height:14px;stroke:var(--fg2);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;}
+    .author-foot{display:flex;align-items:center;gap:16px;margin-top:52px;padding-top:32px;border-top:1px solid var(--border);}
+    .author-big{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#3d7eff);flex-shrink:0;}
+    .author-name{font-size:16px;font-weight:600;color:var(--fg1);letter-spacing:-.015em;}
+    .author-role{font-size:13px;color:var(--fg3);margin-top:3px;}
+    .author-bio{font-size:14px;line-height:22px;color:var(--fg2);margin-top:8px;max-width:44ch;}
+
+    /* FOOTER */
+    .footer{background:#F8F9FA;border-top:1px solid var(--border);padding:80px 0 48px;}
+    .foot-cols{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:64px;}
+    .foot-brand .logo-row{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+    .foot-brand p{font-size:15px;color:var(--fg2);max-width:36ch;line-height:24px;letter-spacing:-.005em;}
+    .foot-h{font-size:14px;font-weight:600;color:var(--fg1);margin-bottom:20px;}
+    .foot-list{list-style:none;display:flex;flex-direction:column;gap:14px;}
+    .foot-list a{font-size:14px;color:var(--fg2);cursor:pointer;}
+    .foot-list a:hover{color:var(--fg1);}
+    .foot-bottom{display:flex;align-items:center;gap:24px;margin-top:64px;padding-top:28px;border-top:1px solid var(--border);}
+    .foot-bottom .copy{font-size:13px;color:var(--fg2);}
+    .foot-bottom .right{margin-left:auto;display:flex;gap:24px;font-size:13px;color:var(--fg2);}
+    .locale{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--border-strong);border-radius:9999px;background:#fff;cursor:pointer;font-size:12px;}
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Veloxcore Home.html"><span class="mark"></span><span class="logo">Veloxcore</span></a>
+    <div class="nav-links">
+      <a class="nav-link">Product <span class="chev"></span></a>
+      <a class="nav-link">Use Cases <span class="chev"></span></a>
+      <a class="nav-link">Pricing</a>
+      <a class="nav-link active">Blog</a>
+      <a class="nav-link">Resources <span class="chev"></span></a>
+    </div>
+    <a class="nav-cta">Download<span class="nav-cta-ico"><svg viewBox="0 0 8 8"><polyline points="1 4 4 7 7 4"></polyline><line x1="4" y1="1" x2="4" y2="7"></line></svg></span></a>
+  </div>
+</nav>
+
+<div class="layout-nav">
+  <div class="inner">
+    <a class="back-link" href="Veloxcore Blog.html">← Blog</a>
+    <div class="layout-sep"></div>
+    <span class="ls-label">Layout:</span>
+    <div class="ls-opts">
+      <a class="ls-opt active" href="Veloxcore Blog Post - Broadsheet.html">Broadsheet</a>
+      <a class="ls-opt" href="Veloxcore Blog Post - Sidebar.html">Sidebar</a>
+      <a class="ls-opt" href="Veloxcore Blog Post - Cinematic.html">Cinematic</a>
+      <a class="ls-opt" href="Veloxcore Blog Post - Typographic.html">Typographic</a>
+    </div>
+  </div>
+</div>
+
+<article>
+  <div class="cover cov-aurora"></div>
+  <div class="content">
+    <span class="tag tag-bigdata">Big Data</span>
+    <h1 class="art-h1">Cortana Analytics Suite: an end-to-end big data solution for the modern enterprise</h1>
+    <div class="art-meta">
+      <div style="display:flex;align-items:center;gap:8px"><div class="avatar"></div><strong style="font-size:14px;color:var(--fg1);font-weight:600">Rahul Mehta</strong></div>
+      <span>·</span><span>May 19, 2026</span><span>·</span><span>9 min read</span>
+      <div class="share-row">
+        <button class="share-btn"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+        <button class="share-btn"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+    </div>
+    <div class="art-body">
+      <p>Enterprise data has always been the promise. For decades, organisations have collected transactional records, sensor readings, and user events in proportions that far outpace any single team's ability to analyse them. The Cortana Analytics Suite — Microsoft's integrated big data and advanced analytics platform — was designed to close that gap.</p>
+      <h2>What is the Cortana Analytics Suite?</h2>
+      <p>At its core, the Suite is a composition of well-known Azure services bundled under a unified operational model. Azure Event Hubs ingests streaming data at millions of events per second. Azure Data Factory orchestrates movement and transformation. Azure HDInsight runs managed Hadoop, Spark, and HBase clusters. And Azure ML Studio gives data scientists an interactive canvas for building, training, and publishing predictive models — without managing a single server.</p>
+      <h2>The three layers that matter</h2>
+      <p><strong>Ingestion.</strong> Azure Event Hubs provides a Kafka-compatible endpoint, so existing producer code requires no changes. Stream Analytics can filter, aggregate, and route events within milliseconds. <strong>Transformation.</strong> HDInsight handles the heavy lifting — managed clusters provisioned in under ten minutes, scaled to hundreds of nodes, torn down when the batch window closes. <strong>Intelligence.</strong> Azure ML Studio wraps the statistical work in a drag-and-drop canvas, with models published as REST APIs in two clicks.</p>
+      <blockquote>The Suite doesn't ask you to choose between speed and depth. Real-time and batch coexist in the same pipeline, sharing the same governance and security model.</blockquote>
+      <h2>A real deployment</h2>
+      <p>For one of our retail clients, we implemented a pipeline that processes 140 million daily transactions across six countries. A Stream Analytics job runs a five-minute tumbling window to compute regional demand signals. By morning, Power BI dashboards reflect a model that has seen yesterday's data — at a fraction of the cost of a self-managed cluster.</p>
+      <p>The operational SLA is 99.97% uptime across all regions — with no on-call rotation required from the client's internal team. That is the promise of the Cortana Analytics Suite, realised.</p>
+    </div>
+    <div class="author-foot">
+      <div class="author-big"></div>
+      <div>
+        <div class="author-name">Rahul Mehta</div>
+        <div class="author-role">Lead Data Architect · Veloxcore</div>
+        <div class="author-bio">Rahul designs end-to-end data pipelines for enterprise clients across retail, logistics, and financial services. He has 12 years of experience with the Azure data platform.</div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-brand"><div class="logo-row"><span class="mark"></span><span class="logo">Veloxcore</span></div><p>Microsoft Gold Partner for Cloud Platform and Application Integration. Headquartered in Ahmedabad, India · 6 countries served.</p></div>
+      <div><div class="foot-h">Services</div><ul class="foot-list"><li><a>Data Analytics</a></li><li><a>Visualisation</a></li><li><a>Architecture</a></li><li><a>Machine Learning</a></li></ul></div>
+      <div><div class="foot-h">Azure</div><ul class="foot-list"><li><a>HDInsight</a></li><li><a>ML Studio</a></li><li><a>IoT Hub</a></li><li><a>Stream Analytics</a></li></ul></div>
+      <div><div class="foot-h">Company</div><ul class="foot-list"><li><a>About</a></li><li><a>Careers</a></li><li><a href="Veloxcore Blog.html">Blog</a></li><li><a>Contact</a></li></ul></div>
+      <div><div class="foot-h">Resources</div><ul class="foot-list"><li><a>Documentation</a></li><li><a>Case studies</a></li><li><a>Press</a></li><li><a>Privacy</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span class="copy">© 2026 Veloxcore Private Limited · Ahmedabad, Gujarat, India</span><div class="right"><a>Privacy</a><a>Terms</a><a>Cookies</a><span class="locale">English ▾</span></div></div>
+  </div>
+</footer>
+
+<div id="tweaks-root"></div>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{"accent":"#7c3aed","fontSize":17}/*EDITMODE-END*/;
+function PostTweaks() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  React.useEffect(() => { document.documentElement.style.setProperty('--accent', tweaks.accent); }, [tweaks.accent]);
+  React.useEffect(() => {
+    document.querySelectorAll('.art-body p').forEach(el => { el.style.fontSize = tweaks.fontSize + 'px'; el.style.lineHeight = (tweaks.fontSize * 1.77) + 'px'; });
+  }, [tweaks.fontSize]);
+  return (
+    <TweaksPanel>
+      <TweakSection label="Accent colour"><TweakColor value={tweaks.accent} options={['#7c3aed','#1a73e8','#00a67e']} onChange={v => setTweak('accent', v)} /></TweakSection>
+      <TweakSection label="Body text size"><TweakSlider value={tweaks.fontSize} min={15} max={21} step={1} onChange={v => setTweak('fontSize', v)} /></TweakSection>
+    </TweaksPanel>
+  );
+}
+const root = document.getElementById('tweaks-root');
+if(root) ReactDOM.createRoot(root).render(<PostTweaks />);
+</script>
+</body>
+</html>

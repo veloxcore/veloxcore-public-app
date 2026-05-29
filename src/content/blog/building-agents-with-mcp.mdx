@@ -1,0 +1,35 @@
+---
+title: "Building agents with MCP: notes from Dot Net Day Ahmedabad"
+tag: ".NET"
+date: 2025-07-19
+coverTheme: "cover-a"
+excerpt: "Why Model Context Protocol is the boundary that makes AI agents shippable inside enterprise .NET stacks."
+author: "Vinit B Yadav"
+authorRole: "Founder & CEO · Veloxcore"
+authorBio: "Vinit founded Veloxcore in 2012 and Veloxhire.AI in 2024. He writes and speaks on production AI on the Microsoft stack."
+readTime: "8 min"
+template: "broadsheet"
+coverClass: "cov-aurora"
+---
+
+On July 19th, 2025, I had the chance to share what we've learned about agentic AI with 200+ engineers at the 9th Dot Net Day in Ahmedabad. The talk title — *Building Agents with MCP* — was the surface. The real argument underneath: **the agent isn't the interesting part. The boundary is.**
+
+## Why MCP, and why now
+
+LLMs got useful in 2023. Tool-calling got reliable in 2024. So by mid-2025, every team I talked to had an "agent" — a model loop wired to a handful of tools, calling APIs in production. And every team had the same complaint: the wiring was ad-hoc, brittle, untestable, and impossible to evolve.
+
+Model Context Protocol fixes the wiring. It's a contract between the model loop and the tools it calls, with a transport, a schema, and a clear authorisation surface. That's it. No magic.
+
+> The thing teams keep missing about MCP is that it's not an agent framework. It's the part you need *before* the agent framework — the layer that lets the agent stay simple.
+
+## Three patterns we've shipped
+
+**Internal-data agent.** An MCP server that wraps a customer's Snowflake warehouse, with row-level auth flowing through from the user's session. The agent stays a 200-line loop; all the complexity lives in the server.
+
+**Coding agent.** Tools for grep, read, edit, and run, all delivered via MCP. The same agent runs locally for developers and in CI as a reviewer — because the *server* changes, not the agent.
+
+**Hiring agent.** Inside Veloxhire.AI, our MCP server exposes the candidate-ranking, scheduling, and follow-up tools. The agent recipes change weekly; the server changes monthly. That cadence difference is the value.
+
+## What I told the room to take home
+
+If you build agents this year, start with the boundary. Pick MCP. Write the smallest possible server first. The agent comes later — and it'll be smaller than you think.

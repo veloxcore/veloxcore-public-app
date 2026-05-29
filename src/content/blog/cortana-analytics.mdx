@@ -6,6 +6,32 @@ coverTheme: "cover-a"
 coverImage: "/assets/blog/cortana-analytics.png"
 excerpt: "How the Cortana Analytics Suite connects data ingestion to insight."
 author: "Rahul Mehta"
+authorRole: "Lead Data Architect · Veloxcore"
+authorBio: "Rahul designs end-to-end data pipelines for enterprise clients across retail, logistics, and financial services."
 readTime: "9 min"
+template: "cinematic"
+draft: true
+stats:
+  - num: "99.97%"
+    label: "Uptime · 12-month rolling"
+  - num: "140M"
+    label: "Daily transactions processed"
+  - num: "38%"
+    label: "Reduction in cloud spend"
 ---
-Body content placeholder for the standalone post (detail page is out of scope this session).
+
+Enterprise data has always been the promise. For decades, organisations have collected transactional records, sensor readings, and user events in proportions that far outpace any single team's ability to analyse them. The Cortana Analytics Suite — Microsoft's integrated big data and advanced analytics platform — was designed to close that gap.
+
+## What is the Cortana Analytics Suite?
+
+At its core, the Suite is a composition of well-known Azure services bundled under a unified operational model. Azure Event Hubs ingests streaming data at millions of events per second. Azure Data Factory orchestrates movement and transformation. Azure HDInsight runs managed Hadoop, Spark, and HBase clusters. And Azure ML Studio gives data scientists an interactive canvas for building, training, and publishing predictive models — without managing a single server.
+
+## The three layers that matter
+
+**Ingestion.** Azure Event Hubs provides a Kafka-compatible endpoint, so existing producer code requires no changes. **Transformation.** HDInsight handles the heavy lifting — managed clusters provisioned in under ten minutes, scaled to hundreds of nodes, torn down when the batch window closes. **Intelligence.** Azure ML Studio wraps the statistical work in a drag-and-drop canvas, with models published as REST APIs in two clicks.
+
+> The Suite doesn't ask you to choose between speed and depth. Real-time and batch coexist in the same pipeline, sharing the same governance and security model.
+
+## A real deployment
+
+For one of our retail clients, we implemented a pipeline that processes 140 million daily transactions across six countries. By morning, Power BI dashboards reflect a model that has seen yesterday's data — at a fraction of the cost of a self-managed cluster.

@@ -10,7 +10,16 @@ const blog = defineCollection({
     coverImage: z.string().optional(),
     excerpt: z.string().optional(),
     author: z.string().default('Veloxcore Team'),
+    authorRole: z.string().optional(),
+    authorBio: z.string().optional(),
     readTime: z.string().optional(),
+    template: z.enum(['default', 'broadsheet', 'cinematic', 'sidebar', 'typographic']).default('default'),
+    lede: z.string().optional(),
+    coverClass: z.string().optional(),
+    topics: z.array(z.string()).optional(),
+    toc: z.array(z.object({ id: z.string(), label: z.string() })).optional(),
+    stats: z.array(z.object({ num: z.string(), label: z.string() })).optional(),
+    draft: z.boolean().default(false),
   }),
 });
 

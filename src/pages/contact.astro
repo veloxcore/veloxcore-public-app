@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Contact — Veloxcore">
+<BaseLayout title="Contact — Veloxcore" description="Book a free 45-minute call with a Veloxcore AI engineer, or send us your project brief and get a written estimate within 48 hours.">
 
   <!-- HERO -->
   <section class="hero contact-hero">
@@ -9,7 +9,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="wrap">
       <div class="hero-inner">
         <div class="page-eyebrow">Get in touch</div>
-        <h1 class="hero-h1">Let's talk about<br>your data problem.</h1>
+        <h1 class="hero-h1">Let's talk about<br>your AI project.</h1>
         <p class="hero-sub">Pick your path. Book a quick call with one of our engineers — or send us the details and we'll come back with a project estimate within 48 hours.</p>
         <div class="path-cards">
           <div class="path-card primary" id="card-call">
@@ -51,36 +51,41 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div id="form-call">
             <div class="form-title">Book a free 45-min call</div>
             <div class="form-sub">Tell us a little about your project and pick a slot. A senior engineer — not a sales rep — will join the call.</div>
+            <form id="form-call-form" novalidate>
             <div class="field-group">
               <div class="field-row">
-                <div class="field"><label>First name <span class="req">*</span></label><input type="text" placeholder="Pradeep"></div>
-                <div class="field"><label>Last name <span class="req">*</span></label><input type="text" placeholder="Nair"></div>
+                <div class="field"><label for="call-first">First name <span class="req">*</span></label><input id="call-first" name="first_name" type="text" placeholder="Pradeep" autocomplete="given-name"></div>
+                <div class="field"><label for="call-last">Last name <span class="req">*</span></label><input id="call-last" name="last_name" type="text" placeholder="Nair" autocomplete="family-name"></div>
               </div>
-              <div class="field"><label>Work email <span class="req">*</span></label><input type="email" placeholder="pradeep@company.com"></div>
-              <div class="field"><label>Company</label><input type="text" placeholder="Acme Corp"></div>
+              <div class="field"><label for="call-email">Work email <span class="req">*</span></label><input id="call-email" name="email" type="email" placeholder="pradeep@company.com" autocomplete="email"></div>
+              <div class="field"><label for="call-company">Company</label><input id="call-company" name="company" type="text" placeholder="Acme Corp" autocomplete="organization"></div>
               <div class="field">
-                <label>What's the main topic? <span class="req">*</span></label>
-                <select>
+                <label for="call-topic">What's the main topic? <span class="req">*</span></label>
+                <select id="call-topic" name="topic">
                   <option value="" disabled selected>Select a topic</option>
-                  <option>Data Engineering &amp; Pipelines</option>
-                  <option>Azure Architecture &amp; Migration</option>
-                  <option>Machine Learning &amp; AI</option>
-                  <option>IoT &amp; Edge</option>
-                  <option>.NET Development</option>
-                  <option>Veloxhire.AI</option>
-                  <option>Something else</option>
+                  <option value="generative-ai">Generative AI &amp; LLMs</option>
+                  <option value="ai-agents">AI Agents &amp; MCP</option>
+                  <option value="rag">RAG Systems</option>
+                  <option value="data-engineering">Data Engineering &amp; Pipelines</option>
+                  <option value="azure">Azure Architecture &amp; Migration</option>
+                  <option value="ml">Machine Learning</option>
+                  <option value="iot">IoT &amp; Edge</option>
+                  <option value="veloxhire">Veloxhire.AI</option>
+                  <option value="other">Something else</option>
                 </select>
               </div>
-              <div class="field"><label>Anything we should know before the call?</label><textarea placeholder="Brief context — what you're building, what's broken, what you've tried…"></textarea></div>
+              <div class="field"><label for="call-notes">Anything we should know before the call?</label><textarea id="call-notes" name="notes" placeholder="Brief context — what you're building, what's broken, what you've tried…"></textarea></div>
             </div>
             <div class="form-actions">
-              <button class="btn-submit" id="btn-book-call">Book call <svg viewBox="0 0 14 14"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5 2 12 2 12 9"/></svg></button>
+              <button type="button" class="btn-submit" id="btn-book-call">Book call <svg viewBox="0 0 14 14"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5 2 12 2 12 9"/></svg></button>
             </div>
             <div class="form-note"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>We respond within one business day to confirm your slot. All information stays confidential.</div>
+            </form>
           </div>
 
           <!-- GET AN ESTIMATE -->
           <div id="form-estimate" style="display:none">
+            <form id="form-estimate-form" novalidate>
             <div class="steps-row">
               <div class="step-dot active" id="sdot-1">1</div>
               <div class="step-line" id="sline-1"></div>
@@ -100,27 +105,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <div class="form-sub">Let's start with the basics.</div>
               <div class="field-group">
                 <div class="field-row">
-                  <div class="field"><label>First name <span class="req">*</span></label><input type="text" placeholder="Pradeep"></div>
-                  <div class="field"><label>Last name <span class="req">*</span></label><input type="text" placeholder="Nair"></div>
+                  <div class="field"><label for="est-first">First name <span class="req">*</span></label><input id="est-first" name="first_name" type="text" placeholder="Pradeep" autocomplete="given-name"></div>
+                  <div class="field"><label for="est-last">Last name <span class="req">*</span></label><input id="est-last" name="last_name" type="text" placeholder="Nair" autocomplete="family-name"></div>
                 </div>
-                <div class="field"><label>Work email <span class="req">*</span></label><input type="email" placeholder="pradeep@company.com"></div>
+                <div class="field"><label for="est-email">Work email <span class="req">*</span></label><input id="est-email" name="email" type="email" placeholder="pradeep@company.com" autocomplete="email"></div>
                 <div class="field-row">
-                  <div class="field"><label>Company</label><input type="text" placeholder="Acme Corp"></div>
+                  <div class="field"><label for="est-company">Company</label><input id="est-company" name="company" type="text" placeholder="Acme Corp" autocomplete="organization"></div>
                   <div class="field">
-                    <label>Company size</label>
-                    <select>
+                    <label for="est-size">Company size</label>
+                    <select id="est-size" name="company_size">
                       <option value="" disabled selected>Select size</option>
-                      <option>1–10 employees</option>
-                      <option>11–50 employees</option>
-                      <option>51–200 employees</option>
-                      <option>201–1,000 employees</option>
-                      <option>1,000+ employees</option>
+                      <option value="1-10">1–10 employees</option>
+                      <option value="11-50">11–50 employees</option>
+                      <option value="51-200">51–200 employees</option>
+                      <option value="201-1000">201–1,000 employees</option>
+                      <option value="1000+">1,000+ employees</option>
                     </select>
                   </div>
                 </div>
               </div>
               <div class="form-actions">
-                <button class="btn-submit" id="btn-est-step1">Continue <svg viewBox="0 0 14 14"><polyline points="3 7 7 11 11 7"/><line x1="7" y1="3" x2="7" y2="11"/></svg></button>
+                <button type="button" class="btn-submit" id="btn-est-step1">Continue <svg viewBox="0 0 14 14"><polyline points="3 7 7 11 11 7"/><line x1="7" y1="3" x2="7" y2="11"/></svg></button>
               </div>
             </div>
 
@@ -139,22 +144,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                   </div>
                 </div>
                 <div class="field">
-                  <label>Service area <span class="req">*</span></label>
-                  <select>
+                  <label for="est-service">Service area <span class="req">*</span></label>
+                  <select id="est-service" name="service_area">
                     <option value="" disabled selected>Select service</option>
-                    <option>Data Engineering &amp; Pipelines</option>
-                    <option>Azure Architecture &amp; Migration</option>
-                    <option>Machine Learning &amp; AI</option>
-                    <option>IoT &amp; Edge Intelligence</option>
-                    <option>.NET &amp; Application Development</option>
-                    <option>Data Visualisation</option>
-                    <option>Multiple / not sure</option>
+                    <option value="generative-ai">Generative AI &amp; LLMs</option>
+                    <option value="ai-agents">AI Agents &amp; MCP</option>
+                    <option value="rag">RAG Systems</option>
+                    <option value="data-engineering">Data Engineering &amp; Pipelines</option>
+                    <option value="azure">Azure Architecture &amp; Migration</option>
+                    <option value="ml">Machine Learning</option>
+                    <option value="iot">IoT &amp; Edge Intelligence</option>
+                    <option value="dotnet">.NET &amp; Application Development</option>
+                    <option value="multiple">Multiple / not sure</option>
                   </select>
                 </div>
               </div>
               <div class="form-actions">
-                <button class="btn-submit" id="btn-est-step2">Continue <svg viewBox="0 0 14 14"><polyline points="3 7 7 11 11 7"/><line x1="7" y1="3" x2="7" y2="11"/></svg></button>
-                <button class="btn-back" id="btn-est-back1">← Back</button>
+                <button type="button" class="btn-submit" id="btn-est-step2">Continue <svg viewBox="0 0 14 14"><polyline points="3 7 7 11 11 7"/><line x1="7" y1="3" x2="7" y2="11"/></svg></button>
+                <button type="button" class="btn-back" id="btn-est-back1">← Back</button>
               </div>
             </div>
 
@@ -163,54 +170,55 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <div class="form-title">Project details</div>
               <div class="form-sub">The more context you give us, the more useful our estimate will be.</div>
               <div class="field-group">
-                <div class="field"><label>Describe the project or problem <span class="req">*</span></label><textarea style="min-height:120px" placeholder="What are you trying to build? What's currently broken? What does success look like?"></textarea></div>
+                <div class="field"><label for="est-desc">Describe the project or problem <span class="req">*</span></label><textarea id="est-desc" name="description" style="min-height:120px" placeholder="What are you trying to build? What's currently broken? What does success look like?"></textarea></div>
                 <div class="field-row">
                   <div class="field">
-                    <label>Timeline</label>
-                    <select>
+                    <label for="est-timeline">Timeline</label>
+                    <select id="est-timeline" name="timeline">
                       <option value="" disabled selected>When do you need this?</option>
-                      <option>ASAP (within 4 weeks)</option>
-                      <option>1–3 months</option>
-                      <option>3–6 months</option>
-                      <option>6+ months / ongoing</option>
-                      <option>Exploring for now</option>
+                      <option value="asap">ASAP (within 4 weeks)</option>
+                      <option value="1-3m">1–3 months</option>
+                      <option value="3-6m">3–6 months</option>
+                      <option value="6m+">6+ months / ongoing</option>
+                      <option value="exploring">Exploring for now</option>
                     </select>
                   </div>
                   <div class="field">
-                    <label>Budget range</label>
-                    <select>
+                    <label for="est-budget">Budget range</label>
+                    <select id="est-budget" name="budget">
                       <option value="" disabled selected>Approximate budget</option>
-                      <option>Under £20k</option>
-                      <option>£20k – £50k</option>
-                      <option>£50k – £150k</option>
-                      <option>£150k – £500k</option>
-                      <option>£500k+</option>
-                      <option>Prefer not to say</option>
+                      <option value="under-20k">Under £20k</option>
+                      <option value="20-50k">£20k – £50k</option>
+                      <option value="50-150k">£50k – £150k</option>
+                      <option value="150-500k">£150k – £500k</option>
+                      <option value="500k+">£500k+</option>
+                      <option value="undisclosed">Prefer not to say</option>
                     </select>
                   </div>
                 </div>
                 <div class="field">
-                  <label>How did you find us?</label>
-                  <select>
+                  <label for="est-source">How did you find us?</label>
+                  <select id="est-source" name="source">
                     <option value="" disabled selected>Select source</option>
-                    <option>Google search</option>
-                    <option>LinkedIn</option>
-                    <option>Referral from a colleague</option>
-                    <option>Microsoft partner marketplace</option>
-                    <option>Veloxhire.AI</option>
-                    <option>Blog / article</option>
-                    <option>Other</option>
+                    <option value="google">Google search</option>
+                    <option value="linkedin">LinkedIn</option>
+                    <option value="referral">Referral from a colleague</option>
+                    <option value="microsoft">Microsoft partner marketplace</option>
+                    <option value="veloxhire">Veloxhire.AI</option>
+                    <option value="blog">Blog / article</option>
+                    <option value="other">Other</option>
                   </select>
                 </div>
               </div>
               <div class="form-actions">
-                <button class="btn-submit" id="btn-est-submit">Send estimate request <svg viewBox="0 0 14 14"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5 2 12 2 12 9"/></svg></button>
-                <button class="btn-back" id="btn-est-back2">← Back</button>
+                <button type="button" class="btn-submit" id="btn-est-submit">Send estimate request <svg viewBox="0 0 14 14"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5 2 12 2 12 9"/></svg></button>
+                <button type="button" class="btn-back" id="btn-est-back2">← Back</button>
               </div>
               <div class="form-note"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>We'll send a written estimate within 48 business hours. No obligation, no spam.</div>
             </div>
 
             <!-- Estimate success -->
+            </form>
             <div id="est-success" class="success-state">
               <div class="success-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
               <div class="success-h">Request received!</div>
@@ -222,27 +230,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div id="form-general" style="display:none">
             <div class="form-title">General enquiry</div>
             <div class="form-sub">For anything that doesn't fit the other categories — press, partnerships, billing, or just a hello.</div>
+            <form id="form-general-form" novalidate>
             <div class="field-group">
               <div class="field-row">
-                <div class="field"><label>Name <span class="req">*</span></label><input type="text" placeholder="Your name"></div>
-                <div class="field"><label>Email <span class="req">*</span></label><input type="email" placeholder="you@email.com"></div>
+                <div class="field"><label for="gen-name">Name <span class="req">*</span></label><input id="gen-name" name="name" type="text" placeholder="Your name" autocomplete="name"></div>
+                <div class="field"><label for="gen-email">Email <span class="req">*</span></label><input id="gen-email" name="email" type="email" placeholder="you@email.com" autocomplete="email"></div>
               </div>
               <div class="field">
-                <label>Subject <span class="req">*</span></label>
-                <select>
+                <label for="gen-subject">Subject <span class="req">*</span></label>
+                <select id="gen-subject" name="subject">
                   <option value="" disabled selected>What's this about?</option>
-                  <option>Press / media enquiry</option>
-                  <option>Partnership</option>
-                  <option>Billing or account</option>
-                  <option>Career (not a listed role)</option>
-                  <option>Other</option>
+                  <option value="press">Press / media enquiry</option>
+                  <option value="partnership">Partnership</option>
+                  <option value="billing">Billing or account</option>
+                  <option value="career">Career (not a listed role)</option>
+                  <option value="other">Other</option>
                 </select>
               </div>
-              <div class="field"><label>Message <span class="req">*</span></label><textarea style="min-height:120px" placeholder="Your message…"></textarea></div>
+              <div class="field"><label for="gen-message">Message <span class="req">*</span></label><textarea id="gen-message" name="message" style="min-height:120px" placeholder="Your message…"></textarea></div>
             </div>
             <div class="form-actions">
-              <button class="btn-submit" id="btn-general-submit">Send message <svg viewBox="0 0 14 14"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5 2 12 2 12 9"/></svg></button>
+              <button type="button" class="btn-submit" id="btn-general-submit">Send message <svg viewBox="0 0 14 14"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5 2 12 2 12 9"/></svg></button>
             </div>
+            </form>
           </div>
 
           <!-- Call success -->
@@ -340,9 +350,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <div class="trust-row">
               <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Senior engineers on every call — no juniors or sales</div>
               <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>48-hour written estimate, no obligation</div>
-              <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Microsoft Gold Partner · certified Azure engineers</div>
+              <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Microsoft Solutions Partner · certified Azure engineers</div>
               <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>NDA available before any project discussion</div>
-              <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>40+ enterprise clients across 6 countries</div>
+              <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Enterprise clients including the United Nations</div>
             </div>
           </div>
 

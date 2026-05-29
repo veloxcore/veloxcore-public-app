@@ -14,9 +14,9 @@ const rest = all.filter((c) => !c.data.featured).slice(0, 3);
       <p class="sec-sub">Real clients. Production systems. Measurable outcomes.</p>
     </div>
 
-    <a class="wp-featured reveal" href="#">
+    <a class="wp-featured reveal" href={`/work/${featured.slug}`}>
       <div class={`wp-feat-cover ${featured.data.coverTheme}`} style={featured.data.coverImage ? `background-image:url(${featured.data.coverImage});background-size:cover;background-position:center` : undefined}>
-        <div style="position:absolute;bottom:0;left:0;right:0;padding:36px;background:linear-gradient(to top,rgba(55,48,163,.88),transparent)">
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:36px;background:linear-gradient(to top,rgba(0,0,0,.72),transparent)">
           <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.55);margin-bottom:6px">Our own product · in production</div>
           <div style="font-family:var(--display);font-size:30px;font-weight:800;letter-spacing:-.045em;color:#fff">{featured.data.client}</div>
         </div>
@@ -36,7 +36,7 @@ const rest = all.filter((c) => !c.data.featured).slice(0, 3);
 
     <div class="wp-grid">
       {rest.map((c, i) => (
-        <a class="wp-card reveal" style={`transition-delay:${i * 0.07}s`} href="#">
+        <a class="wp-card reveal" style={`transition-delay:${i * 0.07}s`} href={`/work/${c.slug}`}>
           <div class={`wp-card-cover ${c.data.coverTheme}`} style={c.data.coverImage ? `background-image:url(${c.data.coverImage});background-size:cover;background-position:center` : undefined}>
             <div style="position:absolute;bottom:20px;left:24px;font-family:var(--display);font-size:15px;font-weight:700;letter-spacing:-.025em;color:rgba(255,255,255,.9)">{c.data.client}</div>
           </div>
@@ -52,6 +52,6 @@ const rest = all.filter((c) => !c.data.featured).slice(0, 3);
       ))}
     </div>
 
-    <div class="wp-cta"><ButtonPill variant="soft" href="#" arrow>View all work</ButtonPill></div>
+    <div class="wp-cta"><ButtonPill variant="soft" href="/work" arrow>View all work</ButtonPill></div>
   </div>
 </section>

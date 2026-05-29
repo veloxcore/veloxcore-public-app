@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Machine Learning & AI — Veloxcore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="veloxcore.css">
+  <style>
+    :root {
+      --bg:#fff; --canvas:#F8F9FA; --fg1:#1a1c1c; --fg2:#5f6368; --fg3:#6b6f72;
+      --border:#eef0f1; --border-strong:#e6e8ea;
+      --accent:#7c3aed; --accent-light:#f3e8ff;
+      --dark-surface:#1E2127; --dark-card:#262A31; --dark-divider:#353941;
+      --dark-fg1:#f7f8fa; --dark-fg2:#bcc1c7; --dark-fg3:#9ea3aa;
+      --display:'Geist',system-ui,sans-serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+      --eq:cubic-bezier(.25,.46,.45,.94); --eqt:cubic-bezier(.165,.84,.44,1);
+      --w:1320px; --m:48px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--sans);color:var(--fg1);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;cursor:pointer;}
+    img,svg{display:block;}
+    button{cursor:pointer;font-family:inherit;border:none;background:none;}
+    .wrap{max-width:var(--w);margin:0 auto;padding:0 var(--m);}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .65s var(--eqt),transform .65s var(--eqt);}
+    .reveal.visible{opacity:1;transform:none;}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:50;height:68px;display:flex;align-items:center;padding:0 var(--m);background:rgba(255,255,255,.84);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+    .nav-inner{max-width:var(--w);margin:0 auto;width:100%;display:flex;align-items:center;}
+    .brand{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-right:36px;}
+    .mark{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#3d7eff 0%,#00d4e8 35%,#00dd6a 75%,#8ce800 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .mark::after{content:'';width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:7.5px solid #fff;transform:translateY(-0.5px);}
+    .logo{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.025em;color:var(--fg1);}
+    .nav-links{display:flex;align-items:center;gap:4px;}
+    .nav-link{display:inline-flex;align-items:center;gap:5px;font-size:14.5px;color:var(--fg1);padding:8px 14px;border-radius:9999px;letter-spacing:-.005em;transition:background .15s;cursor:pointer;}
+    .nav-link:hover{background:#f4f6f8;}
+    .nav-link .chev{display:inline-block;width:10px;height:6px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none' stroke='%231a1c1c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='1 1 5 5 9 1'/></svg>") center/contain no-repeat;opacity:.65;}
+    .nav-cta{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:var(--fg1);color:#fff;font-size:13.5px;font-weight:500;padding:9px 18px 9px 20px;border-radius:9999px;letter-spacing:-.005em;transition:opacity .15s;}
+    .nav-cta:hover{opacity:.86;}
+    .nav-cta-ico{width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;background:#2f3135;border-radius:50%;}
+    .nav-cta-ico svg{width:8px;height:8px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+    /* HERO */
+    .hero{padding:148px 0 80px;background:#100a20;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 65% at 80% 30%,rgba(192,132,252,.2) 0%,transparent 55%),radial-gradient(ellipse 45% 50% at 10% 75%,rgba(124,58,237,.12) 0%,transparent 55%);pointer-events:none;}
+    .hero::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(192,132,252,.06) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;}
+    .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:center;}
+    .hero-breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.4);margin-bottom:18px;}
+    .hero-breadcrumb a{color:rgba(255,255,255,.4);transition:color .15s;}
+    .hero-breadcrumb a:hover{color:#fff;}
+    .hero-breadcrumb .sep{opacity:.4;}
+    .svc-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:rgba(192,132,252,.15);border:1px solid rgba(192,132,252,.25);border-radius:9999px;font-size:12px;font-weight:600;color:#c084fc;margin-bottom:20px;}
+    .svc-badge-dot{width:6px;height:6px;border-radius:50%;background:#a855f7;}
+    .hero-h1{font-family:var(--display);font-size:60px;font-weight:800;letter-spacing:-.05em;line-height:64px;color:#fff;margin-bottom:18px;text-wrap:pretty;}
+    .hero-sub{font-size:18px;line-height:30px;color:rgba(255,255,255,.6);margin-bottom:32px;max-width:46ch;text-wrap:pretty;letter-spacing:-.005em;}
+    .hero-acts{display:flex;gap:12px;flex-wrap:wrap;}
+    .btn-accent{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:13px 26px;border-radius:9999px;font-size:15px;font-weight:500;transition:opacity .15s;}
+    .btn-accent:hover{opacity:.88;}
+    .btn-ghost-light{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.7);padding:13px 26px;border-radius:9999px;font-size:15px;font-weight:500;transition:background .15s;}
+    .btn-ghost-light:hover{background:rgba(255,255,255,.12);color:#fff;}
+    .hero-right{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .h-kpi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:22px 20px;}
+    .h-kpi-num{font-family:var(--display);font-size:34px;font-weight:800;letter-spacing:-.04em;color:#fff;line-height:1;}
+    .h-kpi-label{font-size:12px;color:rgba(255,255,255,.4);margin-top:5px;letter-spacing:-.005em;}
+    /* SHARED */
+    .sec-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--fg3);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+    .sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+    .sec-h{font-family:var(--display);font-size:44px;font-weight:700;letter-spacing:-.04em;color:var(--fg1);margin-bottom:12px;text-wrap:pretty;}
+    .sec-sub{font-size:17px;color:var(--fg2);max-width:52ch;margin-bottom:48px;line-height:27px;letter-spacing:-.005em;}
+    /* WHO */
+    .who{padding:88px 0;border-bottom:1px solid var(--border);}
+    .persona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .persona{background:var(--canvas);border:1px solid var(--border);border-radius:20px;padding:28px;}
+    .persona-role{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:12px;}
+    .persona-title{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.025em;color:var(--fg1);margin-bottom:8px;}
+    .persona-pain{font-size:14px;line-height:22px;color:var(--fg2);margin-bottom:14px;}
+    .persona-quote{font-size:13.5px;color:var(--fg1);font-style:italic;padding:10px 14px;background:#fff;border-left:3px solid var(--accent);border-radius:0 8px 8px 0;}
+    /* DELIVER */
+    .deliver{padding:88px 0;background:var(--canvas);border-bottom:1px solid var(--border);}
+    .deliver-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+    .deliver-list{display:flex;flex-direction:column;gap:0;margin-top:8px;}
+    .deliver-item{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--border);}
+    .deliver-item:first-child{padding-top:0;}
+    .deliver-item:last-child{border-bottom:none;}
+    .d-check{width:22px;height:22px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+    .d-check svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+    .d-text strong{display:block;font-size:15px;font-weight:600;color:var(--fg1);margin-bottom:3px;letter-spacing:-.01em;}
+    .d-text span{font-size:13.5px;color:var(--fg2);line-height:20px;}
+    /* Model registry visual */
+    .model-vis{background:var(--dark-surface);border-radius:22px;padding:32px;display:flex;flex-direction:column;gap:14px;}
+    .mv-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--dark-fg3);}
+    .model-card{background:var(--dark-card);border:1px solid var(--dark-divider);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;}
+    .model-ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .model-ico svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;}
+    .model-name{font-size:13px;font-weight:600;color:var(--dark-fg1);letter-spacing:-.01em;}
+    .model-type{font-size:11px;color:var(--dark-fg3);margin-top:2px;}
+    .model-metrics{display:flex;gap:14px;margin-top:8px;}
+    .mm{display:flex;flex-direction:column;gap:2px;}
+    .mm-val{font-family:var(--display);font-size:15px;font-weight:700;letter-spacing:-.025em;color:var(--dark-fg1);}
+    .mm-label{font-size:10px;color:var(--dark-fg3);}
+    .model-prog{height:3px;background:var(--dark-divider);border-radius:2px;margin-top:8px;overflow:hidden;}
+    .model-prog-fill{height:100%;border-radius:2px;}
+    /* APPROACH */
+    .approach{padding:88px 0;border-bottom:1px solid var(--border);}
+    .approach-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px;}
+    .ap-step{background:var(--canvas);border:1px solid var(--border);border-radius:20px;padding:28px;transition:border-color .2s,box-shadow .2s;}
+    .ap-step:hover{border-color:var(--border-strong);box-shadow:0 6px 24px -10px rgba(26,28,28,.1);}
+    .ap-num{font-family:var(--display);font-size:48px;font-weight:900;letter-spacing:-.06em;color:var(--border-strong);line-height:1;margin-bottom:16px;transition:color .2s;}
+    .ap-step:hover .ap-num{color:var(--accent);}
+    .ap-title{font-family:var(--display);font-size:17px;font-weight:700;letter-spacing:-.025em;color:var(--fg1);margin-bottom:8px;}
+    .ap-desc{font-size:13.5px;color:var(--fg2);line-height:21px;}
+    .ap-dur{font-size:11.5px;color:var(--fg3);margin-top:14px;font-family:var(--mono);}
+    /* TECH */
+    .tech{padding:88px 0;background:var(--dark-surface);border-bottom:1px solid var(--dark-divider);}
+    .tech-h{font-family:var(--display);font-size:44px;font-weight:700;letter-spacing:-.04em;color:var(--dark-fg1);margin-bottom:12px;}
+    .tech-sub{font-size:17px;color:var(--dark-fg2);margin-bottom:52px;}
+    .tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+    .tech-card{background:var(--dark-card);border:1px solid var(--dark-divider);border-radius:16px;padding:22px;transition:border-color .2s;}
+    .tech-card:hover{border-color:rgba(192,132,252,.25);}
+    .tech-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+    .tech-ico svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;}
+    .tech-name{font-size:14px;font-weight:600;color:var(--dark-fg1);margin-bottom:4px;}
+    .tech-desc{font-size:12.5px;color:var(--dark-fg3);line-height:19px;}
+    /* PROOF */
+    .proof{padding:88px 0;border-bottom:1px solid var(--border);}
+    .proof-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:28px;align-items:start;}
+    .cs-tile{border:1px solid var(--border);border-radius:22px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s;}
+    .cs-tile:hover{box-shadow:0 10px 32px -14px rgba(26,28,28,.12);transform:translateY(-3px);}
+    .cs-cover{height:200px;background:#100a20;position:relative;overflow:hidden;}
+    .cs-cover::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(192,132,252,.32) 0%,transparent 42%),radial-gradient(circle at 82% 52%,rgba(61,126,255,.2) 0%,transparent 40%);}
+    .cs-body{padding:28px;}
+    .cs-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--fg3);margin-bottom:10px;}
+    .cs-title{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-.025em;color:var(--fg1);margin-bottom:14px;line-height:27px;}
+    .cs-nums{display:flex;gap:20px;}
+    .cs-n{display:flex;flex-direction:column;gap:2px;}
+    .cs-n-val{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.03em;color:var(--fg1);}
+    .cs-n-label{font-size:11.5px;color:var(--fg3);}
+    .quotes{display:flex;flex-direction:column;gap:16px;}
+    .quote-card{background:var(--canvas);border:1px solid var(--border);border-radius:18px;padding:24px;}
+    .quote-text{font-size:14.5px;line-height:24px;color:var(--fg2);margin-bottom:14px;font-style:italic;}
+    .quote-foot{display:flex;align-items:center;gap:10px;}
+    .q-ava{width:32px;height:32px;border-radius:50%;flex-shrink:0;}
+    .q-name{font-size:13.5px;font-weight:600;color:var(--fg1);}
+    .q-role{font-size:11.5px;color:var(--fg3);}
+    /* FAQ */
+    .faq{padding:88px 0;background:var(--canvas);border-bottom:1px solid var(--border);}
+    .faq-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:80px;align-items:start;}
+    .faq-list{display:flex;flex-direction:column;}
+    .faq-item{border-bottom:1px solid var(--border);}
+    .faq-q{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:18px 0;cursor:pointer;}
+    .faq-q-text{font-size:15.5px;font-weight:500;color:var(--fg1);letter-spacing:-.01em;line-height:24px;}
+    .faq-ico{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--border);transition:all .2s;margin-top:1px;}
+    .faq-ico svg{width:10px;height:10px;stroke:var(--fg2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s;}
+    .faq-item.open .faq-ico{background:var(--fg1);}
+    .faq-item.open .faq-ico svg{stroke:#fff;transform:rotate(45deg);}
+    .faq-a{font-size:14.5px;line-height:24px;color:var(--fg2);padding:0 0 18px;display:none;}
+    .faq-item.open .faq-a{display:block;}
+    /* CTA */
+    .cta-section{background:var(--dark-surface);padding:88px 0;}
+    .cta-inner{display:grid;grid-template-columns:1fr auto;gap:64px;align-items:center;}
+    .cta-h{font-family:var(--display);font-size:48px;font-weight:700;letter-spacing:-.045em;line-height:54px;color:var(--dark-fg1);text-wrap:pretty;}
+    .cta-sub{font-size:17px;color:var(--dark-fg2);margin-top:10px;}
+    .cta-acts{display:flex;gap:12px;flex-wrap:wrap;flex-shrink:0;}
+    .btn-white{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--fg1);padding:14px 28px;border-radius:9999px;font-size:15px;font-weight:500;transition:opacity .15s;}
+    .btn-white:hover{opacity:.92;}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;padding:14px 28px;border-radius:9999px;font-size:15px;font-weight:500;transition:background .15s;}
+    .btn-ghost:hover{background:rgba(255,255,255,.14);}
+    /* FOOTER */
+    .footer{background:#F8F9FA;border-top:1px solid var(--border);padding:80px 0 48px;}
+    .foot-cols{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:64px;}
+    .foot-brand .logo-row{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+    .foot-brand p{font-size:15px;color:var(--fg2);max-width:36ch;line-height:24px;}
+    .foot-h{font-size:14px;font-weight:600;color:var(--fg1);margin-bottom:20px;}
+    .foot-list{list-style:none;display:flex;flex-direction:column;gap:14px;}
+    .foot-list a{font-size:14px;color:var(--fg2);cursor:pointer;}
+    .foot-list a:hover{color:var(--fg1);}
+    .foot-bottom{display:flex;align-items:center;gap:24px;margin-top:64px;padding-top:28px;border-top:1px solid var(--border);}
+    .foot-bottom .copy{font-size:13px;color:var(--fg2);}
+    .foot-bottom .right{margin-left:auto;display:flex;gap:24px;font-size:13px;color:var(--fg2);}
+    .locale{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--border-strong);border-radius:9999px;background:#fff;cursor:pointer;font-size:12px;}
+    /* ── HERO CANVAS + ENTRANCE ANIMATIONS ── */
+    .hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.75;}
+    @keyframes hero-up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+    @keyframes pop-in{from{opacity:0;transform:scale(.88) translateY(8px)}to{opacity:1;transform:none}}
+    .hero-breadcrumb{animation:hero-up .5s .08s var(--eqt) both;}
+    .svc-badge{animation:hero-up .6s .18s var(--eqt) both;}
+    .hero-h1{font-size:72px!important;line-height:76px!important;animation:hero-up .7s .30s var(--eqt) both;}
+    .hero-sub{animation:hero-up .7s .46s var(--eqt) both;}
+    .hero-acts{animation:hero-up .6s .60s var(--eqt) both;}
+    .hero-right{animation:pop-in .8s .72s cubic-bezier(.785,.135,.15,.86) both;}
+    /* ── LIGHT HERO ── */
+    .hero{background:var(--bg)!important;border-bottom:1px solid var(--border);}
+    .hero::before{background:radial-gradient(ellipse 55% 65% at 80% 30%,rgba(192,132,252,.07) 0%,transparent 55%),radial-gradient(ellipse 45% 50% at 10% 75%,rgba(124,58,237,.05) 0%,transparent 55%)!important;}
+    .hero::after{background-image:radial-gradient(circle,rgba(26,28,28,.055) 1px,transparent 1px)!important;background-size:28px 28px!important;}
+    .hero-breadcrumb{color:var(--fg3)!important;}
+    .hero-breadcrumb a{color:var(--fg3)!important;}
+    .hero-breadcrumb a:hover{color:var(--fg1)!important;}
+    .svc-badge{background:rgba(124,58,237,.08)!important;border-color:rgba(124,58,237,.18)!important;color:#7c3aed!important;}
+    .svc-badge-dot{background:#7c3aed!important;}
+    .hero-h1{color:var(--fg1)!important;}
+    .hero-sub{color:var(--fg2)!important;}
+    .btn-ghost-light{background:#f1f3f4!important;border:none!important;color:var(--fg1)!important;}
+    .btn-ghost-light:hover{background:#e8eaed!important;}
+    .h-kpi{background:#fff!important;border:1px solid var(--border)!important;box-shadow:0 1px 4px rgba(26,28,28,.05)!important;}
+    .h-kpi-num{color:var(--fg1)!important;}
+    .h-kpi-label{color:var(--fg3)!important;}
+    .hero-canvas{opacity:.45!important;}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Veloxcore Home.html"><span class="mark"></span><span class="logo">Veloxcore</span></a>
+    <div class="nav-links">
+      <div class="nav-item has-dropdown">
+        <a class="nav-link active" href="Veloxcore Services.html">Services <span class="chev"></span></a>
+        <div class="nav-dropdown">
+          <div class="nd-section">
+            <span class="nd-label">AI Services</span>
+            <a class="nd-link" href="Veloxcore Service - Generative AI.html"><span class="nd-name">Generative AI &amp; LLMs</span><span class="nd-desc">LLM apps, copilots, evaluation harnesses</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Agents.html"><span class="nd-name">AI Agents &amp; Automation</span><span class="nd-desc">Multi-step agents, tool-calling, human-in-loop</span></a>
+            <a class="nd-link" href="Veloxcore Service - RAG.html"><span class="nd-name">RAG &amp; Knowledge Systems</span><span class="nd-desc">Retrieval pipelines with citations &amp; hybrid search</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Strategy.html"><span class="nd-name">AI Strategy &amp; Discovery</span><span class="nd-desc">2-week sprint to your AI roadmap</span></a>
+          </div>
+          <div class="nd-section">
+            <span class="nd-label">Platform &amp; Data</span>
+            <a class="nd-link" href="Veloxcore Service - Azure AI.html"><span class="nd-name">Azure AI &amp; Cloud</span><span class="nd-desc">Azure OpenAI, AI Foundry, migrations</span></a>
+            <a class="nd-link" href="Veloxcore Service - Data Engineering.html"><span class="nd-name">Data Engineering</span><span class="nd-desc">Pipelines, lakehouses, real-time analytics</span></a>
+            <a class="nd-link" href="Veloxcore Service - Machine Learning.html"><span class="nd-name">Machine Learning</span><span class="nd-desc">Custom models, MLOps, evaluation</span></a>
+            <a class="nd-link" href="Veloxcore Service - IoT.html"><span class="nd-name">IoT &amp; Edge Intelligence</span><span class="nd-desc">Device fleets, edge ML, Azure IoT Hub</span></a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-link" href="Veloxhire.AI.html">Products</a>
+      <a class="nav-link" href="Veloxcore Work.html">Work</a>
+      <div class="nav-item has-dropdown">
+        <a class="nav-link" href="Veloxcore About.html">Company <span class="chev"></span></a>
+        <div class="nav-dropdown nd-small">
+          <div class="nd-section">
+            <a class="nd-link" href="Veloxcore About.html"><span class="nd-name">About</span><span class="nd-desc">Story, team &amp; values</span></a>
+            <a class="nd-link" href="Veloxcore Blog.html"><span class="nd-name">Blog</span><span class="nd-desc">Insights on AI, Azure &amp; data</span></a>
+            <a class="nd-link" href="Veloxcore Contact.html"><span class="nd-name">Contact</span><span class="nd-desc">Get in touch with our team</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="nav-cta" href="Veloxcore Contact.html">Book a call<span class="nav-cta-ico"><svg viewBox="0 0 8 8"><polyline points="1 4 4 7 7 4"></polyline><line x1="4" y1="1" x2="4" y2="7"></line></svg></span></a>
+  </div>
+</nav>
+
+<section class="hero" data-screen-label="01 Hero">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-breadcrumb"><a href="Veloxcore Services.html">Services</a><span class="sep">›</span><span>Machine Learning & AI</span></div>
+        <div class="svc-badge"><span class="svc-badge-dot"></span>Machine Learning & AI</div>
+        <h1 class="hero-h1">ML that works in production. Not just in notebooks.</h1>
+        <p class="hero-sub">We take models from experimentation to production — with Azure ML pipelines, feature stores, evaluation harnesses, and real-time inference endpoints that scale with load. Built by engineers who run their own AI product.</p>
+        <div class="hero-acts">
+          <a class="btn-accent" href="Veloxcore Contact.html">Book a free call</a>
+          <a class="btn-ghost-light" href="Veloxhire.AI.html">See Veloxhire.AI →</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="h-kpi"><div class="h-kpi-num">94.3%</div><div class="h-kpi-label">Forecast accuracy · client model</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">22%</div><div class="h-kpi-label">Overstock reduction achieved</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">12ms</div><div class="h-kpi-label">Avg inference latency</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">100+</div><div class="h-kpi-label">Companies on Veloxhire.AI</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="who" data-screen-label="02 Who">
+  <div class="wrap">
+    <div class="sec-label">Who this is for</div>
+    <h2 class="sec-h reveal">Three ML buyers we work with.</h2>
+    <p class="sec-sub reveal">Whether you're starting from scratch or stuck between notebook and production.</p>
+    <div class="persona-grid">
+      <div class="persona reveal">
+        <div class="persona-role">Head of Data Science</div>
+        <div class="persona-title">The team with great models, no infra</div>
+        <div class="persona-pain">Your data scientists can train excellent models. But getting them into production takes months, involves ops fights, and usually ends with a Flask app on a single VM no one knows about.</div>
+        <div class="persona-quote">"We have 12 trained models. Two are in production. The rest are in notebooks."</div>
+      </div>
+      <div class="persona reveal" style="transition-delay:.07s">
+        <div class="persona-role">Product / Engineering Lead</div>
+        <div class="persona-title">The team adding AI features</div>
+        <div class="persona-pain">You want to add AI-powered features to your product — recommendations, search, document processing. You've tried OpenAI but the results are inconsistent and costs are unpredictable.</div>
+        <div class="persona-quote">"Our AI feature works 80% of the time. The other 20% is a customer support ticket."</div>
+      </div>
+      <div class="persona reveal" style="transition-delay:.14s">
+        <div class="persona-role">CTO / VP Engineering</div>
+        <div class="persona-title">The executive buying AI capability</div>
+        <div class="persona-pain">The board wants an AI strategy. You've had three ML projects fail to reach production in two years. You need a partner who's shipped real AI — not an agency that can demo GPT-4.</div>
+        <div class="persona-quote">"We've spent £300k on ML. I can't point to a single thing in production."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="deliver" data-screen-label="03 Deliver">
+  <div class="wrap">
+    <div class="deliver-grid">
+      <div>
+        <div class="sec-label">What you get</div>
+        <h2 class="sec-h reveal">Working AI in production.<br>Not a model card.</h2>
+        <p class="sec-sub reveal" style="margin-bottom:0">Every ML engagement ends with production-grade infrastructure — inference endpoints, retraining pipelines, monitoring dashboards, and feature stores that outlast the project.</p>
+        <div class="deliver-list reveal">
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Production ML pipeline</strong><span>Azure ML managed endpoints with autoscaling, model versioning, A/B traffic splitting, and canary deployments.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Feature store</strong><span>Point-in-time correct features, offline/online sync, and versioned feature pipelines — so your model sees what it expects, every time.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Evaluation harness</strong><span>Automated evaluation on every model version — accuracy, latency, drift, and fairness metrics tracked in MLflow and surfaced in Azure Monitor.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>RAG pipeline (if applicable)</strong><span>Azure AI Search + Azure OpenAI + your document corpus — grounded, evaluated, and cost-controlled for production.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Automated retraining</strong><span>Nightly or event-triggered retraining with data drift detection — your model sees fresh data without manual intervention.</span></div></div>
+        </div>
+      </div>
+      <div class="model-vis reveal" style="transition-delay:.1s">
+        <div class="mv-label">Azure ML — Model Registry · Live</div>
+        <div class="model-card">
+          <div class="model-ico" style="background:rgba(192,132,252,.15);color:#c084fc"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div style="flex:1">
+            <div class="model-name">Demand Forecasting v3.2</div>
+            <div class="model-type">GradientBoostingRegressor · Deployed</div>
+            <div class="model-metrics">
+              <div class="mm"><div class="mm-val">94.3%</div><div class="mm-label">Accuracy</div></div>
+              <div class="mm"><div class="mm-val">0.041</div><div class="mm-label">MAE</div></div>
+              <div class="mm"><div class="mm-val">12ms</div><div class="mm-label">Latency</div></div>
+            </div>
+            <div class="model-prog"><div class="model-prog-fill" style="width:94.3%;background:linear-gradient(90deg,#7c3aed,#a855f7)"></div></div>
+          </div>
+        </div>
+        <div class="model-card">
+          <div class="model-ico" style="background:rgba(61,126,255,.12);color:#82baff"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <div style="flex:1">
+            <div class="model-name">Churn Predictor v2.0</div>
+            <div class="model-type">XGBoostClassifier · Staging</div>
+            <div class="model-metrics">
+              <div class="mm"><div class="mm-val">89.6%</div><div class="mm-label">AUC-ROC</div></div>
+              <div class="mm"><div class="mm-val">0.88</div><div class="mm-label">F1</div></div>
+              <div class="mm"><div class="mm-val">18ms</div><div class="mm-label">Latency</div></div>
+            </div>
+            <div class="model-prog"><div class="model-prog-fill" style="width:89.6%;background:linear-gradient(90deg,#1a73e8,#00d4e8)"></div></div>
+          </div>
+        </div>
+        <div class="model-card">
+          <div class="model-ico" style="background:rgba(0,221,106,.1);color:#00dd6a"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+          <div style="flex:1">
+            <div class="model-name">Anomaly Detection v1.8</div>
+            <div class="model-type">IsolationForest · Deployed</div>
+            <div class="model-metrics">
+              <div class="mm"><div class="mm-val">97.1%</div><div class="mm-label">Precision</div></div>
+              <div class="mm"><div class="mm-val">0.003</div><div class="mm-label">FPR</div></div>
+              <div class="mm"><div class="mm-val">8ms</div><div class="mm-label">Latency</div></div>
+            </div>
+            <div class="model-prog"><div class="model-prog-fill" style="width:97.1%;background:linear-gradient(90deg,#137333,#00dd6a)"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="approach" data-screen-label="04 Approach">
+  <div class="wrap">
+    <div class="sec-label">Our approach</div>
+    <h2 class="sec-h reveal">From notebook to production.</h2>
+    <div class="approach-grid">
+      <div class="ap-step reveal"><div class="ap-num">01</div><div class="ap-title">Assess</div><div class="ap-desc">We audit your existing ML work — model quality, training data, feature pipeline, and the gap between what you have and what production requires. Honest, written assessment.</div><div class="ap-dur">~ 1 week</div></div>
+      <div class="ap-step reveal" style="transition-delay:.06s"><div class="ap-num">02</div><div class="ap-title">Engineer</div><div class="ap-desc">Feature store setup, data pipeline modernisation, and training infrastructure on Azure ML — built for reproducibility and automated retraining from day one.</div><div class="ap-dur">2–4 weeks</div></div>
+      <div class="ap-step reveal" style="transition-delay:.12s"><div class="ap-num">03</div><div class="ap-title">Deploy</div><div class="ap-desc">Managed endpoints with autoscaling, canary traffic splitting, fallback routing, and token budget controls (for LLM-based systems). Zero-downtime model updates.</div><div class="ap-dur">1–2 weeks</div></div>
+      <div class="ap-step reveal" style="transition-delay:.18s"><div class="ap-num">04</div><div class="ap-title">Monitor</div><div class="ap-desc">Drift detection, evaluation harness, performance dashboards, and automated alerts when a model's accuracy drops below threshold — handed over and documented.</div><div class="ap-dur">Ongoing</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="tech" data-screen-label="05 Tech">
+  <div class="wrap">
+    <h2 class="tech-h reveal">The ML stack we use.</h2>
+    <p class="tech-sub reveal">Production ML is 20% model and 80% infrastructure. Here's the infrastructure we've built and run.</p>
+    <div class="tech-grid">
+      <div class="tech-card reveal"><div class="tech-ico" style="background:rgba(192,132,252,.15);color:#c084fc"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div class="tech-name">Azure ML Studio</div><div class="tech-desc">End-to-end MLOps — training, experiment tracking, model registry, and managed endpoints.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.05s"><div class="tech-ico" style="background:rgba(61,126,255,.12);color:#82baff"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/></svg></div><div class="tech-name">Azure OpenAI</div><div class="tech-desc">GPT-4o, embeddings, and fine-tuning — deployed in private endpoints with content filtering.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.1s"><div class="tech-ico" style="background:rgba(0,212,232,.1);color:#00d4e8"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3S3 13.66 3 12"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div><div class="tech-name">Azure AI Search</div><div class="tech-desc">Vector + hybrid search for RAG pipelines — integrated with your document corpus and updated incrementally.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.15s"><div class="tech-ico" style="background:rgba(140,232,0,.1);color:#8ce800"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="tech-name">MLflow</div><div class="tech-desc">Experiment tracking, model registry, and artifact storage — open-source, integrated with Azure ML.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.05s"><div class="tech-ico" style="background:rgba(254,188,46,.12);color:#febc2e"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg></div><div class="tech-name">XGBoost / LightGBM</div><div class="tech-desc">Tree-based models for tabular data — demand forecasting, churn, fraud, pricing.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.1s"><div class="tech-ico" style="background:rgba(255,120,80,.1);color:#ff7850"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div class="tech-name">PyTorch / ONNX</div><div class="tech-desc">Deep learning and edge inference — ONNX models deployed via IoT Edge modules for sub-millisecond latency.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.15s"><div class="tech-ico" style="background:rgba(173,198,255,.12);color:#adc6ff"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><div class="tech-name">Feast / Feature Store</div><div class="tech-desc">Point-in-time correct feature serving — offline training and online inference from the same source.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.2s"><div class="tech-ico" style="background:rgba(0,221,106,.1);color:#00dd6a"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="tech-name">Prompt Flow</div><div class="tech-desc">Visual orchestration for LLM pipelines — evaluation, grounding, and deployment in Azure AI Foundry.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="proof" data-screen-label="06 Proof">
+  <div class="wrap">
+    <div class="sec-label">Proof</div>
+    <h2 class="sec-h reveal">Models in production.</h2>
+    <div class="proof-grid reveal">
+      <div class="cs-tile" onclick="location.href='Veloxcore Work.html'">
+        <div class="cs-cover"></div>
+        <div class="cs-body">
+          <div class="cs-cat">FMCG · Machine Learning</div>
+          <div class="cs-title">Demand forecasting model that reduced overstock by 22% in its first quarter in production.</div>
+          <div class="cs-nums">
+            <div class="cs-n"><div class="cs-n-val">22%</div><div class="cs-n-label">Overstock reduction</div></div>
+            <div class="cs-n"><div class="cs-n-val">94.3%</div><div class="cs-n-label">Accuracy</div></div>
+            <div class="cs-n"><div class="cs-n-val">8 wks</div><div class="cs-n-label">To production</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="quotes">
+        <div class="quote-card reveal">
+          <div class="quote-text">"The demand forecasting model reduced our overstock by 22% in the first quarter. The feature store alone was worth the engagement."</div>
+          <div class="quote-foot"><div class="q-ava" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"></div><div><div class="q-name">Anita Desai</div><div class="q-role">Head of Analytics · FMCG Corp.</div></div></div>
+        </div>
+        <div class="quote-card reveal" style="transition-delay:.08s">
+          <div class="quote-text">"We built Veloxhire.AI on Azure OpenAI — and it's our proof point for every client AI engagement. We eat our own cooking."</div>
+          <div class="quote-foot"><div class="q-ava" style="background:linear-gradient(135deg,#100a20,#7c3aed)"></div><div><div class="q-name">Priya Mehta</div><div class="q-role">Co-Founder & CTO · Veloxcore</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" data-screen-label="07 FAQ">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div>
+        <div class="sec-label">FAQ</div>
+        <h2 class="sec-h reveal">Common questions.</h2>
+        <p class="sec-sub reveal" style="margin-bottom:0;max-width:36ch">Questions we get before every ML engagement.</p>
+      </div>
+      <div class="faq-list reveal">
+        <div class="faq-item open"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Why do most ML models never reach production?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">Three consistent reasons: feature pipelines that don't match training data in production (training-serving skew), no evaluation harness to catch model drift, and no automated retraining when the data distribution shifts. These are infrastructure problems, not model problems — and they're solvable before a model ever trains.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Do we need Azure ML, or can we use our existing infrastructure?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">We can work with your existing infrastructure — Databricks, SageMaker, on-prem Kubernetes — but we'll be honest if Azure ML is a better fit for the use case. We're not wedded to the Microsoft stack for ML; we're wedded to what works in production.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What's the difference between a RAG system and fine-tuning?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">RAG (retrieval-augmented generation) grounds the model in your documents at query time — fast to build, easy to update, no model training required. Fine-tuning trains the model on your data to change its behaviour. For most enterprise use cases, RAG is the right starting point. We'll advise which fits your problem before any work begins.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How do you control Azure OpenAI costs in production?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">Token budget alerts, prompt caching, model routing (use GPT-3.5 for simple queries, GPT-4o for complex ones), output length limits, and provisioned throughput units for predictable workloads. We also add cost dashboards per use case so you can see exactly where the spend is going.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" data-screen-label="08 CTA">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div>
+        <h2 class="cta-h reveal">Ready to get your models into production?</h2>
+        <p class="cta-sub reveal">Book a free 45-minute ML architecture review. We'll look at your models and tell you what it takes to ship them.</p>
+      </div>
+      <div class="cta-acts reveal">
+        <a class="btn-white" href="Veloxcore Contact.html">Book a free call</a>
+        <a class="btn-ghost" href="Veloxcore Work.html">See our work →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" data-screen-label="09 Footer">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-brand"><div class="logo-row"><span class="mark"></span><span class="logo">Veloxcore</span></div><p>Microsoft Gold Partner for Cloud Platform and Application Integration.</p></div>
+      <div><div class="foot-h">Services</div><ul class="foot-list"><li><a href="Veloxcore Services.html">All services</a></li><li><a href="Veloxcore Service - Data Engineering.html">Data Engineering</a></li><li><a href="Veloxcore Service - Azure AI.html">Azure AI</a></li></ul></div>
+      <div><div class="foot-h">Work</div><ul class="foot-list"><li><a href="Veloxcore Work.html">Case studies</a></li></ul></div>
+      <div><div class="foot-h">Company</div><ul class="foot-list"><li><a href="Veloxcore About.html">About</a></li><li><a href="Veloxcore Blog.html">Blog</a></li><li><a href="Veloxcore Contact.html">Contact</a></li></ul></div>
+      <div><div class="foot-h">Products</div><ul class="foot-list"><li><a href="Veloxhire.AI.html">Veloxhire.AI</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span class="copy">© 2026 Veloxcore Private Limited</span><div class="right"><a>Privacy</a><a>Terms</a><span class="locale">English ▾</span></div></div>
+  </div>
+</footer>
+
+<script>
+/* Hero particles */
+(function(){const c=document.querySelector('.hero-canvas');if(!c)return;const ctx=c.getContext('2d');const N=72,MAXD=150;const COLS=['rgba(61,126,255,','rgba(0,212,232,','rgba(0,221,106,','rgba(61,126,255,'];let W,H,pts=[],mouse={x:-9999,y:-9999};function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}function init(){pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.6+0.6,col:COLS[Math.floor(Math.random()*COLS.length)]}));}function draw(){ctx.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);if(d<MAXD){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(61,126,255,${(1-d/MAXD)*0.08})`;ctx.lineWidth=.6;ctx.stroke();}}const dm=Math.hypot(pts[i].x-mouse.x,pts[i].y-mouse.y);if(dm<MAXD*1.6){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=`rgba(61,126,255,${(1-dm/(MAXD*1.6))*0.16})`;ctx.lineWidth=.7;ctx.stroke();}ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,pts[i].r,0,Math.PI*2);ctx.fillStyle=pts[i].col+'0.55)';ctx.fill();}}function loop(){pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;});draw();requestAnimationFrame(loop);}window.addEventListener('resize',()=>{resize();init();});document.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});resize();init();loop();})();
+</script>
+<script>
+function toggleFaq(el){el.parentElement.classList.toggle('open');}
+(function(){const els=Array.from(document.querySelectorAll('.reveal'));function check(){const vh=window.innerHeight;els.forEach(el=>{if(el.classList.contains('visible'))return;const r=el.getBoundingClientRect();if(r.top<vh*.93&&r.bottom>0)el.classList.add('visible');});}window.addEventListener('scroll',check,{passive:true});window.addEventListener('resize',check);setTimeout(check,80);setTimeout(check,500);})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Services — Veloxcore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="veloxcore.css">
+  <style>
+    :root {
+      --bg:            #ffffff;
+      --canvas:        #F8F9FA;
+      --fg1:           #1a1c1c;
+      --fg2:           #5f6368;
+      --fg3:           #6b6f72;
+      --border:        #eef0f1;
+      --border-strong: #e6e8ea;
+      --accent:        #1a73e8;
+      --accent-soft:   #adc6ff;
+      --dark-surface:  #1E2127;
+      --dark-card:     #262A31;
+      --dark-divider:  #353941;
+      --dark-fg1:      #f7f8fa;
+      --dark-fg2:      #bcc1c7;
+      --dark-fg3:      #9ea3aa;
+      --display:       'Geist', system-ui, sans-serif;
+      --sans:          'Inter', system-ui, sans-serif;
+      --mono:          'JetBrains Mono', monospace;
+      --eq:            cubic-bezier(.25,.46,.45,.94);
+      --eqt:           cubic-bezier(.165,.84,.44,1);
+      --w:             1320px;
+      --m:             48px;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:var(--sans); color:var(--fg1); background:var(--bg); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+    a { text-decoration:none; color:inherit; cursor:pointer; }
+    img,svg { display:block; }
+    button { cursor:pointer; font-family:inherit; border:none; background:none; }
+    .wrap { max-width:var(--w); margin:0 auto; padding:0 var(--m); }
+    .reveal { opacity:0; transform:translateY(18px); transition:opacity .65s var(--eqt), transform .65s var(--eqt); }
+    .reveal.visible { opacity:1; transform:none; }
+
+    /* ── NAV ─────────────────────────────────── */
+    .nav { position:fixed; top:0; left:0; right:0; z-index:50; height:68px; display:flex; align-items:center; padding:0 var(--m); background:rgba(255,255,255,.84); backdrop-filter:blur(20px) saturate(1.6); -webkit-backdrop-filter:blur(20px) saturate(1.6); border-bottom:1px solid var(--border); }
+    .nav-inner { max-width:var(--w); margin:0 auto; width:100%; display:flex; align-items:center; }
+    .brand { display:flex; align-items:center; gap:10px; flex-shrink:0; margin-right:36px; }
+    .mark { width:22px; height:22px; border-radius:6px; background:linear-gradient(135deg,#3d7eff 0%,#00d4e8 35%,#00dd6a 75%,#8ce800 100%); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .mark::after { content:''; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:7.5px solid #fff; transform:translateY(-0.5px); }
+    .logo { font-family:var(--display); font-size:18px; font-weight:700; letter-spacing:-.025em; color:var(--fg1); }
+    .nav-links { display:flex; align-items:center; gap:4px; }
+    .nav-link { display:inline-flex; align-items:center; gap:5px; font-size:14.5px; color:var(--fg1); padding:8px 14px; border-radius:9999px; letter-spacing:-.005em; transition:background .15s; cursor:pointer; }
+    .nav-link:hover { background:#f4f6f8; }
+    .nav-link.active { background:#f1f3f4; font-weight:500; }
+    .nav-link .chev { display:inline-block; width:10px; height:6px; background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none' stroke='%231a1c1c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='1 1 5 5 9 1'/></svg>") center/contain no-repeat; opacity:.65; }
+    .nav-cta { margin-left:auto; display:inline-flex; align-items:center; gap:8px; background:var(--fg1); color:#fff; font-size:13.5px; font-weight:500; padding:9px 18px 9px 20px; border-radius:9999px; letter-spacing:-.005em; transition:opacity .15s; cursor:pointer; }
+    .nav-cta:hover { opacity:.86; }
+    .nav-cta-ico { width:14px; height:14px; display:inline-flex; align-items:center; justify-content:center; background:#2f3135; border-radius:50%; }
+    .nav-cta-ico svg { width:8px; height:8px; stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+
+    /* ── PAGE HERO ───────────────────────────── */
+    .page-hero { padding:148px 0 0; position:relative; overflow:hidden; }
+    .page-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 55% 70% at 90% 30%,rgba(61,126,255,.07) 0%,transparent 60%), radial-gradient(ellipse 40% 50% at 5% 80%,rgba(0,221,106,.05) 0%,transparent 55%); pointer-events:none; }
+    .hero-inner { display:grid; grid-template-columns:1fr 1fr; gap:88px; align-items:end; padding-bottom:88px; }
+    .page-eyebrow { display:inline-flex; align-items:center; gap:10px; font-size:14px; color:var(--fg2); margin-bottom:20px; letter-spacing:-.005em; }
+    .page-eyebrow::before { content:''; width:7px; height:7px; border-radius:50%; background:linear-gradient(135deg,#3d7eff,#00dd6a); }
+    .hero-h1 { font-family:var(--display); font-size:76px; font-weight:800; letter-spacing:-.055em; line-height:80px; color:var(--fg1); margin-bottom:24px; text-wrap:pretty; }
+    .hero-sub { font-size:19px; line-height:31px; color:var(--fg2); max-width:48ch; margin-bottom:40px; text-wrap:pretty; letter-spacing:-.005em; }
+    .hero-acts { display:flex; gap:14px; flex-wrap:wrap; }
+    .btn-dark { display:inline-flex; align-items:center; gap:8px; background:var(--fg1); color:#fff; padding:14px 28px; border-radius:9999px; font-size:15px; font-weight:500; letter-spacing:-.005em; transition:opacity .15s; }
+    .btn-dark:hover { opacity:.86; }
+    .btn-soft { display:inline-flex; align-items:center; gap:8px; background:#f1f3f4; color:var(--fg1); padding:14px 28px; border-radius:9999px; font-size:15px; font-weight:500; letter-spacing:-.005em; transition:background .15s; }
+    .btn-soft:hover { background:#e8eaed; }
+
+    /* Hero stat stack */
+    .hero-stats { display:flex; flex-direction:column; gap:0; border:1px solid var(--border); border-radius:24px; overflow:hidden; align-self:end; }
+    .h-stat { padding:28px 32px; display:grid; grid-template-columns:1fr auto; align-items:center; gap:24px; border-bottom:1px solid var(--border); background:#fff; }
+    .h-stat:last-child { border-bottom:none; }
+    .h-stat-label { font-size:14px; color:var(--fg2); letter-spacing:-.005em; }
+    .h-stat-num { font-family:var(--display); font-size:40px; font-weight:800; letter-spacing:-.04em; color:var(--fg1); }
+    .h-stat-sub { font-size:12px; color:var(--fg3); margin-top:3px; }
+    .h-stat-bar { height:3px; background:var(--border); border-radius:2px; margin-top:10px; overflow:hidden; }
+    .h-stat-fill { height:100%; border-radius:2px; }
+
+    /* Hero bottom strip */
+    .hero-strip { border-top:1px solid var(--border); background:var(--canvas); padding:20px 0; }
+    .strip-inner { display:flex; align-items:center; gap:48px; }
+    .strip-item { display:flex; align-items:center; gap:10px; font-size:13.5px; color:var(--fg2); letter-spacing:-.005em; flex-shrink:0; }
+    .strip-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+
+    /* ── SERVICE DEEP DIVES ───────────────────── */
+    .service-section { padding:96px 0; border-bottom:1px solid var(--border); }
+    .service-section:nth-child(even) { background:var(--canvas); }
+    .svc-grid { display:grid; grid-template-columns:1fr 1fr; gap:96px; align-items:center; }
+    .svc-grid.flip { direction:rtl; }
+    .svc-grid.flip > * { direction:ltr; }
+    .svc-num { font-family:var(--mono); font-size:11px; font-weight:500; letter-spacing:.1em; color:var(--fg3); text-transform:uppercase; margin-bottom:18px; display:flex; align-items:center; gap:12px; }
+    .svc-num::before { content:''; width:24px; height:1.5px; background:var(--border-strong); }
+    .svc-h2 { font-family:var(--display); font-size:44px; font-weight:700; letter-spacing:-.045em; line-height:50px; color:var(--fg1); margin-bottom:20px; text-wrap:pretty; }
+    .svc-desc { font-size:17px; line-height:28px; color:var(--fg2); margin-bottom:28px; text-wrap:pretty; letter-spacing:-.005em; }
+    .svc-features { display:flex; flex-direction:column; gap:0; margin-bottom:36px; }
+    .svc-feat { display:flex; align-items:flex-start; gap:12px; padding:14px 0; border-bottom:1px solid var(--border); }
+    .svc-feat:last-child { border-bottom:none; }
+    .feat-check { width:20px; height:20px; border-radius:6px; flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+    .feat-check svg { width:11px; height:11px; stroke:#fff; fill:none; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+    .feat-text { font-size:14.5px; color:var(--fg2); letter-spacing:-.005em; line-height:22px; }
+    .feat-text strong { color:var(--fg1); font-weight:600; }
+    .svc-cta { display:inline-flex; align-items:center; gap:10px; font-size:14.5px; font-weight:500; color:var(--fg1); }
+    .svc-arrow { width:32px; height:32px; border-radius:50%; background:var(--fg1); display:flex; align-items:center; justify-content:center; transition:transform .2s var(--eqt); }
+    .svc-cta:hover .svc-arrow { transform:translateX(4px); }
+    .svc-arrow svg { width:13px; height:13px; stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+
+    /* Service visual panels */
+    .svc-panel { border-radius:24px; overflow:hidden; position:relative; }
+
+    /* Panel A — Data Analytics: pipeline bars */
+    .panel-analytics { background:var(--dark-surface); padding:36px; min-height:420px; display:flex; flex-direction:column; gap:20px; }
+    .panel-label { font-family:var(--mono); font-size:10px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--dark-fg3); margin-bottom:4px; }
+    .pipeline-row { display:flex; align-items:center; gap:14px; }
+    .pipe-step { background:var(--dark-card); border:1px solid var(--dark-divider); border-radius:10px; padding:12px 16px; flex:1; }
+    .pipe-step-label { font-size:11px; color:var(--dark-fg3); margin-bottom:4px; letter-spacing:-.005em; }
+    .pipe-step-val { font-family:var(--display); font-size:17px; font-weight:600; color:var(--dark-fg1); letter-spacing:-.02em; }
+    .pipe-arr { color:var(--dark-fg3); font-size:14px; flex-shrink:0; }
+    .spark-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+    .spark-card { background:var(--dark-card); border:1px solid var(--dark-divider); border-radius:10px; padding:14px 16px; }
+    .spark-card-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+    .spark-card-name { font-size:11px; color:var(--dark-fg3); }
+    .spark-card-val { font-family:var(--display); font-size:18px; font-weight:700; letter-spacing:-.025em; color:var(--dark-fg1); }
+    .spark-bar-wrap { height:4px; background:var(--dark-divider); border-radius:2px; overflow:hidden; }
+    .spark-bar { height:100%; border-radius:2px; }
+    .live-dot { width:6px; height:6px; border-radius:50%; background:#00dd6a; box-shadow:0 0 6px rgba(0,221,106,.6); flex-shrink:0; }
+
+    /* Panel B — Visualisation: chart */
+    .panel-viz { background:var(--bg); border:1px solid var(--border); padding:32px; min-height:420px; display:flex; flex-direction:column; gap:20px; }
+    .chart-header { display:flex; align-items:flex-start; justify-content:space-between; }
+    .chart-title { font-family:var(--display); font-size:16px; font-weight:600; color:var(--fg1); letter-spacing:-.02em; }
+    .chart-sub { font-size:12px; color:var(--fg3); margin-top:3px; }
+    .chart-legend { display:flex; gap:14px; }
+    .leg-item { display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--fg3); }
+    .leg-dot { width:8px; height:8px; border-radius:2px; flex-shrink:0; }
+    .chart-area { flex:1; display:flex; align-items:flex-end; gap:10px; padding-top:12px; }
+    .bar-group { flex:1; display:flex; flex-direction:column; gap:4px; align-items:center; }
+    .bar-pair { display:flex; gap:4px; align-items:flex-end; width:100%; justify-content:center; }
+    .bar-a,.bar-b { border-radius:4px 4px 0 0; min-width:14px; transition:opacity .2s; }
+    .bar-a { background:#1a73e8; }
+    .bar-b { background:#e8f0fe; }
+    .bar-group:hover .bar-a,.bar-group:hover .bar-b { opacity:.8; }
+    .bar-month { font-size:10px; color:var(--fg3); }
+    .chart-foot { display:flex; align-items:center; gap:16px; padding-top:12px; border-top:1px solid var(--border); }
+    .chart-kpi { display:flex; flex-direction:column; gap:2px; }
+    .chart-kpi-num { font-family:var(--display); font-size:22px; font-weight:700; letter-spacing:-.03em; color:var(--fg1); }
+    .chart-kpi-label { font-size:11.5px; color:var(--fg3); }
+    .chart-kpi-badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:9999px; font-size:11px; font-weight:500; }
+    .badge-up { background:#e6f4ea; color:#137333; }
+
+    /* Panel C — Architecture: dark topology */
+    .panel-arch { background:var(--dark-surface); padding:36px; min-height:420px; display:flex; flex-direction:column; gap:18px; }
+    .arch-nodes { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .arch-node { background:var(--dark-card); border:1px solid var(--dark-divider); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:6px; }
+    .arch-node-ico { width:28px; height:28px; border-radius:7px; display:flex; align-items:center; justify-content:center; margin-bottom:4px; }
+    .arch-node-name { font-size:12px; font-weight:600; color:var(--dark-fg1); letter-spacing:-.01em; }
+    .arch-node-status { font-size:10.5px; color:var(--dark-fg3); display:flex; align-items:center; gap:5px; }
+    .arch-node-status .live-dot { width:5px; height:5px; }
+    .arch-conn { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .arch-flow { background:var(--dark-card); border:1px solid var(--dark-divider); border-radius:10px; padding:12px 14px; display:flex; align-items:center; gap:10px; }
+    .arch-flow-line { flex:1; height:2px; background:linear-gradient(90deg,#3d7eff,#00d4e8); border-radius:2px; position:relative; }
+    .arch-flow-line::after { content:'▶'; position:absolute; right:-4px; top:-7px; font-size:9px; color:#00d4e8; }
+    .arch-flow-label { font-size:11px; color:var(--dark-fg3); letter-spacing:-.005em; }
+    .arch-stat-row { display:flex; gap:10px; }
+    .arch-stat { flex:1; background:var(--dark-card); border:1px solid var(--dark-divider); border-radius:10px; padding:12px 14px; }
+    .arch-stat-num { font-family:var(--display); font-size:20px; font-weight:700; letter-spacing:-.03em; color:var(--dark-fg1); }
+    .arch-stat-label { font-size:10.5px; color:var(--dark-fg3); margin-top:2px; }
+
+    /* Panel D — ML: model cards */
+    .panel-ml { background:var(--bg); border:1px solid var(--border); padding:32px; min-height:420px; display:flex; flex-direction:column; gap:16px; }
+    .ml-header { display:flex; align-items:center; justify-content:space-between; }
+    .ml-header-title { font-family:var(--display); font-size:15px; font-weight:600; color:var(--fg1); }
+    .ml-badge { padding:4px 10px; background:#f3e8ff; color:#7c3aed; border-radius:9999px; font-size:11px; font-weight:500; }
+    .ml-model { background:var(--canvas); border:1px solid var(--border); border-radius:12px; padding:16px; display:flex; gap:14px; align-items:flex-start; }
+    .ml-model-ico { width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .ml-model-name { font-size:13.5px; font-weight:600; color:var(--fg1); letter-spacing:-.01em; }
+    .ml-model-type { font-size:12px; color:var(--fg3); margin-top:2px; }
+    .ml-model-foot { display:flex; gap:14px; margin-top:10px; }
+    .ml-metric { display:flex; flex-direction:column; gap:2px; }
+    .ml-metric-val { font-family:var(--display); font-size:16px; font-weight:700; letter-spacing:-.02em; color:var(--fg1); }
+    .ml-metric-label { font-size:10.5px; color:var(--fg3); }
+    .ml-prog { height:3px; background:var(--border); border-radius:2px; margin-top:10px; overflow:hidden; }
+    .ml-prog-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,#7c3aed,#a855f7); }
+
+    /* Panel E — IoT: device grid */
+    .panel-iot { background:var(--dark-surface); padding:36px; min-height:420px; display:flex; flex-direction:column; gap:16px; }
+    .iot-map { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+    .iot-device { background:var(--dark-card); border:1px solid var(--dark-divider); border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:5px; cursor:pointer; transition:border-color .2s; }
+    .iot-device:hover { border-color:rgba(61,126,255,.4); }
+    .iot-device.alert { border-color:rgba(255,120,80,.35); }
+    .iot-dev-id { font-family:var(--mono); font-size:9px; color:var(--dark-fg3); letter-spacing:.05em; }
+    .iot-dev-val { font-family:var(--display); font-size:16px; font-weight:700; color:var(--dark-fg1); letter-spacing:-.02em; }
+    .iot-dev-unit { font-size:9px; color:var(--dark-fg3); }
+    .iot-dev-status { font-size:9.5px; display:flex; align-items:center; gap:4px; }
+    .iot-dev-status .live-dot { width:5px; height:5px; }
+    .iot-dev-status.alert { color:rgba(255,120,80,.9); }
+    .iot-dev-status.alert .live-dot { background:rgba(255,120,80,.9); box-shadow:0 0 5px rgba(255,120,80,.5); }
+    .iot-row { display:flex; gap:10px; }
+    .iot-summary { flex:1; background:var(--dark-card); border:1px solid var(--dark-divider); border-radius:10px; padding:14px; }
+    .iot-summary-num { font-family:var(--display); font-size:26px; font-weight:700; letter-spacing:-.03em; color:var(--dark-fg1); }
+    .iot-summary-label { font-size:11px; color:var(--dark-fg3); margin-top:2px; }
+
+    /* Panel F — .NET: code panel */
+    .panel-dotnet { background:#0d1117; padding:0; min-height:420px; border-radius:24px; overflow:hidden; display:flex; flex-direction:column; }
+    .code-titlebar { background:#1c2128; padding:14px 20px; display:flex; align-items:center; gap:8px; border-bottom:1px solid #30363d; }
+    .code-dot { width:10px; height:10px; border-radius:50%; }
+    .code-filename { margin-left:12px; font-family:var(--mono); font-size:12px; color:#8b949e; }
+    .code-body { padding:28px 24px; flex:1; overflow:hidden; }
+    .code-body pre { font-family:var(--mono); font-size:13px; line-height:22px; color:#e6edf3; white-space:pre; }
+    .kw { color:#ff7b72; }
+    .cls { color:#79c0ff; }
+    .fn { color:#d2a8ff; }
+    .str { color:#a5d6ff; }
+    .cmt { color:#8b949e; }
+    .num { color:#f2cc60; }
+    .code-badge { display:inline-flex; align-items:center; gap:6px; margin:20px 0 0 0; padding:8px 14px; background:#1c2128; border:1px solid #30363d; border-radius:8px; font-family:var(--mono); font-size:12px; color:#3fb950; }
+
+    /* ── PLATFORM STRIP ──────────────────────── */
+    .platform { background:var(--dark-surface); padding:88px 0; }
+    .platform-h { font-family:var(--display); font-size:38px; font-weight:700; letter-spacing:-.04em; color:var(--dark-fg1); margin-bottom:12px; text-wrap:pretty; }
+    .platform-sub { font-size:16px; color:var(--dark-fg2); margin-bottom:52px; letter-spacing:-.005em; max-width:52ch; }
+    .platform-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+    .plat-card { background:var(--dark-card); border:1px solid var(--dark-divider); border-radius:18px; padding:28px 24px; transition:border-color .2s, transform .25s var(--eqt); cursor:pointer; }
+    .plat-card:hover { border-color:rgba(173,198,255,.2); transform:translateY(-4px); }
+    .plat-ico { width:44px; height:44px; border-radius:12px; margin-bottom:20px; display:flex; align-items:center; justify-content:center; }
+    .plat-name { font-family:var(--display); font-size:16px; font-weight:600; color:var(--dark-fg1); letter-spacing:-.02em; margin-bottom:8px; }
+    .plat-desc { font-size:13.5px; color:var(--dark-fg3); line-height:21px; letter-spacing:-.005em; }
+
+    /* ── PROCESS ─────────────────────────────── */
+    .process { padding:96px 0; border-bottom:1px solid var(--border); }
+    .process-h { font-family:var(--display); font-size:52px; font-weight:700; letter-spacing:-.045em; color:var(--fg1); margin-bottom:12px; }
+    .process-sub { font-size:18px; color:var(--fg2); margin-bottom:72px; max-width:52ch; letter-spacing:-.005em; }
+    .steps { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; }
+    .step { padding:40px 32px; background:var(--canvas); border:1px solid var(--border); position:relative; cursor:pointer; transition:background .2s; }
+    .step:hover { background:#fff; }
+    .step:first-child { border-radius:16px 0 0 16px; }
+    .step:last-child { border-radius:0 16px 16px 0; }
+    .step-num { font-family:var(--display); font-size:52px; font-weight:900; letter-spacing:-.06em; color:var(--border-strong); line-height:1; margin-bottom:20px; transition:color .2s; }
+    .step:hover .step-num { color:var(--fg1); }
+    .step-title { font-family:var(--display); font-size:20px; font-weight:700; letter-spacing:-.025em; color:var(--fg1); margin-bottom:10px; }
+    .step-desc { font-size:14px; color:var(--fg2); line-height:22px; letter-spacing:-.005em; }
+    .step::after { content:''; position:absolute; top:40px; right:-13px; width:24px; height:24px; background:#fff; border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:2; }
+    .step:last-child::after { display:none; }
+    .step-arr { position:absolute; top:46px; right:-8px; font-size:13px; color:var(--fg3); z-index:3; }
+    .step:last-child .step-arr { display:none; }
+
+    /* ── PRODUCTS BAND ───────────────────────── */
+    .products-band { padding:96px 0; border-bottom:1px solid var(--border); overflow:hidden; }
+    .prod-eyebrow { display:inline-flex; align-items:center; gap:10px; font-size:14px; color:var(--fg2); margin-bottom:18px; letter-spacing:-.005em; }
+    .prod-eyebrow::before { content:''; width:7px; height:7px; border-radius:50%; background:linear-gradient(135deg,#3d7eff,#00dd6a); }
+    .prod-h { font-family:var(--display); font-size:52px; font-weight:700; letter-spacing:-.045em; line-height:56px; color:var(--fg1); margin-bottom:14px; text-wrap:pretty; }
+    .prod-sub { font-size:17px; color:var(--fg2); max-width:48ch; line-height:27px; letter-spacing:-.005em; margin-bottom:56px; }
+    .prod-grid { display:grid; grid-template-columns:1.5fr 1fr; gap:24px; }
+
+    /* Featured product — Veloxhire.AI */
+    .prod-featured { border-radius:28px; background:var(--dark-surface); overflow:hidden; display:flex; flex-direction:column; position:relative; cursor:pointer; transition:transform .3s var(--eqt), box-shadow .3s var(--eqt); }
+    .prod-featured:hover { transform:translateY(-5px); box-shadow:0 28px 64px -24px rgba(0,0,0,.36); }
+    .prod-featured-top { padding:48px 48px 0; flex:1; position:relative; z-index:1; }
+    .prod-chip { display:inline-flex; align-items:center; gap:8px; padding:6px 14px; background:rgba(192,132,252,.15); border:1px solid rgba(192,132,252,.2); border-radius:9999px; font-size:12px; font-weight:500; color:#c084fc; letter-spacing:-.005em; margin-bottom:22px; }
+    .prod-chip-dot { width:6px; height:6px; border-radius:50%; background:#c084fc; box-shadow:0 0 6px rgba(192,132,252,.6); }
+    .prod-name { font-family:var(--display); font-size:40px; font-weight:800; letter-spacing:-.05em; color:var(--dark-fg1); line-height:1; margin-bottom:6px; }
+    .prod-name .ai { background:linear-gradient(90deg,#a855f7,#3d7eff,#00d4e8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .prod-tagline { font-size:16px; color:var(--dark-fg2); margin-bottom:24px; letter-spacing:-.005em; }
+    .prod-desc { font-size:15px; line-height:25px; color:var(--dark-fg3); max-width:44ch; text-wrap:pretty; margin-bottom:32px; letter-spacing:-.005em; }
+    .prod-feats { display:flex; flex-direction:column; gap:10px; margin-bottom:36px; }
+    .prod-feat { display:flex; align-items:center; gap:10px; font-size:13.5px; color:var(--dark-fg2); letter-spacing:-.005em; }
+    .prod-feat-ico { width:18px; height:18px; border-radius:5px; background:rgba(192,132,252,.15); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .prod-feat-ico svg { width:10px; height:10px; stroke:#c084fc; fill:none; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+    .prod-acts { display:flex; gap:12px; align-items:center; }
+    .btn-prod { display:inline-flex; align-items:center; gap:8px; padding:12px 22px; border-radius:9999px; font-size:14px; font-weight:500; letter-spacing:-.005em; transition:opacity .15s; cursor:pointer; }
+    .btn-prod-primary { background:linear-gradient(90deg,#7c3aed,#3d7eff); color:#fff; }
+    .btn-prod-primary:hover { opacity:.88; }
+    .btn-prod-ghost { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); color:var(--dark-fg2); }
+    .btn-prod-ghost:hover { background:rgba(255,255,255,.12); color:var(--dark-fg1); }
+    .prod-featured-visual { height:220px; position:relative; overflow:hidden; margin-top:36px; }
+    .prod-featured-visual::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 80% at 50% 110%,rgba(124,58,237,.35) 0%,transparent 65%); }
+    .hire-ui { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:88%; display:flex; flex-direction:column; gap:8px; padding:0 0 0 0; }
+    .hire-card { background:var(--dark-card); border:1px solid var(--dark-divider); border-radius:12px; padding:14px 18px; display:flex; align-items:center; gap:14px; }
+    .hire-ava { width:34px; height:34px; border-radius:50%; flex-shrink:0; }
+    .hire-info { flex:1; }
+    .hire-name { font-size:13px; font-weight:600; color:var(--dark-fg1); letter-spacing:-.01em; }
+    .hire-role { font-size:11px; color:var(--dark-fg3); margin-top:2px; }
+    .hire-match { display:inline-flex; align-items:center; gap:5px; padding:3px 9px; background:rgba(0,221,106,.12); color:#00dd6a; border-radius:9999px; font-size:11px; font-weight:500; flex-shrink:0; }
+    .hire-score { font-family:var(--display); font-size:22px; font-weight:700; letter-spacing:-.03em; color:var(--dark-fg1); flex-shrink:0; }
+    .hire-score span { font-size:11px; color:var(--dark-fg3); font-weight:400; font-family:var(--sans); }
+
+    /* Future slot */
+    .prod-future { border-radius:28px; border:2px dashed var(--border-strong); background:var(--canvas); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:48px 40px; gap:16px; cursor:default; min-height:360px; position:relative; overflow:hidden; }
+    .prod-future::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(61,126,255,.04) 0%,transparent 60%); pointer-events:none; }
+    .future-ring { width:72px; height:72px; border-radius:50%; border:2px dashed var(--border-strong); display:flex; align-items:center; justify-content:center; position:relative; }
+    .future-ring::after { content:'+'; font-size:32px; color:var(--border-strong); font-weight:300; line-height:1; }
+    .future-label { font-family:var(--display); font-size:22px; font-weight:700; letter-spacing:-.03em; color:var(--fg3); }
+    .future-sub { font-size:14px; color:var(--fg3); max-width:24ch; line-height:22px; letter-spacing:-.005em; }
+    .future-tag { padding:6px 14px; background:var(--border); color:var(--fg3); border-radius:9999px; font-size:12px; font-weight:500; letter-spacing:-.005em; }
+
+    /* ── TESTIMONIALS ────────────────────────── */
+    .testimonials { padding:96px 0; background:var(--canvas); border-bottom:1px solid var(--border); }
+    .test-h { font-family:var(--display); font-size:44px; font-weight:700; letter-spacing:-.04em; color:var(--fg1); margin-bottom:52px; }
+    .test-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    .test-card { background:#fff; border:1px solid var(--border); border-radius:20px; padding:36px; display:flex; flex-direction:column; gap:20px; transition:box-shadow .25s; }
+    .test-card:hover { box-shadow:0 8px 32px -12px rgba(26,28,28,.12); }
+    .test-quote { font-family:var(--display); font-size:18px; font-weight:600; line-height:27px; color:var(--fg1); letter-spacing:-.02em; text-wrap:pretty; flex:1; }
+    .test-quote::before { content:'"'; font-size:36px; line-height:0; vertical-align:-.4em; color:var(--border-strong); margin-right:4px; font-family:var(--display); font-weight:900; }
+    .test-foot { display:flex; align-items:center; gap:12px; }
+    .test-ava { width:36px; height:36px; border-radius:50%; flex-shrink:0; }
+    .test-name { font-size:14px; font-weight:600; color:var(--fg1); letter-spacing:-.01em; }
+    .test-role { font-size:12px; color:var(--fg3); margin-top:2px; }
+    .test-tag { margin-left:auto; padding:4px 10px; border-radius:9999px; font-size:11.5px; font-weight:500; }
+
+    /* ── CTA ─────────────────────────────────── */
+    .cta-section { background:var(--dark-surface); padding:96px 0; }
+    .cta-inner { display:grid; grid-template-columns:1fr 1fr; gap:96px; align-items:center; }
+    .cta-h { font-family:var(--display); font-size:52px; font-weight:700; letter-spacing:-.045em; line-height:58px; color:var(--dark-fg1); margin-bottom:16px; text-wrap:pretty; }
+    .cta-sub { font-size:17px; line-height:28px; color:var(--dark-fg2); letter-spacing:-.005em; margin-bottom:36px; }
+    .cta-acts { display:flex; gap:14px; flex-wrap:wrap; }
+    .btn-white { display:inline-flex; align-items:center; gap:8px; background:#fff; color:var(--fg1); padding:14px 28px; border-radius:9999px; font-size:15px; font-weight:500; letter-spacing:-.005em; transition:opacity .15s; }
+    .btn-white:hover { opacity:.92; }
+    .btn-ghost { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:#fff; padding:14px 28px; border-radius:9999px; font-size:15px; font-weight:500; letter-spacing:-.005em; transition:background .15s; }
+    .btn-ghost:hover { background:rgba(255,255,255,.14); }
+    .cta-card-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .cta-card { background:var(--dark-card); border:1px solid var(--dark-divider); border-radius:16px; padding:24px; }
+    .cta-card-num { font-family:var(--display); font-size:32px; font-weight:800; letter-spacing:-.04em; color:var(--dark-fg1); }
+    .cta-card-label { font-size:13px; color:var(--dark-fg3); margin-top:4px; }
+
+    /* ── FOOTER ──────────────────────────────── */
+    .footer { background:#F8F9FA; border-top:1px solid var(--border); padding:96px 0 48px; }
+    .foot-cols { display:grid; grid-template-columns:1.4fr repeat(4,1fr); gap:64px; }
+    .foot-brand .logo-row { display:flex; align-items:center; gap:12px; margin-bottom:24px; }
+    .foot-brand p { font-size:15px; color:var(--fg2); max-width:36ch; line-height:24px; letter-spacing:-.005em; }
+    .foot-h { font-size:14px; font-weight:600; color:var(--fg1); margin-bottom:20px; }
+    .foot-list { list-style:none; display:flex; flex-direction:column; gap:14px; }
+    .foot-list a { font-size:14px; color:var(--fg2); cursor:pointer; }
+    .foot-list a:hover { color:var(--fg1); }
+    .foot-bottom { display:flex; align-items:center; gap:24px; margin-top:72px; padding-top:32px; border-top:1px solid var(--border); }
+    .foot-bottom .copy { font-size:13.5px; color:var(--fg2); }
+    .foot-bottom .right { margin-left:auto; display:flex; align-items:center; gap:24px; font-size:13.5px; color:var(--fg2); }
+    .locale { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border:1px solid var(--border-strong); border-radius:9999px; background:#fff; cursor:pointer; font-size:12px; color:var(--fg1); }
+    /* ── DARK HERO + CANVAS + ANIMATIONS ── */
+    .page-hero { background:var(--dark-surface)!important; }
+    .page-hero .page-eyebrow { color:var(--dark-fg3)!important; }
+    .page-hero .hero-h1 { color:var(--dark-fg1)!important; }
+    .page-hero .hero-sub { color:var(--dark-fg2)!important; }
+    .page-hero .hero-stats { border-color:var(--dark-divider)!important; }
+    .page-hero .h-stat { background:rgba(255,255,255,.05)!important; border-bottom-color:var(--dark-divider)!important; }
+    .page-hero .h-stat-label { color:var(--dark-fg2)!important; }
+    .page-hero .h-stat-num { color:var(--dark-fg1)!important; }
+    .page-hero .h-stat-sub { color:var(--dark-fg3)!important; }
+    .page-hero .h-stat-bar { background:rgba(255,255,255,.1)!important; }
+    .page-hero .btn-dark { background:#fff!important; color:var(--fg1)!important; }
+    .page-hero .btn-soft { background:rgba(255,255,255,.1)!important; color:var(--dark-fg2)!important; border:1px solid rgba(255,255,255,.15)!important; }
+    .page-hero .btn-soft:hover { background:rgba(255,255,255,.16)!important; color:#fff!important; }
+    .hero-strip { background:rgba(255,255,255,.04)!important; border-top-color:var(--dark-divider)!important; }
+    .strip-item { color:var(--dark-fg2)!important; }
+    .hero-canvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; opacity:.75; }
+    @keyframes hero-up { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
+    @keyframes pop-in { from{opacity:0;transform:scale(.88) translateY(8px)} to{opacity:1;transform:none} }
+    .page-hero .page-eyebrow { animation:hero-up .6s .12s var(--eqt) both; }
+    .page-hero .hero-h1 { animation:hero-up .7s .28s var(--eqt) both; }
+    .page-hero .hero-sub { animation:hero-up .7s .44s var(--eqt) both; }
+    .page-hero .hero-acts { animation:hero-up .6s .58s var(--eqt) both; }
+    .page-hero .hero-stats { animation:pop-in .8s .70s cubic-bezier(.785,.135,.15,.86) both; }
+    /* ── LIGHT HERO ── */
+    .page-hero { background:var(--bg)!important; }
+    .page-hero .page-eyebrow { color:var(--fg2)!important; }
+    .page-hero .hero-h1 { color:var(--fg1)!important; }
+    .page-hero .hero-sub { color:var(--fg2)!important; }
+    .page-hero .hero-stats { border-color:var(--border)!important; }
+    .page-hero .h-stat { background:#fff!important; border-bottom-color:var(--border)!important; }
+    .page-hero .h-stat-label { color:var(--fg2)!important; }
+    .page-hero .h-stat-num { color:var(--fg1)!important; }
+    .page-hero .h-stat-sub { color:var(--fg3)!important; }
+    .page-hero .h-stat-bar { background:var(--border)!important; }
+    .page-hero .btn-dark { background:var(--fg1)!important; color:#fff!important; }
+    .page-hero .btn-soft { background:#f1f3f4!important; color:var(--fg1)!important; border:none!important; }
+    .page-hero .btn-soft:hover { background:#e8eaed!important; }
+    .hero-strip { background:var(--canvas)!important; border-top-color:var(--border)!important; }
+    .strip-item { color:var(--fg2)!important; }
+    .hero-canvas { opacity:.4!important; }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Veloxcore Home.html"><span class="mark"></span><span class="logo">Veloxcore</span></a>
+    <div class="nav-links">
+      <div class="nav-item has-dropdown">
+        <a class="nav-link active" href="Veloxcore Services.html">Services <span class="chev"></span></a>
+        <div class="nav-dropdown">
+          <div class="nd-section">
+            <span class="nd-label">AI Services</span>
+            <a class="nd-link" href="Veloxcore Service - Generative AI.html"><span class="nd-name">Generative AI &amp; LLMs</span><span class="nd-desc">LLM apps, copilots, evaluation harnesses</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Agents.html"><span class="nd-name">AI Agents &amp; Automation</span><span class="nd-desc">Multi-step agents, tool-calling, human-in-loop</span></a>
+            <a class="nd-link" href="Veloxcore Service - RAG.html"><span class="nd-name">RAG &amp; Knowledge Systems</span><span class="nd-desc">Retrieval pipelines with citations &amp; hybrid search</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Strategy.html"><span class="nd-name">AI Strategy &amp; Discovery</span><span class="nd-desc">2-week sprint to your AI roadmap</span></a>
+          </div>
+          <div class="nd-section">
+            <span class="nd-label">Platform &amp; Data</span>
+            <a class="nd-link" href="Veloxcore Service - Azure AI.html"><span class="nd-name">Azure AI &amp; Cloud</span><span class="nd-desc">Azure OpenAI, AI Foundry, migrations</span></a>
+            <a class="nd-link" href="Veloxcore Service - Data Engineering.html"><span class="nd-name">Data Engineering</span><span class="nd-desc">Pipelines, lakehouses, real-time analytics</span></a>
+            <a class="nd-link" href="Veloxcore Service - Machine Learning.html"><span class="nd-name">Machine Learning</span><span class="nd-desc">Custom models, MLOps, evaluation</span></a>
+            <a class="nd-link" href="Veloxcore Service - IoT.html"><span class="nd-name">IoT &amp; Edge Intelligence</span><span class="nd-desc">Device fleets, edge ML, Azure IoT Hub</span></a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-link" href="Veloxhire.AI.html">Products</a>
+      <a class="nav-link" href="Veloxcore Work.html">Work</a>
+      <div class="nav-item has-dropdown">
+        <a class="nav-link" href="Veloxcore About.html">Company <span class="chev"></span></a>
+        <div class="nav-dropdown nd-small">
+          <div class="nd-section">
+            <a class="nd-link" href="Veloxcore About.html"><span class="nd-name">About</span><span class="nd-desc">Story, team &amp; values</span></a>
+            <a class="nd-link" href="Veloxcore Blog.html"><span class="nd-name">Blog</span><span class="nd-desc">Insights on AI, Azure &amp; data</span></a>
+            <a class="nd-link" href="Veloxcore Contact.html"><span class="nd-name">Contact</span><span class="nd-desc">Get in touch with our team</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="nav-cta" href="Veloxcore Contact.html">Book a call<span class="nav-cta-ico"><svg viewBox="0 0 8 8"><polyline points="1 4 4 7 7 4"></polyline><line x1="4" y1="1" x2="4" y2="7"></line></svg></span></a>
+  </div>
+</nav>
+
+<!-- ── PAGE HERO ────────────────────────────────── -->
+<section class="page-hero" data-screen-label="01 Hero">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="page-eyebrow">What we do</div>
+        <h1 class="hero-h1">Data services that move at the speed of your business.</h1>
+        <p class="hero-sub">From raw event streams to boardroom dashboards — Veloxcore delivers end-to-end data engineering, analytics, and ML on the Azure platform.</p>
+        <div class="hero-acts">
+          <a class="btn-dark">Talk to an expert</a>
+          <a class="btn-soft">View case studies</a>
+        </div>
+      </div>
+      <div class="hero-stats reveal">
+        <div class="h-stat">
+          <div>
+            <div class="h-stat-label">Active pipelines</div>
+            <div class="h-stat-sub">Across all client tenants · live</div>
+            <div class="h-stat-bar"><div class="h-stat-fill" style="width:73%;background:linear-gradient(90deg,#3d7eff,#00d4e8)"></div></div>
+          </div>
+          <div class="h-stat-num">2,400+</div>
+        </div>
+        <div class="h-stat">
+          <div>
+            <div class="h-stat-label">Data processed daily</div>
+            <div class="h-stat-sub">Across 6 countries</div>
+            <div class="h-stat-bar"><div class="h-stat-fill" style="width:88%;background:linear-gradient(90deg,#00dd6a,#00d4e8)"></div></div>
+          </div>
+          <div class="h-stat-num">140M+</div>
+        </div>
+        <div class="h-stat">
+          <div>
+            <div class="h-stat-label">Average cloud cost reduction</div>
+            <div class="h-stat-sub">Post-engagement baseline</div>
+            <div class="h-stat-bar"><div class="h-stat-fill" style="width:38%;background:linear-gradient(90deg,#7c3aed,#a855f7)"></div></div>
+          </div>
+          <div class="h-stat-num">38%</div>
+        </div>
+        <div class="h-stat">
+          <div>
+            <div class="h-stat-label">Uptime SLA</div>
+            <div class="h-stat-sub">12-month rolling average</div>
+            <div class="h-stat-bar"><div class="h-stat-fill" style="width:99.97%;background:linear-gradient(90deg,#8ce800,#00dd6a)"></div></div>
+          </div>
+          <div class="h-stat-num">99.97%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-strip">
+    <div class="wrap">
+      <div class="strip-inner">
+        <div class="strip-item"><div class="strip-dot" style="background:#3d7eff"></div>Microsoft Gold Partner</div>
+        <div class="strip-item"><div class="strip-dot" style="background:#00dd6a"></div>Azure Certified Engineers</div>
+        <div class="strip-item"><div class="strip-dot" style="background:#febc2e"></div>ISO 27001 Aligned</div>
+        <div class="strip-item"><div class="strip-dot" style="background:#a855f7"></div>GDPR Compliant</div>
+        <div class="strip-item"><div class="strip-dot" style="background:#00d4e8"></div>6 Countries Served</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SERVICE 01 — DATA ANALYTICS
+════════════════════════════════════════════════ -->
+<section class="service-section" data-screen-label="02 Data Analytics">
+  <div class="wrap">
+    <div class="svc-grid reveal">
+      <div>
+        <div class="svc-num">01</div>
+        <h2 class="svc-h2">Data Analytics &amp; Engineering</h2>
+        <p class="svc-desc">We design, build, and operate high-throughput data pipelines on Azure — from Event Hubs ingestion to HDInsight transformation to Power BI delivery. Every pipeline is observable, version-controlled, and SLA-backed.</p>
+        <div class="svc-features">
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#1a73e8"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Batch &amp; streaming unified.</strong> Tumbling windows, late-arrival handling, and exactly-once semantics — all in one topology.</div>
+          </div>
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#1a73e8"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Schema governance.</strong> Avro schema registries, contract testing, and automated migration across distributed teams.</div>
+          </div>
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#1a73e8"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Cost engineering.</strong> Right-sized clusters, spot VMs, and autoscaling heuristics — proven to reduce bills by 30–40%.</div>
+          </div>
+        </div>
+        <a class="svc-cta">Read the case study <span class="svc-arrow"><svg viewBox="0 0 13 13"><line x1="2" y1="11" x2="11" y2="2"/><polyline points="5 2 11 2 11 8"/></svg></span></a>
+      </div>
+      <div class="svc-panel">
+        <div class="panel-analytics">
+          <div class="panel-label">Live Pipeline · Production</div>
+          <div class="pipeline-row">
+            <div class="pipe-step"><div class="pipe-step-label">Event Hubs</div><div class="pipe-step-val">140M/day</div></div>
+            <div class="pipe-arr">→</div>
+            <div class="pipe-step"><div class="pipe-step-label">Stream Analytics</div><div class="pipe-step-val">5-min window</div></div>
+            <div class="pipe-arr">→</div>
+            <div class="pipe-step"><div class="pipe-step-label">Data Factory</div><div class="pipe-step-val">32 pipelines</div></div>
+          </div>
+          <div class="spark-grid">
+            <div class="spark-card">
+              <div class="spark-card-top"><span class="spark-card-name">Throughput</span><div class="live-dot"></div></div>
+              <div class="spark-card-val" style="color:#00dd6a">1.62M <span style="font-size:11px;color:var(--dark-fg3)">events/s</span></div>
+              <div class="spark-bar-wrap"><div class="spark-bar" style="width:81%;background:linear-gradient(90deg,#3d7eff,#00d4e8)"></div></div>
+            </div>
+            <div class="spark-card">
+              <div class="spark-card-top"><span class="spark-card-name">Latency p99</span><div class="live-dot"></div></div>
+              <div class="spark-card-val">48 <span style="font-size:11px;color:var(--dark-fg3)">ms</span></div>
+              <div class="spark-bar-wrap"><div class="spark-bar" style="width:22%;background:linear-gradient(90deg,#00dd6a,#8ce800)"></div></div>
+            </div>
+            <div class="spark-card">
+              <div class="spark-card-top"><span class="spark-card-name">Uptime</span></div>
+              <div class="spark-card-val" style="color:#00dd6a">99.97<span style="font-size:11px;color:var(--dark-fg3)">%</span></div>
+              <div class="spark-bar-wrap"><div class="spark-bar" style="width:99.97%;background:linear-gradient(90deg,#8ce800,#00dd6a)"></div></div>
+            </div>
+            <div class="spark-card">
+              <div class="spark-card-top"><span class="spark-card-name">Cost/GB</span></div>
+              <div class="spark-card-val">$0.018</div>
+              <div class="spark-bar-wrap"><div class="spark-bar" style="width:35%;background:linear-gradient(90deg,#a855f7,#7c3aed)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SERVICE 02 — VISUALISATION
+════════════════════════════════════════════════ -->
+<section class="service-section" data-screen-label="03 Visualisation">
+  <div class="wrap">
+    <div class="svc-grid flip reveal">
+      <div>
+        <div class="svc-num">02</div>
+        <h2 class="svc-h2">Data Visualisation</h2>
+        <p class="svc-desc">We turn complex data into decisions. Custom Power BI semantic models, embedded analytics, and executive dashboards that refresh on the minute — not the month.</p>
+        <div class="svc-features">
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#137333"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Power BI Premium.</strong> Paginated reports, large-model storage, and embedded analytics inside your own product.</div>
+          </div>
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#137333"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Semantic modelling.</strong> Star schemas, row-level security, and DAX that scales to billion-row fact tables without breaking a sweat.</div>
+          </div>
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#137333"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Real-time dashboards.</strong> DirectQuery and push datasets for sub-second refresh — no scheduled refresh required.</div>
+          </div>
+        </div>
+        <a class="svc-cta">See the showcase <span class="svc-arrow"><svg viewBox="0 0 13 13"><line x1="2" y1="11" x2="11" y2="2"/><polyline points="5 2 11 2 11 8"/></svg></span></a>
+      </div>
+      <div class="svc-panel">
+        <div class="panel-viz">
+          <div class="chart-header">
+            <div><div class="chart-title">Regional Sales Performance</div><div class="chart-sub">Last 6 months · All regions</div></div>
+            <div class="chart-legend">
+              <div class="leg-item"><div class="leg-dot" style="background:#1a73e8"></div>Actual</div>
+              <div class="leg-item"><div class="leg-dot" style="background:#e8f0fe"></div>Target</div>
+            </div>
+          </div>
+          <div class="chart-area">
+            <div class="bar-group"><div class="bar-pair"><div class="bar-a" style="height:110px"></div><div class="bar-b" style="height:130px"></div></div><div class="bar-month">Jan</div></div>
+            <div class="bar-group"><div class="bar-pair"><div class="bar-a" style="height:145px"></div><div class="bar-b" style="height:130px"></div></div><div class="bar-month">Feb</div></div>
+            <div class="bar-group"><div class="bar-pair"><div class="bar-a" style="height:125px"></div><div class="bar-b" style="height:140px"></div></div><div class="bar-month">Mar</div></div>
+            <div class="bar-group"><div class="bar-pair"><div class="bar-a" style="height:165px"></div><div class="bar-b" style="height:150px"></div></div><div class="bar-month">Apr</div></div>
+            <div class="bar-group"><div class="bar-pair"><div class="bar-a" style="height:148px"></div><div class="bar-b" style="height:155px"></div></div><div class="bar-month">May</div></div>
+            <div class="bar-group"><div class="bar-pair"><div class="bar-a" style="height:178px"></div><div class="bar-b" style="height:160px"></div></div><div class="bar-month">Jun</div></div>
+          </div>
+          <div class="chart-foot">
+            <div class="chart-kpi"><div class="chart-kpi-num">₹ 3.2Cr</div><div class="chart-kpi-label">Total revenue · YTD</div></div>
+            <div class="chart-kpi"><div class="chart-kpi-num" style="display:flex;align-items:center;gap:8px">+18% <span class="chart-kpi-badge badge-up">↑ vs last year</span></div><div class="chart-kpi-label">Growth rate</div></div>
+            <div class="chart-kpi"><div class="chart-kpi-num">6 regions</div><div class="chart-kpi-label">Active markets</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SERVICE 03 — AZURE ARCHITECTURE
+════════════════════════════════════════════════ -->
+<section class="service-section" data-screen-label="04 Architecture">
+  <div class="wrap">
+    <div class="svc-grid reveal">
+      <div>
+        <div class="svc-num">03</div>
+        <h2 class="svc-h2">Azure Architecture &amp; Migration</h2>
+        <p class="svc-desc">12-week migration playbooks. Zero-downtime cutovers. Dependency mapping, parallel-run validation, and the cutover checklists that have kept every client online — across 40+ enterprise migrations.</p>
+        <div class="svc-features">
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#c5221f"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Landing zone design.</strong> Hub-spoke networking, private endpoints, and Azure Policy guardrails from day one.</div>
+          </div>
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#c5221f"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Zero-downtime migrations.</strong> Parallel-run validation and traffic shifting via Azure Front Door — no maintenance windows.</div>
+          </div>
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#c5221f"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>FinOps from day one.</strong> Reserved instance analysis, auto-shutdown schedules, and a cost dashboard handed over at close.</div>
+          </div>
+        </div>
+        <a class="svc-cta">Download playbook <span class="svc-arrow"><svg viewBox="0 0 13 13"><line x1="2" y1="11" x2="11" y2="2"/><polyline points="5 2 11 2 11 8"/></svg></span></a>
+      </div>
+      <div class="svc-panel">
+        <div class="panel-arch">
+          <div class="panel-label">Azure Topology · Client Tenant</div>
+          <div class="arch-nodes">
+            <div class="arch-node">
+              <div class="arch-node-ico" style="background:rgba(61,126,255,.15)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3d7eff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+              <div class="arch-node-name">Hub VNet</div>
+              <div class="arch-node-status"><div class="live-dot"></div>Active</div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-node-ico" style="background:rgba(0,212,232,.15)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00d4e8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+              <div class="arch-node-name">Event Hubs</div>
+              <div class="arch-node-status"><div class="live-dot"></div>1.6M eps</div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-node-ico" style="background:rgba(140,232,0,.12)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8ce800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3S3 13.66 3 12"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+              <div class="arch-node-name">Data Lake</div>
+              <div class="arch-node-status"><div class="live-dot"></div>42TB</div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-node-ico" style="background:rgba(192,132,252,.15)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+              <div class="arch-node-name">ML Workspace</div>
+              <div class="arch-node-status"><div class="live-dot"></div>4 models</div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-node-ico" style="background:rgba(173,198,255,.15)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#adc6ff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+              <div class="arch-node-name">Key Vault</div>
+              <div class="arch-node-status"><div class="live-dot"></div>Secured</div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-node-ico" style="background:rgba(255,120,80,.12)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff7850" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
+              <div class="arch-node-name">Monitor</div>
+              <div class="arch-node-status"><div class="live-dot"></div>All green</div>
+            </div>
+          </div>
+          <div class="arch-stat-row">
+            <div class="arch-stat"><div class="arch-stat-num">12 wks</div><div class="arch-stat-label">Avg migration time</div></div>
+            <div class="arch-stat"><div class="arch-stat-num">0</div><div class="arch-stat-label">Downtime incidents</div></div>
+            <div class="arch-stat"><div class="arch-stat-num">40+</div><div class="arch-stat-label">Migrations delivered</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SERVICE 04 — MACHINE LEARNING
+════════════════════════════════════════════════ -->
+<section class="service-section" data-screen-label="05 Machine Learning">
+  <div class="wrap">
+    <div class="svc-grid flip reveal">
+      <div>
+        <div class="svc-num">04</div>
+        <h2 class="svc-h2">Machine Learning &amp; AI</h2>
+        <p class="svc-desc">From demand forecasting to anomaly detection — we take models from notebook to production. Azure ML pipelines, feature stores, MLflow tracking, and real-time inference endpoints that scale with load.</p>
+        <div class="svc-features">
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#7c3aed"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Production ML pipelines.</strong> Automated retraining, model versioning, and A/B traffic splitting via Azure ML endpoints.</div>
+          </div>
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#7c3aed"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Feature store engineering.</strong> Point-in-time correctness, offline/online sync, and versioned feature pipelines across teams.</div>
+          </div>
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#7c3aed"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Azure OpenAI integration.</strong> RAG pipelines, vector search with CosmosDB, and LLM-powered data products for enterprise teams.</div>
+          </div>
+        </div>
+        <a class="svc-cta">Read the ML whitepaper <span class="svc-arrow"><svg viewBox="0 0 13 13"><line x1="2" y1="11" x2="11" y2="2"/><polyline points="5 2 11 2 11 8"/></svg></span></a>
+      </div>
+      <div class="svc-panel">
+        <div class="panel-ml">
+          <div class="ml-header"><div class="ml-header-title">Azure ML — Model Registry</div><span class="ml-badge">4 in production</span></div>
+          <div class="ml-model">
+            <div class="ml-model-ico" style="background:#f3e8ff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div style="flex:1">
+              <div class="ml-model-name">Demand Forecasting v3.2</div>
+              <div class="ml-model-type">GradientBoostingRegressor · Deployed</div>
+              <div class="ml-model-foot">
+                <div class="ml-metric"><div class="ml-metric-val">94.3%</div><div class="ml-metric-label">Accuracy</div></div>
+                <div class="ml-metric"><div class="ml-metric-val">0.041</div><div class="ml-metric-label">MAE</div></div>
+                <div class="ml-metric"><div class="ml-metric-val">12ms</div><div class="ml-metric-label">Latency</div></div>
+              </div>
+              <div class="ml-prog"><div class="ml-prog-fill" style="width:94.3%"></div></div>
+            </div>
+          </div>
+          <div class="ml-model">
+            <div class="ml-model-ico" style="background:#e8f0fe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+            <div style="flex:1">
+              <div class="ml-model-name">Anomaly Detection v1.8</div>
+              <div class="ml-model-type">IsolationForest · Deployed</div>
+              <div class="ml-model-foot">
+                <div class="ml-metric"><div class="ml-metric-val">97.1%</div><div class="ml-metric-label">Precision</div></div>
+                <div class="ml-metric"><div class="ml-metric-val">0.003</div><div class="ml-metric-label">FPR</div></div>
+                <div class="ml-metric"><div class="ml-metric-val">8ms</div><div class="ml-metric-label">Latency</div></div>
+              </div>
+              <div class="ml-prog"><div class="ml-prog-fill" style="width:97.1%;background:linear-gradient(90deg,#1a73e8,#00d4e8)"></div></div>
+            </div>
+          </div>
+          <div class="ml-model">
+            <div class="ml-model-ico" style="background:#e6f4ea"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#137333" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div style="flex:1">
+              <div class="ml-model-name">Churn Predictor v2.0</div>
+              <div class="ml-model-type">XGBoostClassifier · Staging</div>
+              <div class="ml-model-foot">
+                <div class="ml-metric"><div class="ml-metric-val">89.6%</div><div class="ml-metric-label">AUC-ROC</div></div>
+                <div class="ml-metric"><div class="ml-metric-val">0.88</div><div class="ml-metric-label">F1</div></div>
+                <div class="ml-metric"><div class="ml-metric-val">18ms</div><div class="ml-metric-label">Latency</div></div>
+              </div>
+              <div class="ml-prog"><div class="ml-prog-fill" style="width:89.6%;background:linear-gradient(90deg,#137333,#00dd6a)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SERVICE 05 — IoT
+════════════════════════════════════════════════ -->
+<section class="service-section" data-screen-label="06 IoT">
+  <div class="wrap">
+    <div class="svc-grid reveal">
+      <div>
+        <div class="svc-num">05</div>
+        <h2 class="svc-h2">IoT &amp; Edge Intelligence</h2>
+        <p class="svc-desc">We connect fleets of devices to the cloud — provisioning, telemetry routing, edge inference, and the operational dashboards to manage it all. Thousands of devices, one platform.</p>
+        <div class="svc-features">
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#a06000"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Azure IoT Hub at scale.</strong> X.509 group enrollments, DPS zero-touch provisioning, and message routing to 12+ downstream targets.</div>
+          </div>
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#a06000"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Edge ML deployment.</strong> ONNX models pushed via IoT Edge modules — inference happens on-device, sub-millisecond.</div>
+          </div>
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#a06000"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Predictive maintenance.</strong> Anomaly detection on sensor streams to surface equipment failures days before they happen.</div>
+          </div>
+        </div>
+        <a class="svc-cta">See IoT case study <span class="svc-arrow"><svg viewBox="0 0 13 13"><line x1="2" y1="11" x2="11" y2="2"/><polyline points="5 2 11 2 11 8"/></svg></span></a>
+      </div>
+      <div class="svc-panel">
+        <div class="panel-iot">
+          <div class="panel-label">IoT Hub — Device Monitor · Live</div>
+          <div class="iot-map">
+            <div class="iot-device"><div class="iot-dev-id">DEV-001</div><div class="iot-dev-val">72.4°</div><div class="iot-dev-unit">Celsius</div><div class="iot-dev-status"><div class="live-dot"></div>Online</div></div>
+            <div class="iot-device"><div class="iot-dev-id">DEV-002</div><div class="iot-dev-val">68.1°</div><div class="iot-dev-unit">Celsius</div><div class="iot-dev-status"><div class="live-dot"></div>Online</div></div>
+            <div class="iot-device alert"><div class="iot-dev-id">DEV-003</div><div class="iot-dev-val">94.7°</div><div class="iot-dev-unit">Celsius</div><div class="iot-dev-status alert"><div class="live-dot"></div>Alert</div></div>
+            <div class="iot-device"><div class="iot-dev-id">DEV-004</div><div class="iot-dev-val">71.3°</div><div class="iot-dev-unit">Celsius</div><div class="iot-dev-status"><div class="live-dot"></div>Online</div></div>
+            <div class="iot-device"><div class="iot-dev-id">DEV-005</div><div class="iot-dev-val">1024</div><div class="iot-dev-unit">kPa</div><div class="iot-dev-status"><div class="live-dot"></div>Online</div></div>
+            <div class="iot-device"><div class="iot-dev-id">DEV-006</div><div class="iot-dev-val">1018</div><div class="iot-dev-unit">kPa</div><div class="iot-dev-status"><div class="live-dot"></div>Online</div></div>
+            <div class="iot-device"><div class="iot-dev-id">DEV-007</div><div class="iot-dev-val">3.14</div><div class="iot-dev-unit">m/s²</div><div class="iot-dev-status"><div class="live-dot"></div>Online</div></div>
+            <div class="iot-device"><div class="iot-dev-id">DEV-008</div><div class="iot-dev-val">2.98</div><div class="iot-dev-unit">m/s²</div><div class="iot-dev-status"><div class="live-dot"></div>Online</div></div>
+          </div>
+          <div class="iot-row">
+            <div class="iot-summary"><div class="iot-summary-num">10,842</div><div class="iot-summary-label">Devices provisioned</div></div>
+            <div class="iot-summary"><div class="iot-summary-num" style="color:#00dd6a">10,841</div><div class="iot-summary-label">Online now</div></div>
+            <div class="iot-summary"><div class="iot-summary-num" style="color:rgba(255,120,80,.9)">1</div><div class="iot-summary-label">Alerts active</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SERVICE 06 — .NET DEVELOPMENT
+════════════════════════════════════════════════ -->
+<section class="service-section" data-screen-label="07 .NET Development">
+  <div class="wrap">
+    <div class="svc-grid flip reveal">
+      <div>
+        <div class="svc-num">06</div>
+        <h2 class="svc-h2">.NET &amp; Application Development</h2>
+        <p class="svc-desc">Modern, maintainable .NET applications — microservices, APIs, and SharePoint modernisations. We write code that ships, scales, and still reads cleanly six months later.</p>
+        <div class="svc-features">
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#3949ab"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Minimal API gateways.</strong> .NET 8 minimal APIs as microservice gateways — low overhead, fast cold starts, native AOT ready.</div>
+          </div>
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#3949ab"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>Multi-tenant architecture.</strong> Tenant resolution middleware, isolated data contexts, and the testing patterns that prevent cross-tenant leaks.</div>
+          </div>
+          <div class="svc-feat">
+            <div class="feat-check" style="background:#3949ab"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div>
+            <div class="feat-text"><strong>SharePoint modernisation.</strong> ASP.NET + Angular migrations with MSAL auth — all six enterprise rollouts delivered on time.</div>
+          </div>
+        </div>
+        <a class="svc-cta">View engineering blog <span class="svc-arrow"><svg viewBox="0 0 13 13"><line x1="2" y1="11" x2="11" y2="2"/><polyline points="5 2 11 2 11 8"/></svg></span></a>
+      </div>
+      <div class="svc-panel">
+        <div class="panel-dotnet">
+          <div class="code-titlebar">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+            <div class="code-filename">DataController.cs</div>
+          </div>
+          <div class="code-body">
+<pre><span class="cmt">// Minimal API · .NET 8</span>
+<span class="kw">var</span> <span class="cls">builder</span> = WebApplication.<span class="fn">CreateBuilder</span>(args);
+
+builder.Services.<span class="fn">AddAzureClients</span>(c =>
+{
+    c.<span class="fn">AddEventHubProducerClient</span>(
+        builder.Configuration[<span class="str">"EventHub:Conn"</span>],
+        <span class="str">"telemetry"</span>);
+    c.<span class="fn">AddBlobServiceClient</span>(
+        builder.Configuration[<span class="str">"Storage:Conn"</span>]);
+});
+
+<span class="kw">var</span> app = builder.<span class="fn">Build</span>();
+
+app.<span class="fn">MapPost</span>(<span class="str">"/ingest"</span>,
+    <span class="kw">async</span> (TelemetryEvent <span class="cls">ev</span>,
+           EventHubProducerClient <span class="cls">hub</span>) =>
+    {
+        <span class="kw">await</span> hub.<span class="fn">SendAsync</span>(
+            <span class="kw">new</span>[] { <span class="cls">EventData</span>.<span class="fn">From</span>(<span class="cls">ev</span>) });
+        <span class="kw">return</span> Results.<span class="fn">Accepted</span>();
+    })
+    .<span class="fn">RequireAuthorization</span>()
+    .<span class="fn">WithName</span>(<span class="str">"IngestTelemetry"</span>);
+
+app.<span class="fn">Run</span>();</pre>
+            <div class="code-badge">✓ Build succeeded · 0 warnings · 0 errors</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AZURE PLATFORM STRIP ──────────────────────── -->
+<section class="platform" data-screen-label="08 Azure Platform">
+  <div class="wrap">
+    <div class="section-row" style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:52px;gap:40px">
+      <div>
+        <h2 class="platform-h reveal">Built on the full<br>Azure platform.</h2>
+        <p class="platform-sub reveal">Every service we offer runs on battle-tested Microsoft infrastructure — from ingestion to inference.</p>
+      </div>
+    </div>
+    <div class="platform-grid">
+      <div class="plat-card reveal">
+        <div class="plat-ico" style="background:rgba(61,126,255,.15)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3d7eff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="plat-name">Azure Event Hubs</div>
+        <div class="plat-desc">Kafka-compatible ingestion at millions of events per second.</div>
+      </div>
+      <div class="plat-card reveal" style="transition-delay:.06s">
+        <div class="plat-ico" style="background:rgba(0,221,106,.12)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00dd6a" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3S3 13.66 3 12"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+        <div class="plat-name">HDInsight</div>
+        <div class="plat-desc">Managed Hadoop, Spark, and HBase — provisioned in minutes.</div>
+      </div>
+      <div class="plat-card reveal" style="transition-delay:.12s">
+        <div class="plat-ico" style="background:rgba(192,132,252,.15)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+        <div class="plat-name">Azure ML Studio</div>
+        <div class="plat-desc">End-to-end ML lifecycle — training, tracking, and deployment.</div>
+      </div>
+      <div class="plat-card reveal" style="transition-delay:.18s">
+        <div class="plat-ico" style="background:rgba(0,212,232,.12)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00d4e8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="plat-name">Stream Analytics</div>
+        <div class="plat-desc">Real-time SQL queries over event streams — zero infra to manage.</div>
+      </div>
+      <div class="plat-card reveal" style="transition-delay:.06s">
+        <div class="plat-ico" style="background:rgba(254,188,46,.12)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#febc2e" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+        <div class="plat-name">Data Factory</div>
+        <div class="plat-desc">Orchestration for 100+ connector types across cloud and on-prem.</div>
+      </div>
+      <div class="plat-card reveal" style="transition-delay:.12s">
+        <div class="plat-ico" style="background:rgba(255,120,80,.12)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff7850" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="plat-name">Azure IoT Hub</div>
+        <div class="plat-desc">Device-to-cloud telemetry routing at any scale, fully managed.</div>
+      </div>
+      <div class="plat-card reveal" style="transition-delay:.18s">
+        <div class="plat-ico" style="background:rgba(140,232,0,.1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8ce800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="plat-name">Power BI Premium</div>
+        <div class="plat-desc">Paginated reports, embedded analytics, and large-model storage.</div>
+      </div>
+      <div class="plat-card reveal" style="transition-delay:.24s">
+        <div class="plat-ico" style="background:rgba(173,198,255,.15)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#adc6ff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="plat-name">Azure OpenAI</div>
+        <div class="plat-desc">GPT-4 and embeddings for RAG pipelines, copilots, and agents.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── OUR PROCESS ──────────────────────────────── -->
+<section class="process" data-screen-label="09 Process">
+  <div class="wrap">
+    <h2 class="process-h reveal">How every engagement works.</h2>
+    <p class="process-sub reveal">Four phases. No surprises. Your team stays in control at every step.</p>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div class="step-title">Discovery</div>
+        <div class="step-desc">2-week deep dive into your data estate — sources, volumes, existing tooling, and pain points. We produce a written architecture brief.</div>
+        <div class="step-arr">→</div>
+      </div>
+      <div class="step reveal" style="transition-delay:.08s">
+        <div class="step-num">02</div>
+        <div class="step-title">Design</div>
+        <div class="step-desc">Architecture review and solution design. Technology choices, cost models, and a signed statement of work — before we write a line of code.</div>
+        <div class="step-arr">→</div>
+      </div>
+      <div class="step reveal" style="transition-delay:.16s">
+        <div class="step-num">03</div>
+        <div class="step-title">Build</div>
+        <div class="step-desc">Two-week sprints with demo checkpoints. Every sprint ends with working software — not slides. Your team has GitHub access from day one.</div>
+        <div class="step-arr">→</div>
+      </div>
+      <div class="step reveal" style="transition-delay:.24s">
+        <div class="step-num">04</div>
+        <div class="step-title">Operate</div>
+        <div class="step-desc">Hypercare, runbooks, monitoring dashboards handed over to your team. Optional managed service for teams without internal ops capability.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRODUCTS BAND ─────────────────────────────── -->
+<section class="products-band" data-screen-label="10 Products">
+  <div class="wrap">
+    <div class="prod-eyebrow">We build AI products too</div>
+    <h2 class="prod-h reveal">Turning our expertise<br>into products.</h2>
+    <p class="prod-sub reveal">Beyond consulting, we ship AI-powered software products built on the same Azure platform we use for our clients — starting with hiring.</p>
+    <div class="prod-grid reveal">
+
+      <!-- Veloxhire.AI — featured -->
+      <div class="prod-featured">
+        <div class="prod-featured-top">
+          <div class="prod-chip"><span class="prod-chip-dot"></span>Live · Early access</div>
+          <div class="prod-name">Velox<span class="ai">hire.AI</span></div>
+          <div class="prod-tagline">Intelligent hiring for data-driven teams.</div>
+          <div class="prod-desc">Veloxhire.AI uses Azure OpenAI to screen, rank, and shortlist candidates in minutes — so your engineers spend time interviewing, not filtering. Built for technical hiring at scale.</div>
+          <div class="prod-feats">
+            <div class="prod-feat"><div class="prod-feat-ico"><svg viewBox="0 0 10 8"><polyline points="1 4 3.5 6.5 9 1"/></svg></div>AI-powered CV screening &amp; skills extraction</div>
+            <div class="prod-feat"><div class="prod-feat-ico"><svg viewBox="0 0 10 8"><polyline points="1 4 3.5 6.5 9 1"/></svg></div>Auto-generated technical assessments</div>
+            <div class="prod-feat"><div class="prod-feat-ico"><svg viewBox="0 0 10 8"><polyline points="1 4 3.5 6.5 9 1"/></svg></div>Match scoring against your job spec — live</div>
+            <div class="prod-feat"><div class="prod-feat-ico"><svg viewBox="0 0 10 8"><polyline points="1 4 3.5 6.5 9 1"/></svg></div>Integrates with LinkedIn, Naukri &amp; ATS</div>
+          </div>
+          <div class="prod-acts">
+            <a class="btn-prod btn-prod-primary" href="https://veloxhire.ai/sign-up" target="_blank">Start for free</a>
+            <a class="btn-prod btn-prod-ghost" href="Veloxhire.AI.html">Learn more →</a>
+          </div>
+        </div>
+        <div class="prod-featured-visual">
+          <div class="hire-ui">
+            <div class="hire-card">
+              <div class="hire-ava" style="background:linear-gradient(135deg,#7c3aed,#3d7eff)"></div>
+              <div class="hire-info"><div class="hire-name">Priya Sharma</div><div class="hire-role">Senior Data Engineer · 6 yrs Azure</div></div>
+              <div class="hire-match">98% match</div>
+              <div class="hire-score">9.8 <span>/10</span></div>
+            </div>
+            <div class="hire-card" style="opacity:.72">
+              <div class="hire-ava" style="background:linear-gradient(135deg,#1a73e8,#00d4e8)"></div>
+              <div class="hire-info"><div class="hire-name">Arun Menon</div><div class="hire-role">ML Engineer · 4 yrs Spark</div></div>
+              <div class="hire-match">91% match</div>
+              <div class="hire-score">9.1 <span>/10</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Future slot -->
+      <div class="prod-future">
+        <div class="future-ring"></div>
+        <div class="future-label">Next product</div>
+        <div class="future-sub">Something new is brewing in the Veloxcore lab.</div>
+        <a class="future-tag">Join the waitlist →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ──────────────────────────────── -->
+<section class="testimonials" data-screen-label="10 Testimonials">
+  <div class="wrap">
+    <h2 class="test-h reveal">What clients say.</h2>
+    <div class="test-grid">
+      <div class="test-card reveal">
+        <div class="test-quote">The pipeline Veloxcore built handles 140M events a day without breaking a sweat. Our old Hadoop cluster couldn't touch that.</div>
+        <div class="test-foot">
+          <div class="test-ava" style="background:linear-gradient(135deg,#3d7eff,#00d4e8)"></div>
+          <div><div class="test-name">Pradeep Nair</div><div class="test-role">CTO · Retail Co.</div></div>
+          <span class="test-tag" style="background:#e6f4ea;color:#137333">Big Data</span>
+        </div>
+      </div>
+      <div class="test-card reveal" style="transition-delay:.08s">
+        <div class="test-quote">We went live on Azure in 12 weeks with zero downtime. I've never seen a migration that clean — and we've done four before.</div>
+        <div class="test-foot">
+          <div class="test-ava" style="background:linear-gradient(135deg,#00dd6a,#8ce800)"></div>
+          <div><div class="test-name">Sanjay Mehta</div><div class="test-role">VP Engineering · Logistics Ltd.</div></div>
+          <span class="test-tag" style="background:#e8f0fe;color:#1a73e8">Azure</span>
+        </div>
+      </div>
+      <div class="test-card reveal" style="transition-delay:.16s">
+        <div class="test-quote">The demand forecasting model reduced our overstock by 22% in the first quarter. The feature store alone was worth the engagement.</div>
+        <div class="test-foot">
+          <div class="test-ava" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"></div>
+          <div><div class="test-name">Anita Desai</div><div class="test-role">Head of Analytics · FMCG Corp.</div></div>
+          <span class="test-tag" style="background:#f3e8ff;color:#7c3aed">ML</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ───────────────────────────────────────── -->
+<section class="cta-section" data-screen-label="11 CTA">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div>
+        <h2 class="cta-h reveal">Ready to move your data faster?</h2>
+        <p class="cta-sub reveal">Book a free 45-minute architecture review with one of our senior engineers. No sales pitch. Just an honest look at your data estate and where we can help.</p>
+        <div class="cta-acts reveal">
+          <a class="btn-white">Book a free review</a>
+          <a class="btn-ghost">Download capability deck</a>
+        </div>
+      </div>
+      <div class="cta-card-grid reveal">
+        <div class="cta-card"><div class="cta-card-num">6</div><div class="cta-card-label">Services offered</div></div>
+        <div class="cta-card"><div class="cta-card-num">40+</div><div class="cta-card-label">Enterprise clients</div></div>
+        <div class="cta-card"><div class="cta-card-num">12 yrs</div><div class="cta-card-label">Azure experience</div></div>
+        <div class="cta-card"><div class="cta-card-num">6 🌍</div><div class="cta-card-label">Countries served</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────── -->
+<footer class="footer" data-screen-label="12 Footer">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-brand">
+        <div class="logo-row"><span class="mark"></span><span class="logo">Veloxcore</span></div>
+        <p>Microsoft Gold Partner for Cloud Platform and Application Integration. Headquartered in Ahmedabad, India · 6 countries served.</p>
+      </div>
+      <div><div class="foot-h">Services</div><ul class="foot-list"><li><a>Data Analytics</a></li><li><a>Visualisation</a></li><li><a>Architecture</a></li><li><a>Machine Learning</a></li><li><a>IoT</a></li><li><a>.NET Development</a></li></ul></div>
+      <div><div class="foot-h">Azure</div><ul class="foot-list"><li><a>HDInsight</a></li><li><a>ML Studio</a></li><li><a>IoT Hub</a></li><li><a>Stream Analytics</a></li><li><a>Data Factory</a></li></ul></div>
+      <div><div class="foot-h">Company</div><ul class="foot-list"><li><a>About</a></li><li><a>Careers</a></li><li><a href="Veloxcore Blog.html">Blog</a></li><li><a>Contact</a></li></ul></div>
+      <div><div class="foot-h">Resources</div><ul class="foot-list"><li><a>Documentation</a></li><li><a>Case studies</a></li><li><a>Press</a></li><li><a>Privacy</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span class="copy">© 2026 Veloxcore Private Limited · Ahmedabad, Gujarat, India</span>
+      <div class="right"><a>Privacy</a><a>Terms</a><a>Cookies</a><span class="locale">English ▾</span></div>
+    </div>
+  </div>
+</footer>
+
+<div id="tweaks-root"></div>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{"accent":"#1a73e8","panelTheme":"dark"}/*EDITMODE-END*/;
+
+function ServicesTweaks() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--accent', tweaks.accent);
+  }, [tweaks.accent]);
+
+  React.useEffect(() => {
+    const panels = document.querySelectorAll('.panel-analytics,.panel-arch,.panel-iot');
+    panels.forEach(p => {
+      if (tweaks.panelTheme === 'light') {
+        p.style.background = '#ffffff';
+        p.style.border = '1px solid var(--border)';
+        p.querySelectorAll('.panel-label').forEach(el => el.style.color = 'var(--fg3)');
+      } else {
+        p.style.background = '';
+        p.style.border = '';
+        p.querySelectorAll('.panel-label').forEach(el => el.style.color = '');
+      }
+    });
+  }, [tweaks.panelTheme]);
+
+  return (
+    <TweaksPanel>
+      <TweakSection label="Accent colour">
+        <TweakColor value={tweaks.accent} options={['#1a73e8','#7c3aed','#00a67e','#d44010']} onChange={v => setTweak('accent', v)} />
+      </TweakSection>
+      <TweakSection label="Panel theme">
+        <TweakRadio
+          value={tweaks.panelTheme}
+          options={[{label:'Dark',value:'dark'},{label:'Light',value:'light'}]}
+          onChange={v => setTweak('panelTheme', v)}
+        />
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+const root = document.getElementById('tweaks-root');
+if(root) ReactDOM.createRoot(root).render(<ServicesTweaks />);
+</script>
+
+<script>
+/* Hero particles */
+(function(){const c=document.querySelector('.hero-canvas');if(!c)return;const ctx=c.getContext('2d');const N=72,MAXD=150;const COLS=['rgba(61,126,255,','rgba(0,212,232,','rgba(0,221,106,','rgba(61,126,255,'];let W,H,pts=[],mouse={x:-9999,y:-9999};function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}function init(){pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.6+0.6,col:COLS[Math.floor(Math.random()*COLS.length)]}));}function draw(){ctx.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);if(d<MAXD){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(61,126,255,${(1-d/MAXD)*0.08})`;ctx.lineWidth=.6;ctx.stroke();}}const dm=Math.hypot(pts[i].x-mouse.x,pts[i].y-mouse.y);if(dm<MAXD*1.6){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=`rgba(61,126,255,${(1-dm/(MAXD*1.6))*0.16})`;ctx.lineWidth=.7;ctx.stroke();}ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,pts[i].r,0,Math.PI*2);ctx.fillStyle=pts[i].col+'0.55)';ctx.fill();}}function loop(){pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;});draw();requestAnimationFrame(loop);}window.addEventListener('resize',()=>{resize();init();});document.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});resize();init();loop();})();
+</script>
+<script>
+/* Reveal on scroll */
+(function(){
+  const els = Array.from(document.querySelectorAll('.reveal'));
+  function check(){
+    const vh = window.innerHeight;
+    els.forEach(el => {
+      if(el.classList.contains('visible')) return;
+      const r = el.getBoundingClientRect();
+      if(r.top < vh * .92 && r.bottom > 0) el.classList.add('visible');
+    });
+  }
+  window.addEventListener('scroll', check, {passive:true});
+  window.addEventListener('resize', check);
+  setTimeout(check, 80);
+  setTimeout(check, 500);
+})();
+</script>
+</body>
+</html>

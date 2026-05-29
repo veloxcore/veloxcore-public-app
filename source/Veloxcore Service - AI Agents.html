@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Agents & Automation — Veloxcore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="veloxcore.css">
+  <style>
+    :root { --accent: #0891b2; }
+    /* Agent flow visual */
+    .agent-vis{background:var(--dark-surface);border-radius:22px;padding:32px;display:flex;flex-direction:column;gap:14px;}
+    .av-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--dark-fg3);}
+    .agent-flow{display:flex;flex-direction:column;gap:8px;}
+    .agent-node{background:var(--dark-card);border:1px solid var(--dark-divider);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;}
+    .agent-node-ico{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .agent-node-ico svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+    .agent-node-name{font-size:12px;font-weight:600;color:var(--dark-fg1);letter-spacing:-.01em;}
+    .agent-node-sub{font-size:10px;color:var(--dark-fg3);margin-top:1px;}
+    .agent-node-status{margin-left:auto;font-family:var(--mono);font-size:9px;padding:2px 8px;border-radius:9999px;}
+    .status-done{background:rgba(0,221,106,.1);color:#00dd6a;}
+    .status-run{background:rgba(8,145,178,.15);color:#67e8f9;}
+    .status-wait{background:rgba(255,255,255,.06);color:var(--dark-fg3);}
+    .agent-arrow{display:flex;align-items:center;justify-content:center;color:var(--dark-fg3);font-size:11px;padding:2px 0;}
+    .agent-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+    .as-cell{background:var(--dark-card);border:1px solid var(--dark-divider);border-radius:10px;padding:12px;}
+    .as-num{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.03em;color:var(--dark-fg1);}
+    .as-label{font-size:10px;color:var(--dark-fg3);margin-top:2px;}
+    .tech-card:hover{border-color:rgba(8,145,178,.3);}
+    .cs-cover{background:linear-gradient(130deg,#021d26,#0891b2,#67e8f9);}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Veloxcore Home.html"><span class="mark"></span><span class="logo">Veloxcore</span></a>
+    <div class="nav-links">
+      <div class="nav-item has-dropdown">
+        <a class="nav-link active" href="Veloxcore Services.html">Services <span class="chev"></span></a>
+        <div class="nav-dropdown">
+          <div class="nd-section">
+            <span class="nd-label">AI Services</span>
+            <a class="nd-link" href="Veloxcore Service - Generative AI.html"><span class="nd-name">Generative AI &amp; LLMs</span><span class="nd-desc">LLM apps, copilots, evaluation harnesses</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Agents.html"><span class="nd-name">AI Agents &amp; Automation</span><span class="nd-desc">Multi-step agents, tool-calling, human-in-loop</span></a>
+            <a class="nd-link" href="Veloxcore Service - RAG.html"><span class="nd-name">RAG &amp; Knowledge Systems</span><span class="nd-desc">Retrieval pipelines with citations &amp; hybrid search</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Strategy.html"><span class="nd-name">AI Strategy &amp; Discovery</span><span class="nd-desc">2-week sprint to your AI roadmap</span></a>
+          </div>
+          <div class="nd-section">
+            <span class="nd-label">Platform &amp; Data</span>
+            <a class="nd-link" href="Veloxcore Service - Azure AI.html"><span class="nd-name">Azure AI &amp; Cloud</span><span class="nd-desc">Azure OpenAI, AI Foundry, migrations</span></a>
+            <a class="nd-link" href="Veloxcore Service - Data Engineering.html"><span class="nd-name">Data Engineering</span><span class="nd-desc">Pipelines, lakehouses, real-time analytics</span></a>
+            <a class="nd-link" href="Veloxcore Service - Machine Learning.html"><span class="nd-name">Machine Learning</span><span class="nd-desc">Custom models, MLOps, evaluation</span></a>
+            <a class="nd-link" href="Veloxcore Service - IoT.html"><span class="nd-name">IoT &amp; Edge Intelligence</span><span class="nd-desc">Device fleets, edge ML, Azure IoT Hub</span></a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-link" href="Veloxhire.AI.html">Products</a>
+      <a class="nav-link" href="Veloxcore Work.html">Work</a>
+      <div class="nav-item has-dropdown">
+        <a class="nav-link" href="Veloxcore About.html">Company <span class="chev"></span></a>
+        <div class="nav-dropdown nd-small">
+          <div class="nd-section">
+            <a class="nd-link" href="Veloxcore About.html"><span class="nd-name">About</span><span class="nd-desc">Story, team &amp; values</span></a>
+            <a class="nd-link" href="Veloxcore Blog.html"><span class="nd-name">Blog</span><span class="nd-desc">Insights on AI, Azure &amp; data</span></a>
+            <a class="nd-link" href="Veloxcore Contact.html"><span class="nd-name">Contact</span><span class="nd-desc">Get in touch with our team</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="nav-cta" href="Veloxcore Contact.html">Book a call<span class="nav-cta-ico"><svg viewBox="0 0 8 8"><polyline points="1 4 4 7 7 4"></polyline><line x1="4" y1="1" x2="4" y2="7"></line></svg></span></a>
+  </div>
+</nav>
+
+<section class="hero" data-screen-label="01 Hero">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-breadcrumb"><a href="Veloxcore Services.html">Services</a><span class="sep">›</span><span>AI Agents &amp; Automation</span></div>
+        <div class="svc-badge"><span class="svc-badge-dot"></span>AI Agents &amp; Automation</div>
+        <h1 class="hero-h1">Autonomous agents that get work done.</h1>
+        <p class="hero-sub">We design and deploy multi-step AI agents — tool-calling, memory-augmented, human-in-the-loop — for workflows that are too complex for a single LLM call and too valuable to leave manual.</p>
+        <div class="hero-acts">
+          <a class="btn-accent" href="Veloxcore Contact.html">Book a free call</a>
+          <a class="btn-ghost-light" href="Veloxcore Work.html">See our work →</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="h-kpi"><div class="h-kpi-num">85%</div><div class="h-kpi-label">Manual task reduction in first deployment</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">7</div><div class="h-kpi-label">Tool calls per agent workflow (avg)</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">10 wks</div><div class="h-kpi-label">Avg time to production agent</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">99.1%</div><div class="h-kpi-label">Task completion rate (supervised)</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="who" data-screen-label="02 Who">
+  <div class="wrap">
+    <div class="sec-label">Who this is for</div>
+    <h2 class="sec-h reveal">Three teams that need agents.</h2>
+    <p class="sec-sub reveal">You have high-value, multi-step workflows that humans handle today. You're ready to automate them — carefully.</p>
+    <div class="persona-grid">
+      <div class="persona reveal">
+        <div class="persona-role">Head of Operations / COO</div>
+        <div class="persona-title">The automation seeker</div>
+        <div class="persona-pain">You have workflows — contract review, invoice processing, customer onboarding — that require 20 manual steps and three systems. Your team is the bottleneck. You know AI can help but you've been burned by RPA that breaks every time a UI changes.</div>
+        <div class="persona-quote">"We've tried RPA twice. It worked for six months and then broke every release."</div>
+      </div>
+      <div class="persona reveal" style="transition-delay:.07s">
+        <div class="persona-role">CTO / VP Engineering</div>
+        <div class="persona-title">The AI product builder</div>
+        <div class="persona-pain">You want to add agentic capabilities to your product — a copilot that can take actions, not just answer questions. You need tool-calling, memory, guardrails, and the ability to keep humans in the loop for high-stakes decisions.</div>
+        <div class="persona-quote">"Our users want AI that does things, not just tells them things."</div>
+      </div>
+      <div class="persona reveal" style="transition-delay:.14s">
+        <div class="persona-role">Head of AI / Digital Transformation</div>
+        <div class="persona-title">The enterprise AI lead</div>
+        <div class="persona-pain">You have a mandate to deploy AI. You have 12 potential use cases. You don't know which ones are ready for agents vs. a simpler LLM call vs. a traditional automation. You need a partner who can distinguish signal from hype.</div>
+        <div class="persona-quote">"Everyone wants an agent. I need to know which use cases actually warrant it."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="deliver" data-screen-label="03 Deliver">
+  <div class="wrap">
+    <div class="deliver-grid">
+      <div>
+        <div class="sec-label">What you get</div>
+        <h2 class="sec-h reveal">A production agent.<br>Not a chatbot that tries things.</h2>
+        <p class="sec-sub reveal" style="margin-bottom:0">Production agents are not demos. They have retry logic, human escalation paths, audit trails, and the observability to know when something went wrong.</p>
+        <div class="deliver-list reveal">
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Production agent system</strong><span>Multi-step agent deployed on Azure AI Foundry — with tool definitions, memory (short and long-term), and a configurable human-in-the-loop checkpoint for high-stakes decisions.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Tool integrations</strong><span>We build the tool layer — API connectors, database queries, web search, code execution, email/calendar, and custom business logic — that the agent calls to get work done.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Human-in-the-loop controls</strong><span>Configurable approval gates — the agent pauses and escalates to a human for any action above a defined risk threshold. No agent takes irreversible actions unsupervised.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Full audit trail</strong><span>Every agent run logged: which tools were called, in what order, with what inputs and outputs. Queryable for debugging, compliance, and continuous improvement.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Monitoring &amp; alerting</strong><span>Task completion rates, error patterns, tool failure rates, and latency dashboards — plus alerts when the agent deviates from expected behaviour.</span></div></div>
+        </div>
+      </div>
+      <div class="agent-vis reveal" style="transition-delay:.1s">
+        <div class="av-label">Agent run · contract review workflow</div>
+        <div class="agent-flow">
+          <div class="agent-node">
+            <div class="agent-node-ico" style="background:rgba(8,145,178,.15);color:#67e8f9"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            <div><div class="agent-node-name">Read contract PDF</div><div class="agent-node-sub">Tool: azure_blob_read · 47 pages</div></div>
+            <div class="agent-node-status status-done">done</div>
+          </div>
+          <div class="agent-arrow">↓</div>
+          <div class="agent-node">
+            <div class="agent-node-ico" style="background:rgba(8,145,178,.15);color:#67e8f9"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+            <div><div class="agent-node-name">Extract key clauses</div><div class="agent-node-sub">Tool: llm_extract · GPT-4o</div></div>
+            <div class="agent-node-status status-done">done</div>
+          </div>
+          <div class="agent-arrow">↓</div>
+          <div class="agent-node">
+            <div class="agent-node-ico" style="background:rgba(8,145,178,.15);color:#67e8f9"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div><div class="agent-node-name">Risk assessment</div><div class="agent-node-sub">Tool: policy_check · 3 flags</div></div>
+            <div class="agent-node-status status-run">running</div>
+          </div>
+          <div class="agent-arrow">↓</div>
+          <div class="agent-node">
+            <div class="agent-node-ico" style="background:rgba(255,255,255,.06);color:var(--dark-fg3)"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+            <div><div class="agent-node-name">Human review</div><div class="agent-node-sub">Escalation gate · awaiting approval</div></div>
+            <div class="agent-node-status status-wait">waiting</div>
+          </div>
+        </div>
+        <div class="agent-stats">
+          <div class="as-cell"><div class="as-num">85%</div><div class="as-label">Task automation</div></div>
+          <div class="as-cell"><div class="as-num">3 min</div><div class="as-label">vs 2hrs manual</div></div>
+          <div class="as-cell"><div class="as-num">100%</div><div class="as-label">Audit coverage</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="approach" data-screen-label="04 Approach">
+  <div class="wrap">
+    <div class="sec-label">Our approach</div>
+    <h2 class="sec-h reveal">Use case first. Agent second.</h2>
+    <div class="approach-grid">
+      <div class="ap-step reveal"><div class="ap-num">01</div><div class="ap-title">Use case audit</div><div class="ap-desc">We map your target workflow end-to-end — every step, system, decision point, and exception path. We decide whether it warrants an agent, a simpler LLM call, or traditional automation.</div><div class="ap-dur">Week 1</div></div>
+      <div class="ap-step reveal" style="transition-delay:.06s"><div class="ap-num">02</div><div class="ap-title">Tool design</div><div class="ap-desc">We design the tool layer — every action the agent can take, with input/output schemas, error handling, and rate limits. Good tool design is 80% of good agent design.</div><div class="ap-dur">Weeks 2–3</div></div>
+      <div class="ap-step reveal" style="transition-delay:.12s"><div class="ap-num">03</div><div class="ap-title">Build &amp; evaluate</div><div class="ap-desc">We build the agent with human-in-the-loop checkpoints at every high-stakes decision. We run it on 50+ real historical cases and measure task completion, error rate, and latency.</div><div class="ap-dur">Weeks 4–8</div></div>
+      <div class="ap-step reveal" style="transition-delay:.18s"><div class="ap-num">04</div><div class="ap-title">Supervised rollout</div><div class="ap-desc">We go live with 100% human review of agent outputs for the first two weeks, then progressively reduce supervision as confidence builds. Audit trail from day one.</div><div class="ap-dur">Weeks 9–10</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="tech" data-screen-label="05 Tech">
+  <div class="wrap">
+    <h2 class="tech-h reveal">Our agent stack.</h2>
+    <p class="tech-sub reveal">The platforms and frameworks we use to build agents that actually ship.</p>
+    <div class="tech-grid">
+      <div class="tech-card reveal"><div class="tech-ico" style="background:rgba(8,145,178,.12);color:#67e8f9"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg></div><div class="tech-name">Azure AI Foundry</div><div class="tech-desc">Agent definitions, tool registries, conversation threads, and run management — the control plane for multi-agent systems.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.05s"><div class="tech-ico" style="background:rgba(0,212,232,.1);color:#00d4e8"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="tech-name">Semantic Kernel</div><div class="tech-desc">Microsoft's SDK for orchestrating LLM planners, plugins, and function-calling in .NET and Python.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.1s"><div class="tech-ico" style="background:rgba(99,102,241,.1);color:#a5b4fc"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg></div><div class="tech-name">AutoGen</div><div class="tech-desc">Multi-agent conversation frameworks — for orchestrator-worker patterns where specialised agents collaborate on complex tasks.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.15s"><div class="tech-ico" style="background:rgba(61,126,255,.1);color:#82baff"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div class="tech-name">Azure OpenAI</div><div class="tech-desc">GPT-4o with function calling — the reasoning engine at the core of every agent workflow we build.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.05s"><div class="tech-ico" style="background:rgba(0,221,106,.1);color:#00dd6a"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="tech-name">Azure Logic Apps</div><div class="tech-desc">For durable, long-running workflow orchestration with guaranteed delivery — when an agent needs to wait hours or days.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.1s"><div class="tech-ico" style="background:rgba(254,188,46,.12);color:#febc2e"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="tech-name">Azure Functions</div><div class="tech-desc">Serverless tool implementations — each API call, database query, and business logic action deployed as an isolated function.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.15s"><div class="tech-ico" style="background:rgba(140,232,0,.1);color:#8ce800"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="tech-name">Copilot Studio</div><div class="tech-desc">For agents that surface in Microsoft 365 — Teams bots, Outlook copilots, and SharePoint-integrated assistants.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.2s"><div class="tech-ico" style="background:rgba(192,132,252,.12);color:#c084fc"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="tech-name">Application Insights</div><div class="tech-desc">Per-run tracing, tool call latency, error classification, and completion rate dashboards for agent monitoring.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="proof" data-screen-label="06 Proof">
+  <div class="wrap">
+    <div class="sec-label">Proof</div>
+    <h2 class="sec-h reveal">From a real agent deployment.</h2>
+    <div class="proof-grid reveal">
+      <div class="cs-tile" onclick="location.href='Veloxcore Work.html'">
+        <div class="cs-cover"></div>
+        <div class="cs-body">
+          <div class="cs-cat">Finance · AI Agents</div>
+          <div class="cs-title">Contract review agent handling 200+ documents/week — 85% of manual steps automated.</div>
+          <div class="cs-nums">
+            <div class="cs-n"><div class="cs-n-val">85%</div><div class="cs-n-label">Steps automated</div></div>
+            <div class="cs-n"><div class="cs-n-val">3 min</div><div class="cs-n-label">vs 2hrs manual</div></div>
+            <div class="cs-n"><div class="cs-n-val">99.1%</div><div class="cs-n-label">Completion rate</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="quotes">
+        <div class="quote-card reveal">
+          <div class="quote-text">"We were sceptical about agents after reading about hallucinations. The human-in-the-loop checkpoints Veloxcore built gave us the confidence to actually put this in production."</div>
+          <div class="quote-foot"><div class="q-ava" style="background:linear-gradient(135deg,#0891b2,#67e8f9)"></div><div><div class="q-name">Kavita Sharma</div><div class="q-role">Head of Legal Ops · Finance Co.</div></div></div>
+        </div>
+        <div class="quote-card reveal" style="transition-delay:.08s">
+          <div class="quote-text">"The audit trail was non-negotiable for our compliance team. Every agent run is logged with every tool call. We can reconstruct exactly what the agent did and why."</div>
+          <div class="quote-foot"><div class="q-ava" style="background:linear-gradient(135deg,#021d26,#0891b2)"></div><div><div class="q-name">Rohan Iyer</div><div class="q-role">Enterprise Architect · Finance Co.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" data-screen-label="07 FAQ">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div>
+        <div class="sec-label">FAQ</div>
+        <h2 class="sec-h reveal">Common questions.</h2>
+        <p class="sec-sub reveal" style="margin-bottom:0;max-width:36ch">Questions we get on almost every agent discovery call.</p>
+      </div>
+      <div class="faq-list reveal">
+        <div class="faq-item open"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">When does a workflow warrant an agent vs. a simpler LLM call?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">Use an agent when the task requires multiple sequential decisions, where the output of one step determines what to do next, and where the steps involve calling external tools. If your task is a single-turn question-answering problem, a standard RAG pipeline is simpler and more reliable. We help you make this distinction at the start of every engagement.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What happens when an agent makes a mistake?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">Every production agent we build has configurable human-in-the-loop checkpoints for high-risk actions, retry logic with exponential backoff for transient failures, and a full audit trail for post-hoc debugging. For irreversible actions (sending emails, writing to databases, making payments), we always require explicit human approval in the first production phase.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How do you handle agents that need to wait for hours or days?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">For durable workflows — where an agent submits a request and needs to wait for a human response or an external event — we use Azure Durable Functions or Logic Apps rather than keeping a thread alive. This gives you guaranteed delivery, resumability, and cost efficiency even for workflows that span days.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Can agents integrate with our existing systems?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">Yes — the tool layer is where we integrate with your existing stack. We've built tool integrations for CRMs, ERPs, databases, REST APIs, email/calendar, SharePoint, and custom internal systems. If it has an API or a database connection, we can build a tool for it.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" data-screen-label="08 CTA">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div>
+        <h2 class="cta-h reveal">Ready to automate your first workflow?</h2>
+        <p class="cta-sub reveal">Book a free 45-minute session. We'll assess your use case and tell you honestly whether it warrants an agent.</p>
+      </div>
+      <div class="cta-acts reveal">
+        <a class="btn-white" href="Veloxcore Contact.html">Book a free call</a>
+        <a class="btn-ghost" href="Veloxcore Work.html">See our work →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" data-screen-label="09 Footer">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-brand"><div class="logo-row"><span class="mark"></span><span class="logo">Veloxcore</span></div><p>Microsoft Gold Partner for Cloud Platform and Application Integration.</p></div>
+      <div><div class="foot-h">Services</div><ul class="foot-list"><li><a href="Veloxcore Services.html">All services</a></li><li><a href="Veloxcore Service - Generative AI.html">Generative AI</a></li><li><a href="Veloxcore Service - RAG.html">RAG &amp; Knowledge</a></li><li><a href="Veloxcore Service - AI Strategy.html">AI Strategy</a></li></ul></div>
+      <div><div class="foot-h">Work</div><ul class="foot-list"><li><a href="Veloxcore Work.html">Case studies</a></li></ul></div>
+      <div><div class="foot-h">Company</div><ul class="foot-list"><li><a href="Veloxcore About.html">About</a></li><li><a href="Veloxcore Blog.html">Blog</a></li><li><a href="Veloxcore Contact.html">Contact</a></li></ul></div>
+      <div><div class="foot-h">Products</div><ul class="foot-list"><li><a href="Veloxhire.AI.html">Veloxhire.AI</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span class="copy">© 2026 Veloxcore Private Limited</span><div class="right"><a>Privacy</a><a>Terms</a><span class="locale">English ▾</span></div></div>
+  </div>
+</footer>
+
+<script>
+(function(){const c=document.querySelector('.hero-canvas');if(!c)return;const ctx=c.getContext('2d');const N=72,MAXD=150;const COLS=['rgba(8,145,178,','rgba(0,212,232,','rgba(103,232,249,','rgba(8,145,178,'];let W,H,pts=[],mouse={x:-9999,y:-9999};function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}function init(){pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.6+0.6,col:COLS[Math.floor(Math.random()*COLS.length)]}));}function draw(){ctx.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);if(d<MAXD){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(8,145,178,${(1-d/MAXD)*0.1})`;ctx.lineWidth=.6;ctx.stroke();}}const dm=Math.hypot(pts[i].x-mouse.x,pts[i].y-mouse.y);if(dm<MAXD*1.6){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=`rgba(8,145,178,${(1-dm/(MAXD*1.6))*0.18})`;ctx.lineWidth=.7;ctx.stroke();}ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,pts[i].r,0,Math.PI*2);ctx.fillStyle=pts[i].col+'0.6)';ctx.fill();}}function loop(){pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;});draw();requestAnimationFrame(loop);}window.addEventListener('resize',()=>{resize();init();});document.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});resize();init();loop();})();
+function toggleFaq(el){el.parentElement.classList.toggle('open');}
+(function(){const els=Array.from(document.querySelectorAll('.reveal'));function check(){const vh=window.innerHeight;els.forEach(el=>{if(el.classList.contains('visible'))return;const r=el.getBoundingClientRect();if(r.top<vh*.93&&r.bottom>0)el.classList.add('visible');});}window.addEventListener('scroll',check,{passive:true});window.addEventListener('resize',check);setTimeout(check,80);setTimeout(check,500);})();
+</script>
+</body>
+</html>

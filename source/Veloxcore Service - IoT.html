@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IoT & Edge Intelligence — Veloxcore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="veloxcore.css">
+  <style>
+    :root {
+      --bg:#fff; --canvas:#F8F9FA; --fg1:#1a1c1c; --fg2:#5f6368; --fg3:#6b6f72;
+      --border:#eef0f1; --border-strong:#e6e8ea;
+      --accent:#a06000; --accent-light:#fef3e2;
+      --dark-surface:#1E2127; --dark-card:#262A31; --dark-divider:#353941;
+      --dark-fg1:#f7f8fa; --dark-fg2:#bcc1c7; --dark-fg3:#9ea3aa;
+      --display:'Geist',system-ui,sans-serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+      --eq:cubic-bezier(.25,.46,.45,.94); --eqt:cubic-bezier(.165,.84,.44,1);
+      --w:1320px; --m:48px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--sans);color:var(--fg1);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;cursor:pointer;}
+    img,svg{display:block;}
+    button{cursor:pointer;font-family:inherit;border:none;background:none;}
+    .wrap{max-width:var(--w);margin:0 auto;padding:0 var(--m);}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .65s var(--eqt),transform .65s var(--eqt);}
+    .reveal.visible{opacity:1;transform:none;}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:50;height:68px;display:flex;align-items:center;padding:0 var(--m);background:rgba(255,255,255,.84);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+    .nav-inner{max-width:var(--w);margin:0 auto;width:100%;display:flex;align-items:center;}
+    .brand{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-right:36px;}
+    .mark{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#3d7eff 0%,#00d4e8 35%,#00dd6a 75%,#8ce800 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .mark::after{content:'';width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:7.5px solid #fff;transform:translateY(-0.5px);}
+    .logo{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.025em;color:var(--fg1);}
+    .nav-links{display:flex;align-items:center;gap:4px;}
+    .nav-link{display:inline-flex;align-items:center;gap:5px;font-size:14.5px;color:var(--fg1);padding:8px 14px;border-radius:9999px;letter-spacing:-.005em;transition:background .15s;cursor:pointer;}
+    .nav-link:hover{background:#f4f6f8;}
+    .nav-link .chev{display:inline-block;width:10px;height:6px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none' stroke='%231a1c1c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='1 1 5 5 9 1'/></svg>") center/contain no-repeat;opacity:.65;}
+    .nav-cta{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:var(--fg1);color:#fff;font-size:13.5px;font-weight:500;padding:9px 18px 9px 20px;border-radius:9999px;letter-spacing:-.005em;transition:opacity .15s;}
+    .nav-cta:hover{opacity:.86;}
+    .nav-cta-ico{width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;background:#2f3135;border-radius:50%;}
+    .nav-cta-ico svg{width:8px;height:8px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+    /* HERO */
+    .hero{padding:148px 0 80px;background:#0d1200;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 65% at 80% 30%,rgba(140,232,0,.12) 0%,transparent 55%),radial-gradient(ellipse 45% 50% at 10% 75%,rgba(160,96,0,.1) 0%,transparent 55%);pointer-events:none;}
+    .hero::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(140,232,0,.05) 27px,rgba(140,232,0,.05) 28px),repeating-linear-gradient(90deg,transparent,transparent 27px,rgba(140,232,0,.05) 27px,rgba(140,232,0,.05) 28px);pointer-events:none;}
+    .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:center;}
+    .hero-breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.4);margin-bottom:18px;}
+    .hero-breadcrumb a{color:rgba(255,255,255,.4);transition:color .15s;}
+    .hero-breadcrumb a:hover{color:#fff;}
+    .hero-breadcrumb .sep{opacity:.4;}
+    .svc-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:rgba(140,232,0,.1);border:1px solid rgba(140,232,0,.2);border-radius:9999px;font-size:12px;font-weight:600;color:#8ce800;margin-bottom:20px;}
+    .svc-badge-dot{width:6px;height:6px;border-radius:50%;background:#8ce800;box-shadow:0 0 6px rgba(140,232,0,.6);}
+    .hero-h1{font-family:var(--display);font-size:60px;font-weight:800;letter-spacing:-.05em;line-height:64px;color:#fff;margin-bottom:18px;text-wrap:pretty;}
+    .hero-sub{font-size:18px;line-height:30px;color:rgba(255,255,255,.6);margin-bottom:32px;max-width:46ch;text-wrap:pretty;letter-spacing:-.005em;}
+    .hero-acts{display:flex;gap:12px;flex-wrap:wrap;}
+    .btn-accent{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:13px 26px;border-radius:9999px;font-size:15px;font-weight:500;transition:opacity .15s;}
+    .btn-accent:hover{opacity:.88;}
+    .btn-ghost-light{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.7);padding:13px 26px;border-radius:9999px;font-size:15px;font-weight:500;transition:background .15s;}
+    .btn-ghost-light:hover{background:rgba(255,255,255,.12);color:#fff;}
+    .hero-right{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .h-kpi{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:22px 20px;}
+    .h-kpi-num{font-family:var(--display);font-size:34px;font-weight:800;letter-spacing:-.04em;color:#fff;line-height:1;}
+    .h-kpi-label{font-size:12px;color:rgba(255,255,255,.4);margin-top:5px;letter-spacing:-.005em;}
+    /* SHARED */
+    .sec-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--fg3);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+    .sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+    .sec-h{font-family:var(--display);font-size:44px;font-weight:700;letter-spacing:-.04em;color:var(--fg1);margin-bottom:12px;text-wrap:pretty;}
+    .sec-sub{font-size:17px;color:var(--fg2);max-width:52ch;margin-bottom:48px;line-height:27px;letter-spacing:-.005em;}
+    /* WHO */
+    .who{padding:88px 0;border-bottom:1px solid var(--border);}
+    .persona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .persona{background:var(--canvas);border:1px solid var(--border);border-radius:20px;padding:28px;}
+    .persona-role{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:12px;}
+    .persona-title{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.025em;color:var(--fg1);margin-bottom:8px;}
+    .persona-pain{font-size:14px;line-height:22px;color:var(--fg2);margin-bottom:14px;}
+    .persona-quote{font-size:13.5px;color:var(--fg1);font-style:italic;padding:10px 14px;background:#fff;border-left:3px solid var(--accent);border-radius:0 8px 8px 0;}
+    /* DELIVER */
+    .deliver{padding:88px 0;background:var(--canvas);border-bottom:1px solid var(--border);}
+    .deliver-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+    .deliver-list{display:flex;flex-direction:column;gap:0;margin-top:8px;}
+    .deliver-item{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--border);}
+    .deliver-item:first-child{padding-top:0;}
+    .deliver-item:last-child{border-bottom:none;}
+    .d-check{width:22px;height:22px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+    .d-check svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+    .d-text strong{display:block;font-size:15px;font-weight:600;color:var(--fg1);margin-bottom:3px;letter-spacing:-.01em;}
+    .d-text span{font-size:13.5px;color:var(--fg2);line-height:20px;}
+    /* Device monitor visual */
+    .device-vis{background:#0d1200;border-radius:22px;padding:32px;display:flex;flex-direction:column;gap:14px;}
+    .dv-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#8ce800;display:flex;align-items:center;gap:6px;}
+    .pulse{width:6px;height:6px;border-radius:50%;background:#8ce800;box-shadow:0 0 6px rgba(140,232,0,.6);}
+    .device-map{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+    .dev-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:10px 11px;cursor:pointer;transition:border-color .2s;}
+    .dev-card.alert{border-color:rgba(255,120,80,.35);}
+    .dev-card:hover{border-color:rgba(140,232,0,.3);}
+    .dev-id{font-family:var(--mono);font-size:8.5px;color:rgba(255,255,255,.35);letter-spacing:.05em;}
+    .dev-val{font-family:var(--display);font-size:15px;font-weight:700;color:#fff;letter-spacing:-.02em;}
+    .dev-unit{font-size:8.5px;color:rgba(255,255,255,.3);}
+    .dev-status{font-size:9px;color:#8ce800;display:flex;align-items:center;gap:4px;margin-top:2px;}
+    .dev-status.alert{color:rgba(255,120,80,.9);}
+    .dev-status .dot{width:4px;height:4px;border-radius:50%;background:currentColor;}
+    .summary-row{display:flex;gap:8px;}
+    .sum-cell{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:12px;}
+    .sum-num{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-.03em;color:#fff;}
+    .sum-label{font-size:10px;color:rgba(255,255,255,.35);margin-top:2px;}
+    /* APPROACH */
+    .approach{padding:88px 0;border-bottom:1px solid var(--border);}
+    .approach-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px;}
+    .ap-step{background:var(--canvas);border:1px solid var(--border);border-radius:20px;padding:28px;transition:border-color .2s,box-shadow .2s;}
+    .ap-step:hover{border-color:var(--border-strong);box-shadow:0 6px 24px -10px rgba(26,28,28,.1);}
+    .ap-num{font-family:var(--display);font-size:48px;font-weight:900;letter-spacing:-.06em;color:var(--border-strong);line-height:1;margin-bottom:16px;transition:color .2s;}
+    .ap-step:hover .ap-num{color:var(--accent);}
+    .ap-title{font-family:var(--display);font-size:17px;font-weight:700;letter-spacing:-.025em;color:var(--fg1);margin-bottom:8px;}
+    .ap-desc{font-size:13.5px;color:var(--fg2);line-height:21px;}
+    .ap-dur{font-size:11.5px;color:var(--fg3);margin-top:14px;font-family:var(--mono);}
+    /* TECH */
+    .tech{padding:88px 0;background:var(--dark-surface);border-bottom:1px solid var(--dark-divider);}
+    .tech-h{font-family:var(--display);font-size:44px;font-weight:700;letter-spacing:-.04em;color:var(--dark-fg1);margin-bottom:12px;}
+    .tech-sub{font-size:17px;color:var(--dark-fg2);margin-bottom:52px;}
+    .tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+    .tech-card{background:var(--dark-card);border:1px solid var(--dark-divider);border-radius:16px;padding:22px;transition:border-color .2s;}
+    .tech-card:hover{border-color:rgba(140,232,0,.2);}
+    .tech-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+    .tech-ico svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;}
+    .tech-name{font-size:14px;font-weight:600;color:var(--dark-fg1);margin-bottom:4px;}
+    .tech-desc{font-size:12.5px;color:var(--dark-fg3);line-height:19px;}
+    /* PROOF */
+    .proof{padding:88px 0;border-bottom:1px solid var(--border);}
+    .proof-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:28px;align-items:start;}
+    .cs-tile{border:1px solid var(--border);border-radius:22px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s;}
+    .cs-tile:hover{box-shadow:0 10px 32px -14px rgba(26,28,28,.12);transform:translateY(-3px);}
+    .cs-cover{height:200px;background:#0d1200;position:relative;overflow:hidden;}
+    .cs-cover::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 16px,rgba(140,232,0,.07) 16px,rgba(140,232,0,.07) 17px),repeating-linear-gradient(90deg,transparent,transparent 16px,rgba(140,232,0,.07) 16px,rgba(140,232,0,.07) 17px);}
+    .cs-body{padding:28px;}
+    .cs-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--fg3);margin-bottom:10px;}
+    .cs-title{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-.025em;color:var(--fg1);margin-bottom:14px;line-height:27px;}
+    .cs-nums{display:flex;gap:20px;}
+    .cs-n{display:flex;flex-direction:column;gap:2px;}
+    .cs-n-val{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.03em;color:var(--fg1);}
+    .cs-n-label{font-size:11.5px;color:var(--fg3);}
+    .quotes{display:flex;flex-direction:column;gap:16px;}
+    .quote-card{background:var(--canvas);border:1px solid var(--border);border-radius:18px;padding:24px;}
+    .quote-text{font-size:14.5px;line-height:24px;color:var(--fg2);margin-bottom:14px;font-style:italic;}
+    .quote-foot{display:flex;align-items:center;gap:10px;}
+    .q-ava{width:32px;height:32px;border-radius:50%;flex-shrink:0;}
+    .q-name{font-size:13.5px;font-weight:600;color:var(--fg1);}
+    .q-role{font-size:11.5px;color:var(--fg3);}
+    /* FAQ */
+    .faq{padding:88px 0;background:var(--canvas);border-bottom:1px solid var(--border);}
+    .faq-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:80px;align-items:start;}
+    .faq-list{display:flex;flex-direction:column;}
+    .faq-item{border-bottom:1px solid var(--border);}
+    .faq-q{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:18px 0;cursor:pointer;}
+    .faq-q-text{font-size:15.5px;font-weight:500;color:var(--fg1);letter-spacing:-.01em;line-height:24px;}
+    .faq-ico{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--border);transition:all .2s;margin-top:1px;}
+    .faq-ico svg{width:10px;height:10px;stroke:var(--fg2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s;}
+    .faq-item.open .faq-ico{background:var(--fg1);}
+    .faq-item.open .faq-ico svg{stroke:#fff;transform:rotate(45deg);}
+    .faq-a{font-size:14.5px;line-height:24px;color:var(--fg2);padding:0 0 18px;display:none;}
+    .faq-item.open .faq-a{display:block;}
+    /* CTA / FOOTER */
+    .cta-section{background:var(--dark-surface);padding:88px 0;}
+    .cta-inner{display:grid;grid-template-columns:1fr auto;gap:64px;align-items:center;}
+    .cta-h{font-family:var(--display);font-size:48px;font-weight:700;letter-spacing:-.045em;line-height:54px;color:var(--dark-fg1);text-wrap:pretty;}
+    .cta-sub{font-size:17px;color:var(--dark-fg2);margin-top:10px;}
+    .cta-acts{display:flex;gap:12px;flex-wrap:wrap;flex-shrink:0;}
+    .btn-white{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--fg1);padding:14px 28px;border-radius:9999px;font-size:15px;font-weight:500;transition:opacity .15s;}
+    .btn-white:hover{opacity:.92;}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;padding:14px 28px;border-radius:9999px;font-size:15px;font-weight:500;transition:background .15s;}
+    .btn-ghost:hover{background:rgba(255,255,255,.14);}
+    .footer{background:#F8F9FA;border-top:1px solid var(--border);padding:80px 0 48px;}
+    .foot-cols{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:64px;}
+    .foot-brand .logo-row{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+    .foot-brand p{font-size:15px;color:var(--fg2);max-width:36ch;line-height:24px;}
+    .foot-h{font-size:14px;font-weight:600;color:var(--fg1);margin-bottom:20px;}
+    .foot-list{list-style:none;display:flex;flex-direction:column;gap:14px;}
+    .foot-list a{font-size:14px;color:var(--fg2);cursor:pointer;}
+    .foot-list a:hover{color:var(--fg1);}
+    .foot-bottom{display:flex;align-items:center;gap:24px;margin-top:64px;padding-top:28px;border-top:1px solid var(--border);}
+    .foot-bottom .copy{font-size:13px;color:var(--fg2);}
+    .foot-bottom .right{margin-left:auto;display:flex;gap:24px;font-size:13px;color:var(--fg2);}
+    .locale{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--border-strong);border-radius:9999px;background:#fff;cursor:pointer;font-size:12px;}
+    /* ── HERO CANVAS + ENTRANCE ANIMATIONS ── */
+    .hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.75;}
+    @keyframes hero-up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+    @keyframes pop-in{from{opacity:0;transform:scale(.88) translateY(8px)}to{opacity:1;transform:none}}
+    .hero-breadcrumb{animation:hero-up .5s .08s var(--eqt) both;}
+    .svc-badge{animation:hero-up .6s .18s var(--eqt) both;}
+    .hero-h1{font-size:72px!important;line-height:76px!important;animation:hero-up .7s .30s var(--eqt) both;}
+    .hero-sub{animation:hero-up .7s .46s var(--eqt) both;}
+    .hero-acts{animation:hero-up .6s .60s var(--eqt) both;}
+    .hero-right{animation:pop-in .8s .72s cubic-bezier(.785,.135,.15,.86) both;}
+    /* ── LIGHT HERO ── */
+    .hero{background:var(--bg)!important;border-bottom:1px solid var(--border);}
+    .hero::before{background:radial-gradient(ellipse 55% 65% at 80% 30%,rgba(140,232,0,.06) 0%,transparent 55%),radial-gradient(ellipse 45% 50% at 10% 75%,rgba(160,96,0,.04) 0%,transparent 55%)!important;}
+    .hero::after{background:repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(26,28,28,.04) 27px,rgba(26,28,28,.04) 28px),repeating-linear-gradient(90deg,transparent,transparent 27px,rgba(26,28,28,.04) 27px,rgba(26,28,28,.04) 28px)!important;}
+    .hero-breadcrumb{color:var(--fg3)!important;}
+    .hero-breadcrumb a{color:var(--fg3)!important;}
+    .hero-breadcrumb a:hover{color:var(--fg1)!important;}
+    .svc-badge{background:rgba(140,232,0,.1)!important;border-color:rgba(100,180,0,.25)!important;color:#4a7000!important;}
+    .svc-badge-dot{background:#4a7000!important;box-shadow:none!important;}
+    .hero-h1{color:var(--fg1)!important;}
+    .hero-sub{color:var(--fg2)!important;}
+    .btn-ghost-light{background:#f1f3f4!important;border:none!important;color:var(--fg1)!important;}
+    .btn-ghost-light:hover{background:#e8eaed!important;}
+    .h-kpi{background:#fff!important;border:1px solid var(--border)!important;box-shadow:0 1px 4px rgba(26,28,28,.05)!important;}
+    .h-kpi-num{color:var(--fg1)!important;}
+    .h-kpi-label{color:var(--fg3)!important;}
+    .hero-canvas{opacity:.45!important;}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Veloxcore Home.html"><span class="mark"></span><span class="logo">Veloxcore</span></a>
+    <div class="nav-links">
+      <div class="nav-item has-dropdown">
+        <a class="nav-link active" href="Veloxcore Services.html">Services <span class="chev"></span></a>
+        <div class="nav-dropdown">
+          <div class="nd-section">
+            <span class="nd-label">AI Services</span>
+            <a class="nd-link" href="Veloxcore Service - Generative AI.html"><span class="nd-name">Generative AI &amp; LLMs</span><span class="nd-desc">LLM apps, copilots, evaluation harnesses</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Agents.html"><span class="nd-name">AI Agents &amp; Automation</span><span class="nd-desc">Multi-step agents, tool-calling, human-in-loop</span></a>
+            <a class="nd-link" href="Veloxcore Service - RAG.html"><span class="nd-name">RAG &amp; Knowledge Systems</span><span class="nd-desc">Retrieval pipelines with citations &amp; hybrid search</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Strategy.html"><span class="nd-name">AI Strategy &amp; Discovery</span><span class="nd-desc">2-week sprint to your AI roadmap</span></a>
+          </div>
+          <div class="nd-section">
+            <span class="nd-label">Platform &amp; Data</span>
+            <a class="nd-link" href="Veloxcore Service - Azure AI.html"><span class="nd-name">Azure AI &amp; Cloud</span><span class="nd-desc">Azure OpenAI, AI Foundry, migrations</span></a>
+            <a class="nd-link" href="Veloxcore Service - Data Engineering.html"><span class="nd-name">Data Engineering</span><span class="nd-desc">Pipelines, lakehouses, real-time analytics</span></a>
+            <a class="nd-link" href="Veloxcore Service - Machine Learning.html"><span class="nd-name">Machine Learning</span><span class="nd-desc">Custom models, MLOps, evaluation</span></a>
+            <a class="nd-link" href="Veloxcore Service - IoT.html"><span class="nd-name">IoT &amp; Edge Intelligence</span><span class="nd-desc">Device fleets, edge ML, Azure IoT Hub</span></a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-link" href="Veloxhire.AI.html">Products</a>
+      <a class="nav-link" href="Veloxcore Work.html">Work</a>
+      <div class="nav-item has-dropdown">
+        <a class="nav-link" href="Veloxcore About.html">Company <span class="chev"></span></a>
+        <div class="nav-dropdown nd-small">
+          <div class="nd-section">
+            <a class="nd-link" href="Veloxcore About.html"><span class="nd-name">About</span><span class="nd-desc">Story, team &amp; values</span></a>
+            <a class="nd-link" href="Veloxcore Blog.html"><span class="nd-name">Blog</span><span class="nd-desc">Insights on AI, Azure &amp; data</span></a>
+            <a class="nd-link" href="Veloxcore Contact.html"><span class="nd-name">Contact</span><span class="nd-desc">Get in touch with our team</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="nav-cta" href="Veloxcore Contact.html">Book a call<span class="nav-cta-ico"><svg viewBox="0 0 8 8"><polyline points="1 4 4 7 7 4"></polyline><line x1="4" y1="1" x2="4" y2="7"></line></svg></span></a>
+  </div>
+</nav>
+
+<section class="hero" data-screen-label="01 Hero">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-breadcrumb"><a href="Veloxcore Services.html">Services</a><span class="sep">›</span><span>IoT & Edge Intelligence</span></div>
+        <div class="svc-badge"><span class="svc-badge-dot"></span>IoT & Edge Intelligence</div>
+        <h1 class="hero-h1">Thousands of devices. One platform. Zero manual provisioning.</h1>
+        <p class="hero-sub">We connect fleets of industrial and commercial devices to Azure IoT Hub — with zero-touch provisioning, edge ML inference, anomaly detection, and the operational dashboards to manage it all.</p>
+        <div class="hero-acts">
+          <a class="btn-accent" href="Veloxcore Contact.html">Book a free call</a>
+          <a class="btn-ghost-light" href="Veloxcore Work.html">See IoT case study →</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="h-kpi"><div class="h-kpi-num">10,842</div><div class="h-kpi-label">Devices on a single deployment</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">3 days</div><div class="h-kpi-label">Failure lead time via ML</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">&lt;1ms</div><div class="h-kpi-label">Edge inference latency</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">99.98%</div><div class="h-kpi-label">Device fleet uptime</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="who" data-screen-label="02 Who">
+  <div class="wrap">
+    <div class="sec-label">Who this is for</div>
+    <h2 class="sec-h reveal">Three IoT buyers we work with.</h2>
+    <p class="sec-sub reveal">Whether you're provisioning hundreds of devices or trying to extract intelligence from thousands already in the field.</p>
+    <div class="persona-grid">
+      <div class="persona reveal">
+        <div class="persona-role">OT / Plant Manager</div>
+        <div class="persona-title">The operations owner</div>
+        <div class="persona-pain">You have hundreds of sensors producing data no one is reading. Maintenance is reactive — equipment fails and then you fix it. You know predictive maintenance is possible but don't know where to start.</div>
+        <div class="persona-quote">"We find out a machine is broken when it stops. We should know three days before."</div>
+      </div>
+      <div class="persona reveal" style="transition-delay:.07s">
+        <div class="persona-role">IoT / Connected Product Lead</div>
+        <div class="persona-title">The product builder</div>
+        <div class="persona-pain">You're building a connected product — a smart device, a fleet tracker, an environmental sensor. You need device provisioning at scale, firmware OTA, and a backend that can handle 10,000 concurrent connections.</div>
+        <div class="persona-quote">"We can connect 100 devices. We don't know how to scale to 10,000."</div>
+      </div>
+      <div class="persona reveal" style="transition-delay:.14s">
+        <div class="persona-role">CTO / VP Engineering</div>
+        <div class="persona-title">The platform decision-maker</div>
+        <div class="persona-pain">You've evaluated Azure IoT Hub vs. AWS IoT Core. You're on Azure. You need a partner who has provisioned at scale with DPS, not someone who'll learn on your budget.</div>
+        <div class="persona-quote">"We need someone who's provisioned 10,000+ devices before. Not someone who's read the docs."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="deliver" data-screen-label="03 Deliver">
+  <div class="wrap">
+    <div class="deliver-grid">
+      <div>
+        <div class="sec-label">What you get</div>
+        <h2 class="sec-h reveal">A fleet that runs itself.<br>And tells you when it won't.</h2>
+        <p class="sec-sub reveal" style="margin-bottom:0">Every IoT engagement ends with a managed, monitored device fleet — with edge intelligence, predictive maintenance, and operational dashboards handed over to your team.</p>
+        <div class="deliver-list reveal">
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Zero-touch device provisioning</strong><span>Azure DPS with X.509 group enrollments — devices provision themselves on first power-on, no human intervention required at any scale.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Telemetry routing & processing</strong><span>IoT Hub message routing to Stream Analytics, Blob Storage, Event Hubs, and CosmosDB — with per-device and per-message-type routing rules.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Edge ML deployment</strong><span>ONNX models deployed via IoT Edge modules — inference runs on-device, sub-millisecond, with no cloud round-trip required.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Predictive maintenance pipeline</strong><span>Anomaly detection on sensor streams — surfaces equipment failure signatures 2–5 days before they become incidents, with priority-ranked alerts.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Fleet operations dashboard</strong><span>Real-time device status, telemetry health, firmware version tracking, and OTA update management — all in a single Power BI-backed dashboard.</span></div></div>
+        </div>
+      </div>
+      <div class="device-vis reveal" style="transition-delay:.1s">
+        <div class="dv-label"><div class="pulse"></div>IoT Hub · Live fleet · 10,842 devices</div>
+        <div class="device-map">
+          <div class="dev-card"><div class="dev-id">DEV-001</div><div class="dev-val">72.4°</div><div class="dev-unit">Celsius</div><div class="dev-status"><div class="dot"></div>Online</div></div>
+          <div class="dev-card"><div class="dev-id">DEV-002</div><div class="dev-val">68.1°</div><div class="dev-unit">Celsius</div><div class="dev-status"><div class="dot"></div>Online</div></div>
+          <div class="dev-card alert"><div class="dev-id">DEV-003</div><div class="dev-val">94.7°</div><div class="dev-unit">Celsius</div><div class="dev-status alert"><div class="dot"></div>Alert</div></div>
+          <div class="dev-card"><div class="dev-id">DEV-004</div><div class="dev-val">71.3°</div><div class="dev-unit">Celsius</div><div class="dev-status"><div class="dot"></div>Online</div></div>
+          <div class="dev-card"><div class="dev-id">DEV-005</div><div class="dev-val">1024</div><div class="dev-unit">kPa</div><div class="dev-status"><div class="dot"></div>Online</div></div>
+          <div class="dev-card"><div class="dev-id">DEV-006</div><div class="dev-val">3.14</div><div class="dev-unit">m/s²</div><div class="dev-status"><div class="dot"></div>Online</div></div>
+          <div class="dev-card"><div class="dev-id">DEV-007</div><div class="dev-val">2.98</div><div class="dev-unit">m/s²</div><div class="dev-status"><div class="dot"></div>Online</div></div>
+          <div class="dev-card"><div class="dev-id">DEV-008</div><div class="dev-val">0.44</div><div class="dev-unit">V drop</div><div class="dev-status"><div class="dot"></div>Online</div></div>
+        </div>
+        <div class="summary-row">
+          <div class="sum-cell"><div class="sum-num">10,842</div><div class="sum-label">Provisioned</div></div>
+          <div class="sum-cell"><div class="sum-num" style="color:#8ce800">10,841</div><div class="sum-label">Online now</div></div>
+          <div class="sum-cell"><div class="sum-num" style="color:rgba(255,120,80,.9)">1</div><div class="sum-label">Alert active</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="approach" data-screen-label="04 Approach">
+  <div class="wrap">
+    <div class="sec-label">Our approach</div>
+    <h2 class="sec-h reveal">From device to insight.</h2>
+    <div class="approach-grid">
+      <div class="ap-step reveal"><div class="ap-num">01</div><div class="ap-title">Device audit</div><div class="ap-desc">We inventory your current devices — hardware capabilities, connectivity, firmware, and the data they produce. Output: a provisioning architecture brief before any implementation begins.</div><div class="ap-dur">~ 1 week</div></div>
+      <div class="ap-step reveal" style="transition-delay:.06s"><div class="ap-num">02</div><div class="ap-title">Platform setup</div><div class="ap-desc">Azure IoT Hub, DPS, and IoT Edge configured for your device class. X.509 certificate chains, group enrollment templates, and twin configuration deployed and tested against a device pilot batch.</div><div class="ap-dur">2–3 weeks</div></div>
+      <div class="ap-step reveal" style="transition-delay:.12s"><div class="ap-num">03</div><div class="ap-title">Scale & ML</div><div class="ap-desc">Full fleet provisioning, telemetry routing, and edge ONNX model deployment. Anomaly detection pipeline configured and validated against your historical sensor data.</div><div class="ap-dur">4–8 weeks</div></div>
+      <div class="ap-step reveal" style="transition-delay:.18s"><div class="ap-num">04</div><div class="ap-title">Operations</div><div class="ap-desc">Fleet dashboard handover, OTA update workflow, alert escalation runbooks, and the monitoring stack your ops team needs to manage the fleet without Veloxcore in the room.</div><div class="ap-dur">Ongoing</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="tech" data-screen-label="05 Tech">
+  <div class="wrap">
+    <h2 class="tech-h reveal">The IoT stack we deploy.</h2>
+    <p class="tech-sub reveal">Battle-tested Azure IoT services — run in production on fleets of tens of thousands of devices.</p>
+    <div class="tech-grid">
+      <div class="tech-card reveal"><div class="tech-ico" style="background:rgba(140,232,0,.1);color:#8ce800"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="tech-name">Azure IoT Hub</div><div class="tech-desc">Device-to-cloud telemetry routing with built-in message enrichment and device twin management.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.05s"><div class="tech-ico" style="background:rgba(254,188,46,.12);color:#febc2e"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="tech-name">Device Provisioning Service</div><div class="tech-desc">Zero-touch provisioning at scale — X.509 group enrollments, symmetric key attestation, custom allocation policies.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.1s"><div class="tech-ico" style="background:rgba(61,126,255,.12);color:#3d7eff"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="tech-name">Azure IoT Edge</div><div class="tech-desc">Container-based edge runtime — deploy ML models, custom modules, and OTA firmware updates at the edge.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.15s"><div class="tech-ico" style="background:rgba(192,132,252,.12);color:#c084fc"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="tech-name">Azure Stream Analytics</div><div class="tech-desc">Real-time telemetry processing — windowing, aggregation, and anomaly detection rules at the stream level.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.05s"><div class="tech-ico" style="background:rgba(0,212,232,.1);color:#00d4e8"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div class="tech-name">ONNX Runtime</div><div class="tech-desc">Cross-platform ML inference — export from PyTorch or TensorFlow, deploy on any device class via IoT Edge.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.1s"><div class="tech-ico" style="background:rgba(255,120,80,.1);color:#ff7850"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3S3 13.66 3 12"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div><div class="tech-name">CosmosDB</div><div class="tech-desc">Device state store with global distribution — low-latency reads for device twin state and telemetry history.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.15s"><div class="tech-ico" style="background:rgba(0,221,106,.1);color:#00dd6a"><svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div><div class="tech-name">Power BI</div><div class="tech-desc">Fleet operations dashboard — device status, telemetry health, alert feed, and firmware version tracking.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.2s"><div class="tech-ico" style="background:rgba(173,198,255,.12);color:#adc6ff"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="tech-name">Azure Monitor</div><div class="tech-desc">IoT Hub metrics, endpoint health, D2C message failures, and custom alert rules per device group.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="proof" data-screen-label="06 Proof">
+  <div class="wrap">
+    <div class="sec-label">Proof</div>
+    <h2 class="sec-h reveal">A real fleet.</h2>
+    <div class="proof-grid reveal">
+      <div class="cs-tile" onclick="location.href='Veloxcore Work.html'">
+        <div class="cs-cover"></div>
+        <div class="cs-body">
+          <div class="cs-cat">Manufacturing · IoT</div>
+          <div class="cs-title">10,842 industrial sensors provisioned on Azure IoT Hub — with predictive maintenance that surfaces failures 3 days early.</div>
+          <div class="cs-nums">
+            <div class="cs-n"><div class="cs-n-val">10,842</div><div class="cs-n-label">Devices live</div></div>
+            <div class="cs-n"><div class="cs-n-val">3 days</div><div class="cs-n-label">Failure lead time</div></div>
+            <div class="cs-n"><div class="cs-n-val">99.98%</div><div class="cs-n-label">Uptime</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="quotes">
+        <div class="quote-card reveal">
+          <div class="quote-text">"We used to find out about machine failures when they happened. Now we get alerts three days before. The maintenance team's whole job has changed."</div>
+          <div class="quote-foot"><div class="q-ava" style="background:linear-gradient(135deg,#a06000,#febc2e)"></div><div><div class="q-name">Deepak Verma</div><div class="q-role">Plant Manager · Industrial Co.</div></div></div>
+        </div>
+        <div class="quote-card reveal" style="transition-delay:.08s">
+          <div class="quote-text">"Zero-touch provisioning with DPS meant we could bring 10,000 devices online without a single manual step per device. The team was astonished."</div>
+          <div class="quote-foot"><div class="q-ava" style="background:linear-gradient(135deg,#0d1200,#8ce800)"></div><div><div class="q-name">Anil Kumar</div><div class="q-role">IoT Platform Engineer · Veloxcore</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" data-screen-label="07 FAQ">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div>
+        <div class="sec-label">FAQ</div>
+        <h2 class="sec-h reveal">Common questions.</h2>
+        <p class="sec-sub reveal" style="margin-bottom:0;max-width:36ch">Questions we get before every IoT engagement.</p>
+      </div>
+      <div class="faq-list reveal">
+        <div class="faq-item open"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What device hardware do you support?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">Any device that can run the Azure IoT Device SDK — which covers C, Python, Node.js, Java, and .NET. For constrained devices without an OS, we use the embedded C SDK. IoT Edge requires a Linux-capable device (x64, ARM64, or ARM32). We'll assess your hardware in the audit phase and flag any constraints before any work begins.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How does zero-touch provisioning actually work?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">DPS uses X.509 certificate chains. We generate a root CA, create an intermediate CA per device batch, and provision individual device certificates at manufacturing time. When a device powers on for the first time, it presents its certificate to DPS, which validates it against the registered root CA, assigns the device to the correct IoT Hub, and applies the group twin configuration — all in under 5 seconds with no human intervention.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Can ML inference run on the device, not in the cloud?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">Yes. We export trained models to ONNX format and deploy them via IoT Edge modules to capable devices. Inference runs locally — sub-millisecond, no cloud round-trip, and continues working during connectivity loss. The cloud receives the inference output, not raw sensor data, which also dramatically reduces message volume and cost.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How do you handle firmware updates across 10,000+ devices?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">OTA firmware updates via IoT Edge deployment manifests — deployed to device groups in waves (1%, 10%, 100%) with automatic rollback if error rates spike above a threshold. We also set up the Device Update for IoT Hub service for devices that need delta updates to minimise bandwidth on constrained connections.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" data-screen-label="08 CTA">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div>
+        <h2 class="cta-h reveal">Ready to connect your fleet?</h2>
+        <p class="cta-sub reveal">Book a free 45-minute IoT architecture review. We'll assess your hardware, connectivity, and data requirements — and tell you what it takes to scale.</p>
+      </div>
+      <div class="cta-acts reveal">
+        <a class="btn-white" href="Veloxcore Contact.html">Book a free call</a>
+        <a class="btn-ghost" href="Veloxcore Work.html">See our work →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" data-screen-label="09 Footer">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-brand"><div class="logo-row"><span class="mark"></span><span class="logo">Veloxcore</span></div><p>Microsoft Gold Partner for Cloud Platform and Application Integration.</p></div>
+      <div><div class="foot-h">Services</div><ul class="foot-list"><li><a href="Veloxcore Services.html">All services</a></li><li><a href="Veloxcore Service - Data Engineering.html">Data Engineering</a></li><li><a href="Veloxcore Service - Azure AI.html">Azure AI</a></li><li><a href="Veloxcore Service - Machine Learning.html">Machine Learning</a></li></ul></div>
+      <div><div class="foot-h">Work</div><ul class="foot-list"><li><a href="Veloxcore Work.html">Case studies</a></li></ul></div>
+      <div><div class="foot-h">Company</div><ul class="foot-list"><li><a href="Veloxcore About.html">About</a></li><li><a href="Veloxcore Blog.html">Blog</a></li><li><a href="Veloxcore Contact.html">Contact</a></li></ul></div>
+      <div><div class="foot-h">Products</div><ul class="foot-list"><li><a href="Veloxhire.AI.html">Veloxhire.AI</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span class="copy">© 2026 Veloxcore Private Limited</span><div class="right"><a>Privacy</a><a>Terms</a><span class="locale">English ▾</span></div></div>
+  </div>
+</footer>
+
+<script>
+/* Hero particles */
+(function(){const c=document.querySelector('.hero-canvas');if(!c)return;const ctx=c.getContext('2d');const N=72,MAXD=150;const COLS=['rgba(61,126,255,','rgba(0,212,232,','rgba(0,221,106,','rgba(61,126,255,'];let W,H,pts=[],mouse={x:-9999,y:-9999};function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}function init(){pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.6+0.6,col:COLS[Math.floor(Math.random()*COLS.length)]}));}function draw(){ctx.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);if(d<MAXD){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(61,126,255,${(1-d/MAXD)*0.08})`;ctx.lineWidth=.6;ctx.stroke();}}const dm=Math.hypot(pts[i].x-mouse.x,pts[i].y-mouse.y);if(dm<MAXD*1.6){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=`rgba(61,126,255,${(1-dm/(MAXD*1.6))*0.16})`;ctx.lineWidth=.7;ctx.stroke();}ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,pts[i].r,0,Math.PI*2);ctx.fillStyle=pts[i].col+'0.55)';ctx.fill();}}function loop(){pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;});draw();requestAnimationFrame(loop);}window.addEventListener('resize',()=>{resize();init();});document.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});resize();init();loop();})();
+</script>
+<script>
+function toggleFaq(el){el.parentElement.classList.toggle('open');}
+(function(){const els=Array.from(document.querySelectorAll('.reveal'));function check(){const vh=window.innerHeight;els.forEach(el=>{if(el.classList.contains('visible'))return;const r=el.getBoundingClientRect();if(r.top<vh*.93&&r.bottom>0)el.classList.add('visible');});}window.addEventListener('scroll',check,{passive:true});window.addEventListener('resize',check);setTimeout(check,80);setTimeout(check,500);})();
+</script>
+</body>
+</html>

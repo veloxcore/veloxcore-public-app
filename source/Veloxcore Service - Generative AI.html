@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Generative AI & LLM Applications — Veloxcore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="veloxcore.css">
+  <style>
+    :root { --accent: #6366f1; }
+    /* LLM pipeline visual */
+    .pipeline-vis{background:var(--dark-surface);border-radius:22px;padding:32px;display:flex;flex-direction:column;gap:14px;}
+    .pv-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--dark-fg3);}
+    .pv-step{background:var(--dark-card);border:1px solid var(--dark-divider);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px;}
+    .pv-step-num{width:22px;height:22px;border-radius:50%;background:rgba(99,102,241,.2);border:1px solid rgba(99,102,241,.3);font-size:10px;font-weight:700;color:#a5b4fc;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .pv-step-name{font-size:12.5px;font-weight:600;color:var(--dark-fg1);letter-spacing:-.01em;}
+    .pv-step-sub{font-size:10.5px;color:var(--dark-fg3);margin-top:1px;}
+    .pv-step-badge{margin-left:auto;font-family:var(--mono);font-size:9.5px;padding:2px 8px;border-radius:9999px;background:rgba(0,221,106,.1);color:#00dd6a;flex-shrink:0;}
+    .pv-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+    .pv-stat{background:var(--dark-card);border:1px solid var(--dark-divider);border-radius:10px;padding:12px;}
+    .pv-stat-num{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.03em;color:var(--dark-fg1);}
+    .pv-stat-label{font-size:10px;color:var(--dark-fg3);margin-top:2px;}
+    .tech-card:hover{border-color:rgba(99,102,241,.3);}
+    .cs-cover{background:linear-gradient(130deg,#0f0a2e,#6366f1,#a5b4fc);}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Veloxcore Home.html"><span class="mark"></span><span class="logo">Veloxcore</span></a>
+    <div class="nav-links">
+      <div class="nav-item has-dropdown">
+        <a class="nav-link active" href="Veloxcore Services.html">Services <span class="chev"></span></a>
+        <div class="nav-dropdown">
+          <div class="nd-section">
+            <span class="nd-label">AI Services</span>
+            <a class="nd-link" href="Veloxcore Service - Generative AI.html"><span class="nd-name">Generative AI &amp; LLMs</span><span class="nd-desc">LLM apps, copilots, evaluation harnesses</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Agents.html"><span class="nd-name">AI Agents &amp; Automation</span><span class="nd-desc">Multi-step agents, tool-calling, human-in-loop</span></a>
+            <a class="nd-link" href="Veloxcore Service - RAG.html"><span class="nd-name">RAG &amp; Knowledge Systems</span><span class="nd-desc">Retrieval pipelines with citations &amp; hybrid search</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Strategy.html"><span class="nd-name">AI Strategy &amp; Discovery</span><span class="nd-desc">2-week sprint to your AI roadmap</span></a>
+          </div>
+          <div class="nd-section">
+            <span class="nd-label">Platform &amp; Data</span>
+            <a class="nd-link" href="Veloxcore Service - Azure AI.html"><span class="nd-name">Azure AI &amp; Cloud</span><span class="nd-desc">Azure OpenAI, AI Foundry, migrations</span></a>
+            <a class="nd-link" href="Veloxcore Service - Data Engineering.html"><span class="nd-name">Data Engineering</span><span class="nd-desc">Pipelines, lakehouses, real-time analytics</span></a>
+            <a class="nd-link" href="Veloxcore Service - Machine Learning.html"><span class="nd-name">Machine Learning</span><span class="nd-desc">Custom models, MLOps, evaluation</span></a>
+            <a class="nd-link" href="Veloxcore Service - IoT.html"><span class="nd-name">IoT &amp; Edge Intelligence</span><span class="nd-desc">Device fleets, edge ML, Azure IoT Hub</span></a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-link" href="Veloxhire.AI.html">Products</a>
+      <a class="nav-link" href="Veloxcore Work.html">Work</a>
+      <div class="nav-item has-dropdown">
+        <a class="nav-link" href="Veloxcore About.html">Company <span class="chev"></span></a>
+        <div class="nav-dropdown nd-small">
+          <div class="nd-section">
+            <a class="nd-link" href="Veloxcore About.html"><span class="nd-name">About</span><span class="nd-desc">Story, team &amp; values</span></a>
+            <a class="nd-link" href="Veloxcore Blog.html"><span class="nd-name">Blog</span><span class="nd-desc">Insights on AI, Azure &amp; data</span></a>
+            <a class="nd-link" href="Veloxcore Contact.html"><span class="nd-name">Contact</span><span class="nd-desc">Get in touch with our team</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="nav-cta" href="Veloxcore Contact.html">Book a call<span class="nav-cta-ico"><svg viewBox="0 0 8 8"><polyline points="1 4 4 7 7 4"></polyline><line x1="4" y1="1" x2="4" y2="7"></line></svg></span></a>
+  </div>
+</nav>
+
+<section class="hero" data-screen-label="01 Hero">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-breadcrumb"><a href="Veloxcore Services.html">Services</a><span class="sep">›</span><span>Generative AI &amp; LLMs</span></div>
+        <div class="svc-badge"><span class="svc-badge-dot"></span>Generative AI &amp; LLM Applications</div>
+        <h1 class="hero-h1">From prompt to production LLM application.</h1>
+        <p class="hero-sub">We build customer-facing copilots, internal knowledge assistants, and document-intelligence systems on Azure OpenAI — with evaluation harnesses, guardrails, and the observability stack to keep them honest in production.</p>
+        <div class="hero-acts">
+          <a class="btn-accent" href="Veloxcore Contact.html">Book a free call</a>
+          <a class="btn-ghost-light" href="Veloxcore Work.html">See our work →</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="h-kpi"><div class="h-kpi-num">98.3%</div><div class="h-kpi-label">Avg eval pass rate in production</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">42ms</div><div class="h-kpi-label">p99 LLM response latency</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">8 wks</div><div class="h-kpi-label">Avg time to production</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">60%</div><div class="h-kpi-label">Token cost reduction post-optimisation</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="who" data-screen-label="02 Who">
+  <div class="wrap">
+    <div class="sec-label">Who this is for</div>
+    <h2 class="sec-h reveal">Three buyers who come to us.</h2>
+    <p class="sec-sub reveal">You don't need to know which LLM to use. You need to recognise the problem.</p>
+    <div class="persona-grid">
+      <div class="persona reveal">
+        <div class="persona-role">Head of AI / Digital Product</div>
+        <div class="persona-title">The prototype owner</div>
+        <div class="persona-pain">You built a compelling demo with ChatGPT or Azure OpenAI. Leadership loved it. Now you need to ship it to 50,000 users — with logging, guardrails, latency SLAs, and no hallucinations reaching customers.</div>
+        <div class="persona-quote">"We've built the demo. We have no idea how to productionise it."</div>
+      </div>
+      <div class="persona reveal" style="transition-delay:.07s">
+        <div class="persona-role">CTO / VP Engineering</div>
+        <div class="persona-title">The engineering decision-maker</div>
+        <div class="persona-pain">Your team wants to add AI to your product. You've reviewed the options — Azure OpenAI, open-source, fine-tune vs RAG. You need a partner who's shipped real LLM products, not someone who'll experiment on your runway.</div>
+        <div class="persona-quote">"I need to know what we're actually building, not what we're exploring."</div>
+      </div>
+      <div class="persona reveal" style="transition-delay:.14s">
+        <div class="persona-role">Enterprise Architect / CISO</div>
+        <div class="persona-title">The governance owner</div>
+        <div class="persona-pain">You have internal pressure to adopt AI. You have external pressure to keep data secure. You need a production LLM system that doesn't send customer data to OpenAI's training, has content filtering, and produces audit trails.</div>
+        <div class="persona-quote">"We can't ship anything that touches customer data without a security review."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="deliver" data-screen-label="03 Deliver">
+  <div class="wrap">
+    <div class="deliver-grid">
+      <div>
+        <div class="sec-label">What you get</div>
+        <h2 class="sec-h reveal">A production LLM app.<br>Not a chatbot prototype.</h2>
+        <p class="sec-sub reveal" style="margin-bottom:0">Every engagement ends with a live, evaluated, monitored LLM application — not a Jupyter notebook and a Streamlit demo.</p>
+        <div class="deliver-list reveal">
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Production LLM application</strong><span>Deployed to Azure App Service or Container Apps, behind a private endpoint, with versioned prompt management and model fallback routing.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Evaluation harness</strong><span>A test suite of 200+ cases covering correctness, groundedness, toxicity, and latency — run on every deployment so regressions never reach users.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Prompt management system</strong><span>Versioned system prompts, A/B testing infrastructure, and a rollback mechanism so prompt changes are as safe as code changes.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Observability &amp; cost controls</strong><span>Request-level logging with PII redaction, token usage dashboards, budget alerts, and rate-limit handling — in Azure Monitor and Application Insights.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Security &amp; compliance baseline</strong><span>Content filtering, Azure Private Link (no public internet), data residency configuration, and an AI Use Policy document for your procurement team.</span></div></div>
+        </div>
+      </div>
+      <div class="pipeline-vis reveal" style="transition-delay:.1s">
+        <div class="pv-label">LLM pipeline · production</div>
+        <div class="pv-step">
+          <div class="pv-step-num">1</div>
+          <div><div class="pv-step-name">User input</div><div class="pv-step-sub">Input validation · PII detection · rate limit</div></div>
+          <div class="pv-step-badge">guarded</div>
+        </div>
+        <div class="pv-step">
+          <div class="pv-step-num">2</div>
+          <div><div class="pv-step-name">Retrieval</div><div class="pv-step-sub">Azure AI Search · vector + keyword hybrid</div></div>
+          <div class="pv-step-badge">live</div>
+        </div>
+        <div class="pv-step">
+          <div class="pv-step-num">3</div>
+          <div><div class="pv-step-name">LLM call</div><div class="pv-step-sub">Azure OpenAI GPT-4o · private endpoint</div></div>
+          <div class="pv-step-badge">42ms p99</div>
+        </div>
+        <div class="pv-step">
+          <div class="pv-step-num">4</div>
+          <div><div class="pv-step-name">Output filter</div><div class="pv-step-sub">Content filter · groundedness check · log</div></div>
+          <div class="pv-step-badge">98.3%</div>
+        </div>
+        <div class="pv-stats">
+          <div class="pv-stat"><div class="pv-stat-num">2.4M</div><div class="pv-stat-label">Req/month</div></div>
+          <div class="pv-stat"><div class="pv-stat-num">60%</div><div class="pv-stat-label">Cost saving</div></div>
+          <div class="pv-stat"><div class="pv-stat-num">0</div><div class="pv-stat-label">Data leaks</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="approach" data-screen-label="04 Approach">
+  <div class="wrap">
+    <div class="sec-label">Our approach</div>
+    <h2 class="sec-h reveal">8 weeks from scoping to production.</h2>
+    <div class="approach-grid">
+      <div class="ap-step reveal"><div class="ap-num">01</div><div class="ap-title">Scoping</div><div class="ap-desc">We define the use case, success criteria, and evaluation metrics before writing a line of code. RAG or fine-tune? GPT-4o or a smaller model? We decide with data, not opinion.</div><div class="ap-dur">Week 1</div></div>
+      <div class="ap-step reveal" style="transition-delay:.06s"><div class="ap-num">02</div><div class="ap-title">Prototype &amp; evaluate</div><div class="ap-desc">We build a working prototype with a minimal eval harness. This is the fastest way to find the failure modes — hallucination patterns, retrieval gaps, latency spikes — before they reach users.</div><div class="ap-dur">Weeks 2–3</div></div>
+      <div class="ap-step reveal" style="transition-delay:.12s"><div class="ap-num">03</div><div class="ap-title">Harden &amp; integrate</div><div class="ap-desc">Production hardening: private endpoints, content filtering, logging, cost controls, auth, and integration with your existing systems. The eval suite grows to 200+ cases.</div><div class="ap-dur">Weeks 4–6</div></div>
+      <div class="ap-step reveal" style="transition-delay:.18s"><div class="ap-num">04</div><div class="ap-title">Deploy &amp; hand over</div><div class="ap-desc">Go-live with a phased rollout — 5% of traffic first. We monitor the first two weeks in production and hand over runbooks, prompt management docs, and the eval pipeline.</div><div class="ap-dur">Weeks 7–8</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="tech" data-screen-label="05 Tech">
+  <div class="wrap">
+    <h2 class="tech-h reveal">Our production LLM stack.</h2>
+    <p class="tech-sub reveal">The tools we've shipped with — not the ones we've only benchmarked.</p>
+    <div class="tech-grid">
+      <div class="tech-card reveal"><div class="tech-ico" style="background:rgba(99,102,241,.12);color:#a5b4fc"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div class="tech-name">Azure OpenAI Service</div><div class="tech-desc">GPT-4o, GPT-4o-mini, o1 — deployed on private endpoints with BYOD (bring your own data) patterns.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.05s"><div class="tech-ico" style="background:rgba(61,126,255,.1);color:#82baff"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="tech-name">Azure AI Search</div><div class="tech-desc">Hybrid retrieval — vector similarity + BM25 keyword — with semantic ranker for RAG pipelines.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.1s"><div class="tech-ico" style="background:rgba(0,212,232,.1);color:#00d4e8"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="tech-name">Semantic Kernel</div><div class="tech-desc">Microsoft's open-source SDK for orchestrating LLM calls, plugins, planners, and memory in .NET and Python.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.15s"><div class="tech-ico" style="background:rgba(139,92,246,.12);color:#c084fc"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg></div><div class="tech-name">Azure AI Foundry</div><div class="tech-desc">Model catalogues, prompt flows, evaluation pipelines, and deployment management — the control plane for AI projects.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.05s"><div class="tech-ico" style="background:rgba(0,221,106,.1);color:#00dd6a"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="tech-name">Application Insights</div><div class="tech-desc">Request-level tracing, token usage dashboards, latency histograms, and alert rules for LLM applications.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.1s"><div class="tech-ico" style="background:rgba(254,188,46,.12);color:#febc2e"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="tech-name">LangChain / LlamaIndex</div><div class="tech-desc">When Semantic Kernel isn't the right fit — Python-native orchestration for complex retrieval and agent pipelines.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.15s"><div class="tech-ico" style="background:rgba(255,120,80,.1);color:#ff7850"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="tech-name">Azure Content Safety</div><div class="tech-desc">Input and output filtering — hate speech, self-harm, sexual content, violence — with custom blocklists.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.2s"><div class="tech-ico" style="background:rgba(192,132,252,.12);color:#c084fc"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="tech-name">Azure Key Vault</div><div class="tech-desc">All API keys, connection strings, and model endpoints stored as secrets — no hardcoded credentials, ever.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="proof" data-screen-label="06 Proof">
+  <div class="wrap">
+    <div class="sec-label">Proof</div>
+    <h2 class="sec-h reveal">From a real LLM deployment.</h2>
+    <div class="proof-grid reveal">
+      <div class="cs-tile" onclick="location.href='Veloxcore Work.html'">
+        <div class="cs-cover"></div>
+        <div class="cs-body">
+          <div class="cs-cat">SaaS · Generative AI</div>
+          <div class="cs-title">Customer support copilot handling 2.4M requests/month with 98.3% eval pass rate.</div>
+          <div class="cs-nums">
+            <div class="cs-n"><div class="cs-n-val">2.4M</div><div class="cs-n-label">Requests/month</div></div>
+            <div class="cs-n"><div class="cs-n-val">98.3%</div><div class="cs-n-label">Eval pass rate</div></div>
+            <div class="cs-n"><div class="cs-n-val">60%</div><div class="cs-n-label">Token cost saved</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="quotes">
+        <div class="quote-card reveal">
+          <div class="quote-text">"We had a working demo in two weeks with ChatGPT. Getting it to production-grade took Veloxcore eight weeks — and now I understand why that work mattered."</div>
+          <div class="quote-foot"><div class="q-ava" style="background:linear-gradient(135deg,#6366f1,#a5b4fc)"></div><div><div class="q-name">Arjun Nair</div><div class="q-role">Head of AI · SaaS Co.</div></div></div>
+        </div>
+        <div class="quote-card reveal" style="transition-delay:.08s">
+          <div class="quote-text">"The eval harness was the thing I didn't know I needed. We caught three regression patterns in testing that would have been a PR disaster if they'd reached customers."</div>
+          <div class="quote-foot"><div class="q-ava" style="background:linear-gradient(135deg,#0f0a2e,#6366f1)"></div><div><div class="q-name">Priya Menon</div><div class="q-role">CTO · Product Co.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" data-screen-label="07 FAQ">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div>
+        <div class="sec-label">FAQ</div>
+        <h2 class="sec-h reveal">Common questions.</h2>
+        <p class="sec-sub reveal" style="margin-bottom:0;max-width:36ch">Questions we get on almost every LLM discovery call.</p>
+      </div>
+      <div class="faq-list reveal">
+        <div class="faq-item open"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">RAG or fine-tuning — which should we use?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">For the vast majority of enterprise use cases, RAG is the right answer: it keeps your data in your control, requires no retraining when your knowledge base changes, and gives you citation-level traceability. Fine-tuning is useful for style and format adaptation, not knowledge injection. We start every engagement with an evaluation of both and recommend based on your specific success criteria.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How do you prevent hallucinations?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">You can't eliminate hallucinations entirely, but you can make them detectable and catchable. We build an evaluation harness that runs groundedness checks on every response against your source documents — anything that fails is flagged before it reaches the user. In production, we log every response with its retrieved context so you can audit any failure.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Does our data get used to train OpenAI's models?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">No. Azure OpenAI Service does not use your prompts or completions to train OpenAI's models — this is a core data protection commitment from Microsoft. We deploy all models in your Azure subscription, behind private endpoints, with no public internet exposure. Your data stays in your tenant.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What does an evaluation harness actually do?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">It's a test suite — like a unit test suite but for LLM behaviour. We define 200+ test cases that cover correctness (does it give the right answer?), groundedness (is the answer supported by retrieved documents?), format compliance, and safety. It runs automatically on every prompt change or model upgrade, giving you a pass/fail signal before anything reaches production.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" data-screen-label="08 CTA">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div>
+        <h2 class="cta-h reveal">Ready to ship your LLM app?</h2>
+        <p class="cta-sub reveal">Book a free 45-minute architecture review. We'll tell you what production-grade actually requires for your use case.</p>
+      </div>
+      <div class="cta-acts reveal">
+        <a class="btn-white" href="Veloxcore Contact.html">Book a free call</a>
+        <a class="btn-ghost" href="Veloxcore Work.html">See our work →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" data-screen-label="09 Footer">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-brand"><div class="logo-row"><span class="mark"></span><span class="logo">Veloxcore</span></div><p>Microsoft Gold Partner for Cloud Platform and Application Integration.</p></div>
+      <div><div class="foot-h">Services</div><ul class="foot-list"><li><a href="Veloxcore Services.html">All services</a></li><li><a href="Veloxcore Service - Azure AI.html">Azure AI &amp; Cloud</a></li><li><a href="Veloxcore Service - AI Agents.html">AI Agents</a></li><li><a href="Veloxcore Service - RAG.html">RAG &amp; Knowledge</a></li></ul></div>
+      <div><div class="foot-h">Work</div><ul class="foot-list"><li><a href="Veloxcore Work.html">Case studies</a></li></ul></div>
+      <div><div class="foot-h">Company</div><ul class="foot-list"><li><a href="Veloxcore About.html">About</a></li><li><a href="Veloxcore Blog.html">Blog</a></li><li><a href="Veloxcore Contact.html">Contact</a></li></ul></div>
+      <div><div class="foot-h">Products</div><ul class="foot-list"><li><a href="Veloxhire.AI.html">Veloxhire.AI</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span class="copy">© 2026 Veloxcore Private Limited</span><div class="right"><a>Privacy</a><a>Terms</a><span class="locale">English ▾</span></div></div>
+  </div>
+</footer>
+
+<script>
+/* Hero particles */
+(function(){const c=document.querySelector('.hero-canvas');if(!c)return;const ctx=c.getContext('2d');const N=72,MAXD=150;const COLS=['rgba(99,102,241,','rgba(139,92,246,','rgba(167,139,250,','rgba(99,102,241,'];let W,H,pts=[],mouse={x:-9999,y:-9999};function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}function init(){pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.6+0.6,col:COLS[Math.floor(Math.random()*COLS.length)]}));}function draw(){ctx.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);if(d<MAXD){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(99,102,241,${(1-d/MAXD)*0.1})`;ctx.lineWidth=.6;ctx.stroke();}}const dm=Math.hypot(pts[i].x-mouse.x,pts[i].y-mouse.y);if(dm<MAXD*1.6){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=`rgba(99,102,241,${(1-dm/(MAXD*1.6))*0.18})`;ctx.lineWidth=.7;ctx.stroke();}ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,pts[i].r,0,Math.PI*2);ctx.fillStyle=pts[i].col+'0.6)';ctx.fill();}}function loop(){pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;});draw();requestAnimationFrame(loop);}window.addEventListener('resize',()=>{resize();init();});document.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});resize();init();loop();})();
+function toggleFaq(el){el.parentElement.classList.toggle('open');}
+(function(){const els=Array.from(document.querySelectorAll('.reveal'));function check(){const vh=window.innerHeight;els.forEach(el=>{if(el.classList.contains('visible'))return;const r=el.getBoundingClientRect();if(r.top<vh*.93&&r.bottom>0)el.classList.add('visible');});}window.addEventListener('scroll',check,{passive:true});window.addEventListener('resize',check);setTimeout(check,80);setTimeout(check,500);})();
+</script>
+</body>
+</html>

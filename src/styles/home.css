@@ -230,10 +230,8 @@
 .blog-cover { aspect-ratio:4/3; border-radius:20px; overflow:hidden; position:relative; }
 .cover-a { background:radial-gradient(circle at 30% 70%,#3d7eff 0%,#00d4e8 30%,#00dd6a 60%,#8ce800 100%); }
 .cover-b { background:linear-gradient(135deg,#0b0b0e 0%,#1f1f3a 100%); display:flex; align-items:center; justify-content:center; }
-.cover-b::after { content:'Antigravity 2.0'; position:absolute; bottom:24px; left:24px; font-family:var(--display); font-size:18px; font-weight:700; color:#fff; letter-spacing:-.03em; }
 .cover-c { background:#0b0b0e; position:relative; overflow:hidden; }
 .cover-c::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(173,198,255,0.7) 1px,transparent 1px); background-size:14px 14px; opacity:.5; }
-.cover-c::after { content:'Agent Teams'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:var(--display); font-size:22px; font-weight:700; color:#fff; letter-spacing:-.03em; z-index:1; }
 .blog-cover.has-image::before, .blog-cover.has-image::after { display:none; }
 .blog-title { font-family:var(--display); font-size:24px; font-weight:600; letter-spacing:-.025em; line-height:32px; color:var(--fg1); text-wrap:pretty; }
 .blog-meta { display:flex; align-items:center; gap:14px; font-size:14px; color:var(--fg2); letter-spacing:-.005em; }
@@ -270,7 +268,7 @@
 .foot-col a:hover { color:rgba(255,255,255,.88); }
 .foot-col a:hover::after { transform:scaleX(1); }
 .foot-wm-wrap { overflow:hidden; position:relative; z-index:2; }
-.foot-wm { font-family:var(--display); font-weight:800; letter-spacing:-.05em; white-space:nowrap; color:#fff; line-height:0.88; display:block; padding:0 var(--m); }
+.foot-wm { font-family:var(--display); font-weight:700; letter-spacing:-.025em; white-space:nowrap; color:#fff; line-height:0.88; display:block; padding:0 var(--m); }
 .foot-wm .letter { display:inline-block; opacity:0; transform:translateY(110%); transition:opacity .75s var(--eqt), transform .75s var(--eqt); }
 .foot-wm.revealed .letter { opacity:1; transform:none; }
 .foot-bottom { display:flex; align-items:center; justify-content:space-between; padding:20px var(--m) 36px; max-width:var(--w); margin:0 auto; position:relative; z-index:2; margin-top:6px; }

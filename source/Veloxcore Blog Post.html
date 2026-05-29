@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog Post Layouts — Veloxcore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg:            #ffffff;
+      --canvas:        #F8F9FA;
+      --fg1:           #1a1c1c;
+      --fg2:           #5f6368;
+      --fg3:           #6b6f72;
+      --border:        #eef0f1;
+      --border-strong: #e6e8ea;
+      --accent:        #7c3aed;
+      --accent-soft:   #c4b5fd;
+      --tag-bg:        #f3e8ff;
+      --tag-fg:        #7c3aed;
+      --dark-surface:  #1E2127;
+      --dark-card:     #262A31;
+      --dark-divider:  #353941;
+      --dark-fg1:      #f7f8fa;
+      --dark-fg2:      #bcc1c7;
+      --dark-fg3:      #9ea3aa;
+      --display:       'Geist', system-ui, sans-serif;
+      --sans:          'Inter', system-ui, sans-serif;
+      --mono:          'JetBrains Mono', monospace;
+      --eq:            cubic-bezier(.25,.46,.45,.94);
+      --eqt:           cubic-bezier(.165,.84,.44,1);
+      --w:             1320px;
+      --m:             48px;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:var(--sans); color:var(--fg1); background:var(--bg); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+    a { text-decoration:none; color:inherit; cursor:pointer; }
+    img,svg { display:block; }
+    button { cursor:pointer; font-family:inherit; border:none; }
+    .wrap { max-width:var(--w); margin:0 auto; padding:0 var(--m); }
+
+    /* ── NAV ──────────────────────────────────────── */
+    .nav { position:fixed; top:0; left:0; right:0; z-index:50; height:68px; display:flex; align-items:center; padding:0 var(--m); background:rgba(255,255,255,.84); backdrop-filter:blur(20px) saturate(1.6); -webkit-backdrop-filter:blur(20px) saturate(1.6); border-bottom:1px solid var(--border); }
+    .nav-inner { max-width:var(--w); margin:0 auto; width:100%; display:flex; align-items:center; }
+    .brand { display:flex; align-items:center; gap:10px; flex-shrink:0; margin-right:36px; }
+    .mark { width:22px; height:22px; border-radius:6px; background:linear-gradient(135deg,#3d7eff 0%,#00d4e8 35%,#00dd6a 75%,#8ce800 100%); display:flex; align-items:center; justify-content:center; }
+    .mark::after { content:''; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:7.5px solid #fff; transform:translateY(-0.5px); }
+    .logo { font-family:var(--display); font-size:18px; font-weight:700; letter-spacing:-.025em; color:var(--fg1); }
+    .nav-links { display:flex; align-items:center; gap:4px; }
+    .nav-link { display:inline-flex; align-items:center; gap:5px; font-size:14.5px; color:var(--fg1); padding:8px 14px; border-radius:9999px; letter-spacing:-.005em; transition:background .15s; cursor:pointer; }
+    .nav-link:hover { background:#f4f6f8; }
+    .nav-link.active { background:#f1f3f4; font-weight:500; }
+    .nav-link .chev { display:inline-block; width:10px; height:6px; background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none' stroke='%231a1c1c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='1 1 5 5 9 1'/></svg>") center/contain no-repeat; opacity:.65; }
+    .nav-cta { margin-left:auto; display:inline-flex; align-items:center; gap:8px; background:var(--fg1); color:#fff; font-size:13.5px; font-weight:500; padding:9px 18px 9px 20px; border-radius:9999px; letter-spacing:-.005em; transition:opacity .15s; cursor:pointer; }
+    .nav-cta:hover { opacity:.86; }
+    .nav-cta-ico { width:14px; height:14px; display:inline-flex; align-items:center; justify-content:center; background:#2f3135; border-radius:50%; }
+    .nav-cta-ico svg { width:8px; height:8px; stroke:#fff; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+
+    /* ── LAYOUT RIBBON ────────────────────────────── */
+    .layout-ribbon { background:var(--canvas); border-top:2px solid var(--fg1); border-bottom:1px solid var(--border); padding:0; position:sticky; top:68px; z-index:40; }
+    .ribbon-inner { max-width:var(--w); margin:0 auto; padding:0 var(--m); display:flex; align-items:center; gap:16px; height:44px; }
+    .ribbon-num { font-family:var(--mono); font-size:11.5px; font-weight:500; color:var(--fg1); background:var(--fg1); color:#fff; padding:3px 8px; border-radius:4px; letter-spacing:.02em; }
+    .ribbon-name { font-family:var(--display); font-size:15px; font-weight:700; color:var(--fg1); letter-spacing:-.02em; }
+    .ribbon-sep { color:var(--border-strong); font-size:18px; }
+    .ribbon-desc { font-size:13px; color:var(--fg3); letter-spacing:-.005em; }
+
+    /* ── SHARED COVER THEMES ──────────────────────── */
+    .cov-aurora { background:radial-gradient(circle at 25% 65%,#3d7eff 0%,#00d4e8 28%,#00dd6a 58%,#8ce800 100%); }
+    .cov-azure   { background:linear-gradient(130deg,#0d3d8a,#1a73e8,#00d4e8); }
+    .cov-neural  { background:#100a20; position:relative; overflow:hidden; }
+    .cov-neural::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 20% 50%,rgba(192,132,252,.32) 0%,transparent 42%),radial-gradient(circle at 82% 52%,rgba(61,126,255,.2) 0%,transparent 40%); }
+    .cov-space   { background:#0b0b1a; position:relative; overflow:hidden; }
+    .cov-space::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(173,198,255,.45) 1px,transparent 1px); background-size:20px 20px; }
+    .cov-mesh    { background:linear-gradient(135deg,#4338ca,#7c3aed,#a855f7,#c084fc); }
+    .cov-warm    { background:linear-gradient(140deg,#1a0500,#7c2a0a,#d44010); }
+
+    /* ── SHARED TAGS ──────────────────────────────── */
+    .tag { display:inline-flex; align-items:center; padding:5px 12px; border-radius:9999px; font-size:12px; font-weight:500; letter-spacing:-.005em; }
+    .tag-bigdata { background:#e6f4ea; color:#137333; }
+    .tag-azure   { background:#e8f0fe; color:#1a73e8; }
+    .tag-ml      { background:var(--tag-bg); color:var(--tag-fg); }
+
+    /* Dark variants */
+    .tag-d-bigdata { background:rgba(0,221,106,.14); color:#00dd6a; }
+
+    /* ── SHARED ARTICLE BODY ──────────────────────── */
+    .art-body p { font-size:17.5px; line-height:31px; color:var(--fg2); margin-bottom:24px; text-wrap:pretty; letter-spacing:-.01em; }
+    .art-body h2 { font-family:var(--display); font-size:24px; font-weight:700; letter-spacing:-.03em; color:var(--fg1); margin:40px 0 14px; }
+    .art-body blockquote { border-left:3px solid var(--accent); margin:36px 0; padding:12px 24px; font-family:var(--display); font-size:22px; line-height:32px; color:var(--fg1); font-weight:600; letter-spacing:-.025em; }
+    .art-body p strong { color:var(--fg1); font-weight:600; }
+    .avatar { width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#7c3aed,#3d7eff); flex-shrink:0; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       LAYOUT 1 — BROADSHEET
+       Full-width cover · narrow centered reading column · clean editorial
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .l1-cover { height:460px; position:relative; overflow:hidden; }
+    .l1-content { max-width:720px; margin:0 auto; padding:52px 24px 88px; }
+    .l1-h1 { font-family:var(--display); font-size:50px; font-weight:800; letter-spacing:-.05em; line-height:56px; color:var(--fg1); margin:18px 0 20px; text-wrap:pretty; }
+    .l1-meta { display:flex; align-items:center; gap:14px; font-size:14px; color:var(--fg2); margin-bottom:36px; padding-bottom:32px; border-bottom:1px solid var(--border); }
+    .l1-share { display:flex; align-items:center; gap:10px; margin-top:40px; padding-top:32px; border-top:1px solid var(--border); font-size:13px; color:var(--fg3); }
+    .share-btn { width:34px; height:34px; border-radius:9999px; background:var(--canvas); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .15s; }
+    .share-btn:hover { background:var(--border-strong); }
+    .share-btn svg { width:15px; height:15px; stroke:var(--fg2); fill:none; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round; }
+    .l1-author-foot { display:flex; align-items:center; gap:14px; margin-top:52px; padding:24px 0 0; border-top:1px solid var(--border); }
+    .author-big { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,#7c3aed,#3d7eff); }
+    .author-name { font-size:15px; font-weight:600; color:var(--fg1); letter-spacing:-.01em; }
+    .author-role { font-size:13px; color:var(--fg3); letter-spacing:-.005em; margin-top:2px; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       LAYOUT 2 — SIDEBAR
+       Sticky left sidebar (TOC + author) · scrollable right column
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .l2-wrap { max-width:var(--w); margin:0 auto; padding:52px var(--m) 88px; }
+    .l2-grid { display:grid; grid-template-columns:244px 1fr; gap:72px; align-items:start; }
+    .l2-sidebar { position:sticky; top:128px; display:flex; flex-direction:column; gap:28px; }
+    .l2-cover-thumb { height:148px; border-radius:14px; overflow:hidden; }
+    .l2-toc { display:flex; flex-direction:column; }
+    .toc-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--fg3); margin-bottom:10px; }
+    .toc-item { font-size:13.5px; color:var(--fg2); padding:7px 10px; border-radius:7px; cursor:pointer; transition:all .15s; letter-spacing:-.005em; display:block; border-left:2px solid transparent; }
+    .toc-item:hover { background:var(--canvas); color:var(--fg1); }
+    .toc-item.active { border-left-color:var(--accent); color:var(--accent); font-weight:500; padding-left:14px; }
+    .l2-author-card { background:var(--canvas); border:1px solid var(--border); border-radius:14px; padding:18px; }
+    .l2-author-card .author-name { font-size:14px; font-weight:600; color:var(--fg1); margin:10px 0 2px; }
+    .l2-author-card .author-role { font-size:12px; color:var(--fg3); }
+    .l2-tags { display:flex; flex-direction:column; gap:6px; }
+    .l2-tags-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--fg3); margin-bottom:4px; }
+    .l2-tag-row { display:flex; gap:6px; flex-wrap:wrap; }
+    .l2-h1 { font-family:var(--display); font-size:38px; font-weight:700; letter-spacing:-.04em; line-height:46px; color:var(--fg1); margin:14px 0 12px; text-wrap:pretty; }
+    .l2-meta { font-size:13px; color:var(--fg3); margin-bottom:32px; padding-bottom:28px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; }
+    .read-bar { display:flex; align-items:center; gap:10px; margin-top:40px; padding-top:24px; border-top:1px solid var(--border); font-size:13px; color:var(--fg3); }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       LAYOUT 3 — CINEMATIC
+       Full-height dark hero with title overlay · wide light body below
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .l3-hero { height:560px; position:relative; overflow:hidden; }
+    .l3-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(to top,rgba(10,10,16,.9) 0%,rgba(10,10,16,.5) 45%,rgba(10,10,16,.1) 100%); }
+    .l3-hero-body { position:absolute; bottom:0; left:0; right:0; z-index:2; padding:0 var(--m) 52px; max-width:calc(var(--w) + var(--m)*2); }
+    .l3-breadcrumb { display:flex; align-items:center; gap:8px; font-size:12.5px; color:rgba(255,255,255,.55); margin-bottom:20px; letter-spacing:-.005em; }
+    .l3-breadcrumb span { color:rgba(255,255,255,.35); }
+    .l3-h1 { font-family:var(--display); font-size:58px; font-weight:900; letter-spacing:-.055em; line-height:62px; color:#fff; max-width:18ch; text-wrap:pretty; margin-bottom:24px; }
+    .l3-hero-meta { display:flex; align-items:center; gap:14px; font-size:13.5px; color:rgba(255,255,255,.6); }
+    .l3-hero-meta .avatar { background:rgba(255,255,255,.2); }
+    .l3-body-wrap { max-width:860px; margin:0 auto; padding:56px var(--m) 88px; }
+    .l3-drop { font-size:64px; float:left; line-height:.75; font-family:var(--display); font-weight:900; color:var(--fg1); margin:6px 10px 0 0; letter-spacing:-.05em; }
+    .l3-body-wrap .art-body p:first-child::first-letter { font-size:68px; float:left; line-height:.76; font-family:var(--display); font-weight:900; color:var(--fg1); margin:4px 10px 0 0; letter-spacing:-.03em; }
+    .l3-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:16px; overflow:hidden; margin:40px 0; }
+    .l3-stat { background:#fff; padding:24px; text-align:center; }
+    .l3-stat-num { font-family:var(--display); font-size:36px; font-weight:800; letter-spacing:-.04em; color:var(--fg1); line-height:1; }
+    .l3-stat-label { font-size:12.5px; color:var(--fg3); margin-top:8px; letter-spacing:-.005em; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       LAYOUT 4 — TYPOGRAPHIC
+       No image · giant display title · two-column lede · numbered sections
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .l4-article { max-width:var(--w); margin:0 auto; padding:60px var(--m) 88px; }
+    .l4-kicker { display:flex; align-items:center; gap:0; margin-bottom:32px; }
+    .l4-kicker-line { flex:1; height:1.5px; background:var(--fg1); }
+    .l4-kicker-text { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--fg1); padding:0 20px; }
+    .l4-h1 { font-family:var(--display); font-size:80px; font-weight:900; letter-spacing:-.06em; line-height:80px; color:var(--fg1); text-wrap:pretty; max-width:18ch; margin-bottom:40px; }
+    .l4-lede-grid { display:grid; grid-template-columns:1fr 1.4fr; gap:56px; margin-bottom:48px; padding-bottom:40px; border-bottom:1.5px solid var(--fg1); align-items:start; }
+    .l4-meta-col { display:flex; flex-direction:column; gap:20px; }
+    .l4-meta-item { }
+    .l4-meta-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--fg3); margin-bottom:4px; }
+    .l4-meta-value { font-size:15px; color:var(--fg1); font-weight:500; display:flex; align-items:center; gap:8px; }
+    .l4-lede { font-family:var(--display); font-size:22px; font-weight:600; line-height:32px; color:var(--fg1); letter-spacing:-.025em; text-wrap:pretty; }
+    .l4-body { max-width:820px; }
+    .l4-body .art-body h2 { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--fg3); display:flex; align-items:center; gap:16px; margin:44px 0 18px; }
+    .l4-body .art-body h2::before { content:attr(data-n); font-family:var(--mono); color:var(--accent); }
+    .l4-body .art-body h2::after { content:''; flex:1; height:1px; background:var(--border); }
+    .l4-body .art-body blockquote { border-left:none; border-top:1.5px solid var(--fg1); border-bottom:1.5px solid var(--fg1); padding:28px 0; margin:40px 0; font-size:26px; line-height:36px; }
+
+    /* ── FOOTER ───────────────────────────────────── */
+    .footer { background:#F8F9FA; border-top:1px solid var(--border); padding:80px 0 48px; }
+    .foot-cols { display:grid; grid-template-columns:1.4fr repeat(4,1fr); gap:64px; }
+    .foot-brand .logo-row { display:flex; align-items:center; gap:12px; margin-bottom:24px; }
+    .foot-brand p { font-size:15px; color:var(--fg2); max-width:36ch; line-height:24px; letter-spacing:-.005em; }
+    .foot-h { font-size:14px; font-weight:600; color:var(--fg1); margin-bottom:20px; }
+    .foot-list { list-style:none; display:flex; flex-direction:column; gap:14px; }
+    .foot-list a { font-size:14px; color:var(--fg2); cursor:pointer; }
+    .foot-list a:hover { color:var(--fg1); }
+    .foot-bottom { display:flex; align-items:center; gap:24px; margin-top:64px; padding-top:28px; border-top:1px solid var(--border); }
+    .foot-bottom .copy { font-size:13px; color:var(--fg2); }
+    .foot-bottom .right { margin-left:auto; display:flex; gap:24px; font-size:13px; color:var(--fg2); }
+    .locale { display:inline-flex; align-items:center; gap:6px; padding:5px 11px; border:1px solid var(--border-strong); border-radius:9999px; background:#fff; cursor:pointer; font-size:12px; }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Veloxcore Home.html">
+      <span class="mark"></span>
+      <span class="logo">Veloxcore</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link">Product <span class="chev"></span></a>
+      <a class="nav-link">Use Cases <span class="chev"></span></a>
+      <a class="nav-link">Pricing</a>
+      <a class="nav-link active">Blog</a>
+      <a class="nav-link">Resources <span class="chev"></span></a>
+    </div>
+    <a class="nav-cta">Download
+      <span class="nav-cta-ico"><svg viewBox="0 0 8 8"><polyline points="1 4 4 7 7 4"></polyline><line x1="4" y1="1" x2="4" y2="7"></line></svg></span>
+    </a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════
+     LAYOUT 1 — BROADSHEET
+     Full-width cover image · narrow centered reading column
+════════════════════════════════════════════════ -->
+<div data-screen-label="01 Layout 1 — Broadsheet">
+  <div class="layout-ribbon" style="top:68px">
+    <div class="ribbon-inner">
+      <span class="ribbon-num">01</span>
+      <span class="ribbon-sep">—</span>
+      <span class="ribbon-name">Broadsheet</span>
+      <span class="ribbon-desc">Full-width cover · narrow centered reading column</span>
+    </div>
+  </div>
+  <article style="padding-top:68px">
+    <div class="l1-cover cov-aurora"></div>
+    <div class="l1-content">
+      <span class="tag tag-bigdata">Big Data</span>
+      <h1 class="l1-h1">Cortana Analytics Suite: an end-to-end big data solution for the modern enterprise</h1>
+      <div class="l1-meta">
+        <div style="display:flex;align-items:center;gap:8px"><div class="avatar"></div><strong style="font-size:14px;color:var(--fg1)">Rahul Mehta</strong></div>
+        <span>·</span><span>May 19, 2026</span><span>·</span><span>9 min read</span>
+        <div class="l1-share" style="margin-left:auto;margin-top:0;padding-top:0;border-top:none;display:flex;align-items:center;gap:8px">
+          <button class="share-btn"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+          <button class="share-btn"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></button>
+        </div>
+      </div>
+      <div class="art-body">
+        <p>Enterprise data has always been the promise. For decades, organisations have collected transactional records, sensor readings, and user events in proportions that far outpace any single team's ability to analyse them. The Cortana Analytics Suite — Microsoft's integrated big data and advanced analytics platform — was designed to close that gap.</p>
+        <h2>What is the Cortana Analytics Suite?</h2>
+        <p>At its core, the Suite is a composition of well-known Azure services bundled under a unified operational model. Azure Event Hubs ingests streaming data at millions of events per second. Azure Data Factory orchestrates movement and transformation. Azure HDInsight runs managed Hadoop, Spark, and HBase clusters. And Azure ML Studio gives data scientists an interactive canvas for building and publishing predictive models — all without managing a single server.</p>
+        <blockquote>The Suite doesn't ask you to choose between speed and depth. Real-time and batch coexist in the same pipeline, sharing the same governance and security model.</blockquote>
+        <h2>A real deployment</h2>
+        <p>For one of our retail clients, we implemented a pipeline that processes 140 million daily transactions across six countries. A Stream Analytics job runs a five-minute tumbling window to compute regional demand signals. By morning, Power BI dashboards reflect a model that has seen yesterday's data — at a fraction of the cost of a self-managed cluster.</p>
+      </div>
+      <div class="l1-author-foot">
+        <div class="author-big"></div>
+        <div><div class="author-name">Rahul Mehta</div><div class="author-role">Lead Data Architect · Veloxcore</div></div>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     LAYOUT 2 — SIDEBAR
+     Sticky left sidebar (TOC + author + tags) · right scrollable column
+════════════════════════════════════════════════ -->
+<div data-screen-label="02 Layout 2 — Sidebar" style="border-top:1px solid var(--border)">
+  <div class="layout-ribbon">
+    <div class="ribbon-inner">
+      <span class="ribbon-num">02</span>
+      <span class="ribbon-sep">—</span>
+      <span class="ribbon-name">Sidebar</span>
+      <span class="ribbon-desc">Sticky TOC + author left · scrollable article right</span>
+    </div>
+  </div>
+  <div class="l2-wrap">
+    <div class="l2-grid">
+
+      <!-- Sidebar -->
+      <aside class="l2-sidebar">
+        <div class="l2-cover-thumb cov-azure"></div>
+        <div class="l2-toc">
+          <div class="toc-label">Contents</div>
+          <a class="toc-item active">What is the Suite?</a>
+          <a class="toc-item">Core components</a>
+          <a class="toc-item">The three layers</a>
+          <a class="toc-item">A real deployment</a>
+          <a class="toc-item">What comes next</a>
+        </div>
+        <div class="l2-author-card">
+          <div class="avatar" style="width:36px;height:36px"></div>
+          <div class="author-name">Rahul Mehta</div>
+          <div class="author-role">Lead Data Architect</div>
+        </div>
+        <div class="l2-tags">
+          <div class="l2-tags-label">Topics</div>
+          <div class="l2-tag-row">
+            <span class="tag tag-bigdata">Big Data</span>
+            <span class="tag tag-azure">Azure</span>
+            <span class="tag tag-ml">ML</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <main>
+        <div>
+          <span class="tag tag-bigdata">Big Data</span>
+          <h1 class="l2-h1">Cortana Analytics Suite: an end-to-end big data solution for the modern enterprise</h1>
+          <div class="l2-meta">
+            <span>May 19, 2026</span><span>·</span><span>9 min read</span><span>·</span><span>Rahul Mehta</span>
+          </div>
+        </div>
+        <div class="art-body">
+          <p>Enterprise data has always been the promise. For decades, organisations have collected transactional records, sensor readings, and user events in proportions that far outpace any single team's ability to analyse them. The Cortana Analytics Suite was designed to close that gap — treating everything from raw ingestion to boardroom insight as one manageable workflow.</p>
+          <h2>What is the Cortana Analytics Suite?</h2>
+          <p>At its core, the Suite is a composition of well-known Azure services bundled under a unified operational model. Azure Event Hubs ingests streaming data at millions of events per second. Azure Data Factory orchestrates movement and transformation across on-premises and cloud systems. Azure HDInsight runs managed Hadoop, Spark, and HBase clusters — and Azure ML Studio gives data scientists an interactive canvas for publishing predictive models.</p>
+          <blockquote>The Suite doesn't ask you to choose between speed and depth. Real-time and batch coexist in the same pipeline, sharing the same governance and security model.</blockquote>
+          <h2>A real deployment</h2>
+          <p>For one of our retail clients, we implemented a pipeline that processes 140 million daily transactions across six countries. A Stream Analytics job runs a five-minute tumbling window to compute regional demand signals. By morning, Power BI dashboards reflect a model that has seen yesterday's data — at a fraction of the cost of a self-managed cluster.</p>
+        </div>
+        <div class="read-bar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>Next: <a href="Veloxcore Blog.html" style="color:var(--accent);font-weight:500">Back to Blog →</a></span>
+        </div>
+      </main>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     LAYOUT 3 — CINEMATIC
+     Full-height dark cover with title overlay · wide light body + stats panel
+════════════════════════════════════════════════ -->
+<div data-screen-label="03 Layout 3 — Cinematic" style="border-top:1px solid var(--border)">
+  <div class="layout-ribbon">
+    <div class="ribbon-inner">
+      <span class="ribbon-num">03</span>
+      <span class="ribbon-sep">—</span>
+      <span class="ribbon-name">Cinematic</span>
+      <span class="ribbon-desc">Full-height dark hero with title overlay · wide light body</span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="l3-hero cov-space" style="margin-top:0">
+    <div class="l3-hero-body">
+      <div class="l3-breadcrumb"><a href="Veloxcore Blog.html">Blog</a><span>›</span><span>Big Data</span></div>
+      <span class="tag tag-d-bigdata" style="margin-bottom:20px">Big Data</span>
+      <h1 class="l3-h1">Cortana Analytics Suite: an end-to-end big data solution</h1>
+      <div class="l3-hero-meta">
+        <div style="display:flex;align-items:center;gap:8px"><div class="avatar"></div><span>Rahul Mehta</span></div>
+        <span>·</span><span>May 19, 2026</span><span>·</span><span>9 min read</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="l3-body-wrap">
+    <div class="art-body">
+      <p>Enterprise data has always been the promise. For decades, organisations have collected transactional records, sensor readings, and user events in proportions that far outpace any single team's ability to analyse them. The Cortana Analytics Suite — Microsoft's integrated big data and advanced analytics platform — was designed to close that gap: to take everything from raw ingestion to boardroom-ready insight and treat it as one manageable workflow.</p>
+      <h2>What is the Cortana Analytics Suite?</h2>
+      <p>At its core, the Suite is a composition of well-known Azure services bundled under a unified operational model. Azure Event Hubs ingests streaming data at millions of events per second. Azure Data Factory orchestrates movement and transformation. Azure HDInsight runs managed Hadoop, Spark, and HBase clusters. And Azure ML Studio gives data scientists an interactive canvas for building, training, and publishing predictive models without managing a single server.</p>
+
+      <div class="l3-stats">
+        <div class="l3-stat"><div class="l3-stat-num">99.97%</div><div class="l3-stat-label">Uptime · 12-month rolling</div></div>
+        <div class="l3-stat"><div class="l3-stat-num">140M</div><div class="l3-stat-label">Daily transactions processed</div></div>
+        <div class="l3-stat"><div class="l3-stat-num">38%</div><div class="l3-stat-label">Reduction in cloud spend</div></div>
+      </div>
+
+      <blockquote>The Suite doesn't ask you to choose between speed and depth. Real-time and batch coexist in the same pipeline, sharing the same governance and security model.</blockquote>
+      <h2>A real deployment</h2>
+      <p>For one of our retail clients, we implemented a pipeline that processes 140 million daily transactions across six countries. By morning, Power BI dashboards reflect a model that has seen yesterday's data — at a fraction of the cost of a self-managed cluster.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     LAYOUT 4 — TYPOGRAPHIC
+     No cover · giant display title · two-column lede · numbered sections
+════════════════════════════════════════════════ -->
+<div data-screen-label="04 Layout 4 — Typographic" style="border-top:1px solid var(--border)">
+  <div class="layout-ribbon">
+    <div class="ribbon-inner">
+      <span class="ribbon-num">04</span>
+      <span class="ribbon-sep">—</span>
+      <span class="ribbon-name">Typographic</span>
+      <span class="ribbon-desc">No image · giant display title · two-column lede · numbered sections</span>
+    </div>
+  </div>
+
+  <article class="l4-article">
+
+    <!-- Kicker rule -->
+    <div class="l4-kicker">
+      <div class="l4-kicker-line"></div>
+      <div class="l4-kicker-text">Big Data · Analysis</div>
+      <div class="l4-kicker-line"></div>
+    </div>
+
+    <!-- Title -->
+    <h1 class="l4-h1">Cortana Analytics Suite: an end-to-end big data solution for the modern enterprise</h1>
+
+    <!-- Two-column lede -->
+    <div class="l4-lede-grid">
+      <div class="l4-meta-col">
+        <div class="l4-meta-item">
+          <div class="l4-meta-label">Author</div>
+          <div class="l4-meta-value"><div class="avatar" style="width:22px;height:22px"></div>Rahul Mehta</div>
+        </div>
+        <div class="l4-meta-item">
+          <div class="l4-meta-label">Published</div>
+          <div class="l4-meta-value">May 19, 2026</div>
+        </div>
+        <div class="l4-meta-item">
+          <div class="l4-meta-label">Reading time</div>
+          <div class="l4-meta-value">9 minutes</div>
+        </div>
+        <div class="l4-meta-item">
+          <div class="l4-meta-label">Topics</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+            <span class="tag tag-bigdata">Big Data</span>
+            <span class="tag tag-azure">Azure</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="l4-lede">Enterprise data has always been the promise. For decades, organisations have collected transactional records, sensor readings, and user events in proportions that far outpace any single team's ability to analyse them.</p>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="l4-body">
+      <div class="art-body">
+        <h2 data-n="01">What is the Cortana Analytics Suite?</h2>
+        <p>At its core, the Suite is a composition of well-known Azure services bundled under a unified operational model. Azure Event Hubs ingests streaming data at millions of events per second. Azure Data Factory orchestrates movement and transformation. Azure HDInsight runs managed Hadoop, Spark, and HBase clusters. And Azure ML Studio gives data scientists an interactive canvas for building, training, and publishing predictive models — all without managing a single server.</p>
+        <h2 data-n="02">The three layers that matter</h2>
+        <p><strong>Ingestion.</strong> Azure Event Hubs provides a Kafka-compatible endpoint. Stream Analytics can filter, aggregate, and route events within milliseconds, handing off to Blob Storage or CosmosDB for downstream processing. <strong>Transformation.</strong> HDInsight handles the heavy lifting — managed clusters provisioned in under ten minutes, scaled to hundreds of nodes, torn down when the batch window closes. <strong>Intelligence.</strong> Azure ML Studio wraps the statistical work in a drag-and-drop canvas, with models published as REST APIs in two clicks.</p>
+        <blockquote>The Suite doesn't ask you to choose between speed and depth. Real-time and batch coexist in the same pipeline, sharing the same governance and security model.</blockquote>
+        <h2 data-n="03">A real deployment</h2>
+        <p>For one of our retail clients, we implemented a pipeline processing 140 million daily transactions across six countries. The ingestion layer uses Event Hubs with 32 partitions. A Stream Analytics job runs a five-minute tumbling window to compute regional demand signals. By morning, Power BI dashboards reflect a model that has seen yesterday's data — at a fraction of the cost of a self-managed cluster.</p>
+      </div>
+    </div>
+
+  </article>
+</div>
+
+<!-- ── FOOTER ──────────────────────────────────── -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-brand">
+        <div class="logo-row" style="display:flex;align-items:center;gap:12px;margin-bottom:24px"><span class="mark"></span><span class="logo">Veloxcore</span></div>
+        <p>Microsoft Gold Partner for Cloud Platform and Application Integration. Headquartered in Ahmedabad, India · 6 countries served.</p>
+      </div>
+      <div><div class="foot-h">Services</div><ul class="foot-list"><li><a>Data Analytics</a></li><li><a>Visualisation</a></li><li><a>Architecture</a></li><li><a>Machine Learning</a></li></ul></div>
+      <div><div class="foot-h">Azure</div><ul class="foot-list"><li><a>HDInsight</a></li><li><a>ML Studio</a></li><li><a>IoT Hub</a></li><li><a>Stream Analytics</a></li></ul></div>
+      <div><div class="foot-h">Company</div><ul class="foot-list"><li><a>About</a></li><li><a>Careers</a></li><li><a href="Veloxcore Blog.html">Blog</a></li><li><a>Contact</a></li></ul></div>
+      <div><div class="foot-h">Resources</div><ul class="foot-list"><li><a>Documentation</a></li><li><a>Case studies</a></li><li><a>Press</a></li><li><a>Privacy</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span class="copy">© 2026 Veloxcore Private Limited · Ahmedabad, Gujarat, India</span>
+      <div class="right"><a>Privacy</a><a>Terms</a><a>Cookies</a><span class="locale">English ▾</span></div>
+    </div>
+  </div>
+</footer>
+
+<div id="tweaks-root"></div>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const POST_TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#7c3aed",
+  "fontSize": 17
+}/*EDITMODE-END*/;
+
+function PostTweaks() {
+  const [tweaks, setTweak] = useTweaks(POST_TWEAK_DEFAULTS);
+
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--accent', tweaks.accent);
+  }, [tweaks.accent]);
+
+  React.useEffect(() => {
+    document.querySelectorAll('.art-body p, .art-body blockquote').forEach(el => {
+      el.style.fontSize = tweaks.fontSize + 'px';
+      el.style.lineHeight = (tweaks.fontSize * 1.75) + 'px';
+    });
+    document.querySelectorAll('.l4-lede').forEach(el => {
+      el.style.fontSize = (tweaks.fontSize + 5) + 'px';
+    });
+  }, [tweaks.fontSize]);
+
+  return (
+    <TweaksPanel>
+      <TweakSection label="Accent colour">
+        <TweakColor
+          value={tweaks.accent}
+          options={['#7c3aed','#1a73e8','#00a67e']}
+          onChange={v => setTweak('accent', v)}
+        />
+      </TweakSection>
+      <TweakSection label="Body text size">
+        <TweakSlider
+          value={tweaks.fontSize}
+          min={15} max={21} step={1}
+          onChange={v => setTweak('fontSize', v)}
+        />
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+
+const root = document.getElementById('tweaks-root');
+if (root) ReactDOM.createRoot(root).render(<PostTweaks />);
+</script>
+
+</body>
+</html>

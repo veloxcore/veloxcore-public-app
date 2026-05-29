@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Strategy & Discovery Sprint — Veloxcore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="veloxcore.css">
+  <style>
+    :root { --accent: #d97706; }
+    /* Sprint output visual */
+    .sprint-vis{background:var(--dark-surface);border-radius:22px;padding:32px;display:flex;flex-direction:column;gap:16px;}
+    .sv-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--dark-fg3);}
+    .sv-title{font-family:var(--display);font-size:16px;font-weight:700;color:var(--dark-fg1);letter-spacing:-.025em;margin-bottom:4px;}
+    .sv-sub{font-size:12px;color:var(--dark-fg3);margin-bottom:12px;}
+    .use-case-list{display:flex;flex-direction:column;gap:6px;}
+    .use-case{background:var(--dark-card);border:1px solid var(--dark-divider);border-radius:9px;padding:10px 13px;display:flex;align-items:center;gap:10px;}
+    .uc-priority{width:20px;height:20px;border-radius:6px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .uc-p1{background:rgba(217,119,6,.2);color:#fbbf24;}
+    .uc-p2{background:rgba(99,102,241,.15);color:#a5b4fc;}
+    .uc-p3{background:rgba(255,255,255,.06);color:var(--dark-fg3);}
+    .uc-name{font-size:12px;font-weight:600;color:var(--dark-fg1);letter-spacing:-.01em;}
+    .uc-meta{font-size:10px;color:var(--dark-fg3);margin-top:1px;}
+    .uc-type{margin-left:auto;font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:9999px;background:rgba(255,255,255,.06);color:var(--dark-fg3);flex-shrink:0;}
+    .sprint-footer{background:rgba(217,119,6,.08);border:1px solid rgba(217,119,6,.15);border-radius:10px;padding:14px 16px;}
+    .sf-label{font-size:10px;font-weight:600;color:#fbbf24;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+    .sf-text{font-size:12.5px;color:var(--dark-fg2);line-height:20px;}
+    /* Pricing */
+    .pricing{padding:88px 0;background:var(--canvas);border-bottom:1px solid var(--border);}
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .price-card{background:#fff;border:1px solid var(--border);border-radius:22px;padding:36px 32px;display:flex;flex-direction:column;transition:border-color .2s,box-shadow .2s;}
+    .price-card:hover{border-color:var(--border-strong);box-shadow:0 6px 24px -10px rgba(26,28,28,.1);}
+    .price-card.featured{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
+    .price-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--fg3);margin-bottom:16px;}
+    .price-tag.accent{color:var(--accent);}
+    .price-name{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.025em;color:var(--fg1);margin-bottom:6px;}
+    .price-desc{font-size:14px;color:var(--fg2);line-height:22px;margin-bottom:24px;}
+    .price-dur{font-family:var(--mono);font-size:13px;color:var(--fg3);margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border);}
+    .price-items{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+    .price-item{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--fg2);line-height:20px;}
+    .price-item::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:7px;}
+    .price-cta{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;padding:13px 24px;border-radius:9999px;font-size:14.5px;font-weight:500;transition:all .15s;text-align:center;}
+    .price-cta-dark{background:var(--fg1);color:#fff;}
+    .price-cta-dark:hover{opacity:.86;}
+    .price-cta-soft{background:#f1f3f4;color:var(--fg1);}
+    .price-cta-soft:hover{background:#e8eaed;}
+    .tech-card:hover{border-color:rgba(217,119,6,.3);}
+    .cs-cover{background:linear-gradient(130deg,#1a0e00,#d97706,#fbbf24);}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Veloxcore Home.html"><span class="mark"></span><span class="logo">Veloxcore</span></a>
+    <div class="nav-links">
+      <div class="nav-item has-dropdown">
+        <a class="nav-link active" href="Veloxcore Services.html">Services <span class="chev"></span></a>
+        <div class="nav-dropdown">
+          <div class="nd-section">
+            <span class="nd-label">AI Services</span>
+            <a class="nd-link" href="Veloxcore Service - Generative AI.html"><span class="nd-name">Generative AI &amp; LLMs</span><span class="nd-desc">LLM apps, copilots, evaluation harnesses</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Agents.html"><span class="nd-name">AI Agents &amp; Automation</span><span class="nd-desc">Multi-step agents, tool-calling, human-in-loop</span></a>
+            <a class="nd-link" href="Veloxcore Service - RAG.html"><span class="nd-name">RAG &amp; Knowledge Systems</span><span class="nd-desc">Retrieval pipelines with citations &amp; hybrid search</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Strategy.html"><span class="nd-name">AI Strategy &amp; Discovery</span><span class="nd-desc">2-week sprint to your AI roadmap</span></a>
+          </div>
+          <div class="nd-section">
+            <span class="nd-label">Platform &amp; Data</span>
+            <a class="nd-link" href="Veloxcore Service - Azure AI.html"><span class="nd-name">Azure AI &amp; Cloud</span><span class="nd-desc">Azure OpenAI, AI Foundry, migrations</span></a>
+            <a class="nd-link" href="Veloxcore Service - Data Engineering.html"><span class="nd-name">Data Engineering</span><span class="nd-desc">Pipelines, lakehouses, real-time analytics</span></a>
+            <a class="nd-link" href="Veloxcore Service - Machine Learning.html"><span class="nd-name">Machine Learning</span><span class="nd-desc">Custom models, MLOps, evaluation</span></a>
+            <a class="nd-link" href="Veloxcore Service - IoT.html"><span class="nd-name">IoT &amp; Edge Intelligence</span><span class="nd-desc">Device fleets, edge ML, Azure IoT Hub</span></a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-link" href="Veloxhire.AI.html">Products</a>
+      <a class="nav-link" href="Veloxcore Work.html">Work</a>
+      <div class="nav-item has-dropdown">
+        <a class="nav-link" href="Veloxcore About.html">Company <span class="chev"></span></a>
+        <div class="nav-dropdown nd-small">
+          <div class="nd-section">
+            <a class="nd-link" href="Veloxcore About.html"><span class="nd-name">About</span><span class="nd-desc">Story, team &amp; values</span></a>
+            <a class="nd-link" href="Veloxcore Blog.html"><span class="nd-name">Blog</span><span class="nd-desc">Insights on AI, Azure &amp; data</span></a>
+            <a class="nd-link" href="Veloxcore Contact.html"><span class="nd-name">Contact</span><span class="nd-desc">Get in touch with our team</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="nav-cta" href="Veloxcore Contact.html">Book a call<span class="nav-cta-ico"><svg viewBox="0 0 8 8"><polyline points="1 4 4 7 7 4"></polyline><line x1="4" y1="1" x2="4" y2="7"></line></svg></span></a>
+  </div>
+</nav>
+
+<section class="hero" data-screen-label="01 Hero">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-breadcrumb"><a href="Veloxcore Services.html">Services</a><span class="sep">›</span><span>AI Strategy &amp; Discovery</span></div>
+        <div class="svc-badge"><span class="svc-badge-dot"></span>AI Strategy &amp; Discovery Sprint</div>
+        <h1 class="hero-h1">An honest AI roadmap in 2 weeks.</h1>
+        <p class="hero-sub">Not a deck full of opportunities. A prioritised backlog of AI use cases, a validated technical architecture, and a 90-day sprint plan — delivered by engineers who've shipped AI in production, not consultants who'll be gone by month three.</p>
+        <div class="hero-acts">
+          <a class="btn-accent" href="Veloxcore Contact.html">Book a discovery sprint</a>
+          <a class="btn-ghost-light" href="Veloxcore Work.html">See past roadmaps →</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="h-kpi"><div class="h-kpi-num">2 wks</div><div class="h-kpi-label">Fixed sprint duration</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">8–12</div><div class="h-kpi-label">Use cases evaluated per engagement</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">3</div><div class="h-kpi-label">Prioritised for immediate build</div></div>
+        <div class="h-kpi"><div class="h-kpi-num">90 day</div><div class="h-kpi-label">Sprint plan delivered</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="who" data-screen-label="02 Who">
+  <div class="wrap">
+    <div class="sec-label">Who this is for</div>
+    <h2 class="sec-h reveal">Three teams that need a roadmap before they build.</h2>
+    <p class="sec-sub reveal">You have AI mandate, budget, and pressure. You don't have a clear starting point — or you have too many starting points and no way to prioritise.</p>
+    <div class="persona-grid">
+      <div class="persona reveal">
+        <div class="persona-role">CTO / CEO</div>
+        <div class="persona-title">The leader with a mandate</div>
+        <div class="persona-pain">The board has asked for an AI strategy. You have twelve ideas from twelve people. You've talked to three agencies who each pitched something different. You need an objective assessment of what's actually worth building — from engineers, not strategists.</div>
+        <div class="persona-quote">"Everyone has an AI opinion. I need an AI plan with evidence behind it."</div>
+      </div>
+      <div class="persona reveal" style="transition-delay:.07s">
+        <div class="persona-role">Head of AI / Digital Transformation</div>
+        <div class="persona-title">The internal champion</div>
+        <div class="persona-pain">You've been asked to lead the AI initiative. You know the opportunities but not the technical complexity. You need a credible roadmap you can present to the board — one that distinguishes between quick wins, medium-term builds, and things that aren't ready yet.</div>
+        <div class="persona-quote">"I need to walk into the board meeting with a roadmap, not a vision statement."</div>
+      </div>
+      <div class="persona reveal" style="transition-delay:.14s">
+        <div class="persona-role">VP Engineering / Enterprise Architect</div>
+        <div class="persona-title">The technical decision-maker</div>
+        <div class="persona-pain">You've inherited an AI budget and a list of use cases from business stakeholders. You need to translate that list into a technical architecture and a build plan — without committing to six months of work before you know what you're building.</div>
+        <div class="persona-quote">"I need to scope this before I staff it. Discovery first, build second."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="deliver" data-screen-label="03 Deliver">
+  <div class="wrap">
+    <div class="deliver-grid">
+      <div>
+        <div class="sec-label">What you get</div>
+        <h2 class="sec-h reveal">A roadmap your engineers<br>can execute on Monday.</h2>
+        <p class="sec-sub reveal" style="margin-bottom:0">Not slides. Not recommendations. Working prototypes of the top 2–3 use cases, a prioritised backlog, and an architecture decision record your team can build from.</p>
+        <div class="deliver-list reveal">
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Use case assessment</strong><span>Structured evaluation of 8–12 AI use cases across four dimensions: feasibility, data readiness, business value, and time-to-value. Each scored and ranked, not just listed.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Working prototypes (top 2–3)</strong><span>Not mockups. Functional prototypes of the highest-priority use cases — enough to validate the approach with real users and real data before committing to a full build.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Architecture decision record</strong><span>For each build recommendation: model selection rationale, infrastructure requirements, data dependencies, integration points, and estimated engineering effort.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>90-day sprint plan</strong><span>A sequenced build plan for the first 90 days — who builds what, in what order, with what dependencies. Ready to take to your engineering team on day one after the sprint.</span></div></div>
+          <div class="deliver-item"><div class="d-check"><svg viewBox="0 0 12 9"><polyline points="1.5 4.5 4.5 7.5 10.5 1.5"/></svg></div><div class="d-text"><strong>Data &amp; infrastructure readiness report</strong><span>An honest assessment of what you have and what you need — data quality gaps, platform requirements, security considerations, and team capability gaps — before you start building.</span></div></div>
+        </div>
+      </div>
+      <div class="sprint-vis reveal" style="transition-delay:.1s">
+        <div class="sv-label">Sprint output · use case backlog</div>
+        <div class="sv-title">AI Use Case Priorities</div>
+        <div class="sv-sub">Scored across feasibility, value, data readiness, and time-to-value</div>
+        <div class="use-case-list">
+          <div class="use-case">
+            <div class="uc-priority uc-p1">P1</div>
+            <div><div class="uc-name">Customer support RAG assistant</div><div class="uc-meta">Feasibility 9/10 · Data ready · 6 wks build</div></div>
+            <div class="uc-type">RAG</div>
+          </div>
+          <div class="use-case">
+            <div class="uc-priority uc-p1">P1</div>
+            <div><div class="uc-name">Contract review agent</div><div class="uc-meta">Feasibility 8/10 · Data ready · 10 wks build</div></div>
+            <div class="uc-type">Agent</div>
+          </div>
+          <div class="use-case">
+            <div class="uc-priority uc-p2">P2</div>
+            <div><div class="uc-name">Sales call summarisation</div><div class="uc-meta">Feasibility 9/10 · CRM integration needed · 4 wks</div></div>
+            <div class="uc-type">LLM</div>
+          </div>
+          <div class="use-case">
+            <div class="uc-priority uc-p2">P2</div>
+            <div><div class="uc-name">Demand forecasting ML model</div><div class="uc-meta">Feasibility 6/10 · Data gap: 18mo history needed</div></div>
+            <div class="uc-type">ML</div>
+          </div>
+          <div class="use-case">
+            <div class="uc-priority uc-p3">P3</div>
+            <div><div class="uc-name">Autonomous pricing agent</div><div class="uc-meta">Feasibility 4/10 · Governance not ready · 2026 Q4</div></div>
+            <div class="uc-type">Agent</div>
+          </div>
+        </div>
+        <div class="sprint-footer">
+          <div class="sf-label">90-day plan</div>
+          <div class="sf-text">Weeks 1–6: Customer support RAG · Weeks 7–16: Contract review agent · Data infrastructure running in parallel</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="approach" data-screen-label="04 Approach">
+  <div class="wrap">
+    <div class="sec-label">Our approach</div>
+    <h2 class="sec-h reveal">Two weeks. Three phases. One deliverable.</h2>
+    <div class="approach-grid">
+      <div class="ap-step reveal"><div class="ap-num">01</div><div class="ap-title">Intake &amp; discovery</div><div class="ap-desc">Structured interviews with your team — engineering, product, data, and business stakeholders. We map your data landscape, existing systems, and current AI experiments. We collect the raw use case list.</div><div class="ap-dur">Days 1–3</div></div>
+      <div class="ap-step reveal" style="transition-delay:.06s"><div class="ap-num">02</div><div class="ap-title">Scoring &amp; prototyping</div><div class="ap-desc">We score each use case on four axes. For the top 2–3, we build working prototypes with real data — not slide mockups. This is where we find out what's actually feasible vs. what sounds good in a meeting.</div><div class="ap-dur">Days 4–8</div></div>
+      <div class="ap-step reveal" style="transition-delay:.12s"><div class="ap-num">03</div><div class="ap-title">Architecture &amp; planning</div><div class="ap-desc">For each recommended build, we write an architecture decision record: model selection, infrastructure, data requirements, integration plan, and estimated effort. No ambiguity about what "build this" actually means.</div><div class="ap-dur">Days 9–11</div></div>
+      <div class="ap-step reveal" style="transition-delay:.18s"><div class="ap-num">04</div><div class="ap-title">Readout &amp; handover</div><div class="ap-desc">A 3-hour readout with your leadership team — prioritised use case backlog, prototype demos, architecture decisions, 90-day sprint plan, and data/infrastructure readiness report. Everything in writing before we leave.</div><div class="ap-dur">Day 14</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" data-screen-label="05 Engagement Models">
+  <div class="wrap">
+    <div class="sec-label">Engagement models</div>
+    <h2 class="sec-h reveal">Three ways to engage.</h2>
+    <p class="sec-sub reveal">Every engagement includes the full sprint output. The difference is depth, prototype count, and ongoing support.</p>
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <div class="price-tag">Starter</div>
+        <div class="price-name">Discovery Sprint</div>
+        <div class="price-desc">For teams that need a clear starting point before committing to a build.</div>
+        <div class="price-dur">2 weeks · Fixed scope</div>
+        <ul class="price-items">
+          <li class="price-item">Use case assessment (up to 8)</li>
+          <li class="price-item">1 working prototype</li>
+          <li class="price-item">Architecture decision record</li>
+          <li class="price-item">90-day sprint plan</li>
+          <li class="price-item">Data readiness report</li>
+        </ul>
+        <a class="price-cta price-cta-soft" href="Veloxcore Contact.html">Get an estimate →</a>
+      </div>
+      <div class="price-card featured reveal" style="transition-delay:.07s">
+        <div class="price-tag accent">Most popular</div>
+        <div class="price-name">Strategy Sprint</div>
+        <div class="price-desc">For teams that want validated prototypes and a build-ready architecture before they staff the project.</div>
+        <div class="price-dur">2 weeks · Fixed scope</div>
+        <ul class="price-items">
+          <li class="price-item">Use case assessment (up to 12)</li>
+          <li class="price-item">2–3 working prototypes</li>
+          <li class="price-item">Full architecture decision record</li>
+          <li class="price-item">90-day sprint plan with staffing model</li>
+          <li class="price-item">Data &amp; infrastructure readiness report</li>
+          <li class="price-item">30-day post-sprint engineering support</li>
+        </ul>
+        <a class="price-cta price-cta-dark" href="Veloxcore Contact.html">Book now →</a>
+      </div>
+      <div class="price-card reveal" style="transition-delay:.14s">
+        <div class="price-tag">Enterprise</div>
+        <div class="price-name">Embedded Strategy</div>
+        <div class="price-desc">For enterprises with multiple business units or a complex existing AI landscape that needs an audit before a roadmap.</div>
+        <div class="price-dur">4 weeks · Custom scope</div>
+        <ul class="price-items">
+          <li class="price-item">Full AI landscape audit</li>
+          <li class="price-item">Use case assessment across BUs</li>
+          <li class="price-item">3–5 working prototypes</li>
+          <li class="price-item">Enterprise architecture blueprint</li>
+          <li class="price-item">6-month roadmap with quarterly milestones</li>
+          <li class="price-item">Ongoing advisory retainer option</li>
+        </ul>
+        <a class="price-cta price-cta-soft" href="Veloxcore Contact.html">Talk to us →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tech" data-screen-label="06 Tech">
+  <div class="wrap">
+    <h2 class="tech-h reveal">What we evaluate against.</h2>
+    <p class="tech-sub reveal">Every use case is scored against the platforms and patterns we've actually shipped in production.</p>
+    <div class="tech-grid">
+      <div class="tech-card reveal"><div class="tech-ico" style="background:rgba(217,119,6,.12);color:#fbbf24"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><div class="tech-name">Azure OpenAI Service</div><div class="tech-desc">GPT-4o, o1, embeddings — we prototype with the actual models your production system will use, not toy demos.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.05s"><div class="tech-ico" style="background:rgba(61,126,255,.1);color:#82baff"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg></div><div class="tech-name">Azure AI Foundry</div><div class="tech-desc">Model management, prompt flows, and evaluation harnesses — we use Foundry for prototyping so your sprint outputs are production-deployable.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.1s"><div class="tech-ico" style="background:rgba(13,148,136,.12);color:#5eead4"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="tech-name">Azure AI Search</div><div class="tech-desc">For RAG use cases, we build a real retrieval index against your documents — not a demo with synthetic data.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.15s"><div class="tech-ico" style="background:rgba(99,102,241,.1);color:#a5b4fc"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="tech-name">AutoGen / Semantic Kernel</div><div class="tech-desc">For agent use cases, we prototype with the orchestration framework we'd recommend for production — so the sprint output is a real starting point.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.05s"><div class="tech-ico" style="background:rgba(0,221,106,.1);color:#00dd6a"><svg viewBox="0 0 24 24"><polyline points="18 20 22 16 18 12"/><line x1="2" y1="16" x2="22" y2="16"/><polyline points="6 4 2 8 6 12"/><line x1="22" y1="8" x2="2" y2="8"/></svg></div><div class="tech-name">Azure Data Factory</div><div class="tech-desc">For data readiness assessment — we evaluate your existing pipelines and identify gaps before recommending a build.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.1s"><div class="tech-ico" style="background:rgba(254,188,46,.12);color:#febc2e"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="tech-name">Microsoft Fabric</div><div class="tech-desc">For analytics and ML use cases — we evaluate whether Fabric's unified lakehouse is the right foundation for your data strategy.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.15s"><div class="tech-ico" style="background:rgba(192,132,252,.12);color:#c084fc"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="tech-name">Copilot Studio</div><div class="tech-desc">For Microsoft 365-integrated use cases — Teams copilots, Outlook agents, SharePoint assistants evaluated against your M365 licence.</div></div>
+      <div class="tech-card reveal" style="transition-delay:.2s"><div class="tech-ico" style="background:rgba(0,212,232,.1);color:#00d4e8"><svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div><div class="tech-name">Azure ML / Custom Models</div><div class="tech-desc">For predictive ML use cases — we assess whether your data volume and quality support custom model training, or whether a fine-tuned foundation model is more practical.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" data-screen-label="07 FAQ">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div>
+        <div class="sec-label">FAQ</div>
+        <h2 class="sec-h reveal">Common questions.</h2>
+        <p class="sec-sub reveal" style="margin-bottom:0;max-width:36ch">Questions we get before every discovery sprint.</p>
+      </div>
+      <div class="faq-list reveal">
+        <div class="faq-item open"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What's the difference between this and a regular consulting engagement?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">Consultants produce recommendations. We produce working prototypes and architecture decision records that your engineering team can act on immediately. The sprint is run by the same engineers who will build the production system — not a strategy team that hands off to a delivery team. You leave with code, not slides.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Do we need to have our data ready before the sprint?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">No — assessing your data readiness is part of the sprint. Many teams start the sprint thinking their data is ready and discover gaps. That's a feature, not a bug: it's better to discover data problems in a 2-week sprint than 6 months into a build. We need read access to a representative sample of your data during the sprint, not a fully prepared dataset.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What happens after the sprint?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">You own the output — prototypes, architecture documents, and the sprint plan. You can build with your own team, hand off to another vendor, or engage Veloxcore to build. Most clients continue with us because the sprint creates a shared understanding that makes the subsequent build much faster. The Strategy Sprint includes 30 days of post-sprint engineering support.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How do you handle our data security during the sprint?</span><div class="faq-ico"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-a">We work within your Azure tenant — we don't move your data to our infrastructure. For the sprint, we need temporary read access to data sources (via managed identity, not credentials). All prototypes are built and run inside your subscription. We sign an NDA and a data processing agreement before any access is granted.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" data-screen-label="08 CTA">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div>
+        <h2 class="cta-h reveal">Ready to get your roadmap in 2 weeks?</h2>
+        <p class="cta-sub reveal">Book a free 30-minute scoping call. We'll assess whether a discovery sprint is the right starting point for your situation.</p>
+      </div>
+      <div class="cta-acts reveal">
+        <a class="btn-white" href="Veloxcore Contact.html">Book a scoping call</a>
+        <a class="btn-ghost" href="Veloxcore Work.html">See our work →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" data-screen-label="09 Footer">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-brand"><div class="logo-row"><span class="mark"></span><span class="logo">Veloxcore</span></div><p>Microsoft Gold Partner for Cloud Platform and Application Integration.</p></div>
+      <div><div class="foot-h">Services</div><ul class="foot-list"><li><a href="Veloxcore Services.html">All services</a></li><li><a href="Veloxcore Service - Generative AI.html">Generative AI</a></li><li><a href="Veloxcore Service - AI Agents.html">AI Agents</a></li><li><a href="Veloxcore Service - RAG.html">RAG &amp; Knowledge</a></li></ul></div>
+      <div><div class="foot-h">Work</div><ul class="foot-list"><li><a href="Veloxcore Work.html">Case studies</a></li></ul></div>
+      <div><div class="foot-h">Company</div><ul class="foot-list"><li><a href="Veloxcore About.html">About</a></li><li><a href="Veloxcore Blog.html">Blog</a></li><li><a href="Veloxcore Contact.html">Contact</a></li></ul></div>
+      <div><div class="foot-h">Products</div><ul class="foot-list"><li><a href="Veloxhire.AI.html">Veloxhire.AI</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span class="copy">© 2026 Veloxcore Private Limited</span><div class="right"><a>Privacy</a><a>Terms</a><span class="locale">English ▾</span></div></div>
+  </div>
+</footer>
+
+<script>
+(function(){const c=document.querySelector('.hero-canvas');if(!c)return;const ctx=c.getContext('2d');const N=72,MAXD=150;const COLS=['rgba(217,119,6,','rgba(245,158,11,','rgba(251,191,36,','rgba(217,119,6,'];let W,H,pts=[],mouse={x:-9999,y:-9999};function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}function init(){pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.6+0.6,col:COLS[Math.floor(Math.random()*COLS.length)]}));}function draw(){ctx.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);if(d<MAXD){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(217,119,6,${(1-d/MAXD)*0.1})`;ctx.lineWidth=.6;ctx.stroke();}}const dm=Math.hypot(pts[i].x-mouse.x,pts[i].y-mouse.y);if(dm<MAXD*1.6){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=`rgba(217,119,6,${(1-dm/(MAXD*1.6))*0.18})`;ctx.lineWidth=.7;ctx.stroke();}ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,pts[i].r,0,Math.PI*2);ctx.fillStyle=pts[i].col+'0.6)';ctx.fill();}}function loop(){pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;});draw();requestAnimationFrame(loop);}window.addEventListener('resize',()=>{resize();init();});document.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});resize();init();loop();})();
+function toggleFaq(el){el.parentElement.classList.toggle('open');}
+(function(){const els=Array.from(document.querySelectorAll('.reveal'));function check(){const vh=window.innerHeight;els.forEach(el=>{if(el.classList.contains('visible'))return;const r=el.getBoundingClientRect();if(r.top<vh*.93&&r.bottom>0)el.classList.add('visible');});}window.addEventListener('scroll',check,{passive:true});window.addEventListener('resize',check);setTimeout(check,80);setTimeout(check,500);})();
+</script>
+</body>
+</html>

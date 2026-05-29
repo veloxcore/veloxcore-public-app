@@ -1,0 +1,43 @@
+---
+const { post } = Astro.props as { post: any };
+const { Content } = await post.render();
+const d = post.data;
+const fmt = (date: Date) => date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const TAG_MAP: Record<string, string> = {
+  'Big Data': 'tag-bigdata', 'Azure': 'tag-azure', 'Machine Learning': 'tag-ml',
+  'IoT': 'tag-iot', '.NET': 'tag-dotnet', 'Architecture': 'tag-arch',
+};
+const tagCls = TAG_MAP[d.tag] ?? 'tag-azure';
+const coverCls = d.coverClass ?? 'cov-aurora';
+---
+<article class="bp-bs">
+  <div class={`bp-bs-cover ${coverCls}`}
+    style={d.coverImage ? `background-image:url(${d.coverImage});background-size:cover;background-position:center` : undefined}></div>
+
+  <div class="bp-bs-content">
+    <span class={`tag ${tagCls}`}>{d.tag}</span>
+    <h1 class="bp-bs-h1">{d.title}</h1>
+    <div class="bp-bs-meta">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="bp-avatar"></div>
+        <strong style="font-size:14px;color:var(--fg1);font-weight:600">{d.author}</strong>
+      </div>
+      <span>·</span><span>{fmt(d.date)}</span>
+      {d.readTime && <><span>·</span><span>{d.readTime} read</span></>}
+      <div class="bp-bs-share">
+        <button class="share-btn" aria-label="Copy link">
+          <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="art-body"><Content /></div>
+    <div class="bp-bs-author">
+      <div class="bp-bs-author-photo"></div>
+      <div>
+        <div class="bp-bs-author-name">{d.author}</div>
+        {d.authorRole && <div class="bp-bs-author-role">{d.authorRole}</div>}
+        {d.authorBio && <div class="bp-bs-author-bio">{d.authorBio}</div>}
+      </div>
+    </div>
+  </div>
+</article>

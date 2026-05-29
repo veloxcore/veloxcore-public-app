@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About & Leadership — Veloxcore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="image-slot.js"></script>
+  <link rel="stylesheet" href="veloxcore.css">
+  <style>
+    :root {
+      --bg:#ffffff; --canvas:#F8F9FA; --fg1:#1a1c1c; --fg2:#5f6368; --fg3:#6b6f72;
+      --border:#eef0f1; --border-strong:#e6e8ea; --accent:#1a73e8;
+      --dark-surface:#1E2127; --dark-card:#262A31; --dark-divider:#353941;
+      --dark-fg1:#f7f8fa; --dark-fg2:#bcc1c7; --dark-fg3:#9ea3aa;
+      --display:'Geist',system-ui,sans-serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+      --eq:cubic-bezier(.25,.46,.45,.94); --eqt:cubic-bezier(.165,.84,.44,1);
+      --w:1320px; --m:48px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--sans);color:var(--fg1);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;cursor:pointer;}
+    img,svg{display:block;}
+    button{cursor:pointer;font-family:inherit;border:none;background:none;}
+    .wrap{max-width:var(--w);margin:0 auto;padding:0 var(--m);}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .65s var(--eqt),transform .65s var(--eqt);}
+    .reveal.visible{opacity:1;transform:none;}
+
+    /* NAV */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:50;height:68px;display:flex;align-items:center;padding:0 var(--m);background:rgba(255,255,255,.84);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);border-bottom:1px solid var(--border);}
+    .nav-inner{max-width:var(--w);margin:0 auto;width:100%;display:flex;align-items:center;}
+    .brand{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-right:36px;}
+    .mark{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#3d7eff 0%,#00d4e8 35%,#00dd6a 75%,#8ce800 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .mark::after{content:'';width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:7.5px solid #fff;transform:translateY(-0.5px);}
+    .logo{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.025em;color:var(--fg1);}
+    .nav-links{display:flex;align-items:center;gap:4px;}
+    .nav-link{display:inline-flex;align-items:center;gap:5px;font-size:14.5px;color:var(--fg1);padding:8px 14px;border-radius:9999px;letter-spacing:-.005em;transition:background .15s;cursor:pointer;}
+    .nav-link:hover{background:#f4f6f8;}
+    .nav-link.active{background:#f1f3f4;font-weight:500;}
+    .nav-link .chev{display:inline-block;width:10px;height:6px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none' stroke='%231a1c1c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='1 1 5 5 9 1'/></svg>") center/contain no-repeat;opacity:.65;}
+    .nav-cta{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:var(--fg1);color:#fff;font-size:13.5px;font-weight:500;padding:9px 18px 9px 20px;border-radius:9999px;letter-spacing:-.005em;transition:opacity .15s;}
+    .nav-cta:hover{opacity:.86;}
+    .nav-cta-ico{width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;background:#2f3135;border-radius:50%;}
+    .nav-cta-ico svg{width:8px;height:8px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+    /* ── HERO ─────────────────────────────────── */
+    .hero{padding:148px 0 0;background:var(--dark-surface);position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 60% at 80% 30%,rgba(61,126,255,.15) 0%,transparent 55%),radial-gradient(ellipse 40% 50% at 5% 75%,rgba(0,221,106,.08) 0%,transparent 55%);pointer-events:none;}
+    .hero::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;}
+    .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:end;padding-bottom:80px;}
+    .page-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--dark-fg3);margin-bottom:20px;letter-spacing:-.005em;}
+    .page-eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#3d7eff,#00dd6a);}
+    .hero-h1{font-family:var(--display);font-size:72px;font-weight:800;letter-spacing:-.055em;line-height:76px;color:var(--dark-fg1);margin-bottom:22px;text-wrap:pretty;}
+    .hero-h1 em{font-style:normal;background:linear-gradient(90deg,#3d7eff,#00d4e8,#00dd6a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .hero-sub{font-size:18px;line-height:30px;color:var(--dark-fg2);max-width:46ch;text-wrap:pretty;letter-spacing:-.005em;}
+    .hero-right{display:flex;flex-direction:column;gap:12px;}
+    .hero-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .h-stat{background:rgba(255,255,255,.05);border:1px solid var(--dark-divider);border-radius:18px;padding:24px 26px;}
+    .h-stat-num{font-family:var(--display);font-size:40px;font-weight:800;letter-spacing:-.045em;color:var(--dark-fg1);line-height:1;}
+    .h-stat-label{font-size:12.5px;color:var(--dark-fg3);margin-top:5px;letter-spacing:-.005em;}
+    .partner-badge{background:rgba(255,255,255,.06);border:1px solid var(--dark-divider);border-radius:18px;padding:20px 26px;display:flex;align-items:center;gap:14px;}
+    .partner-logo-box{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#0078d4,#00b4f0);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .partner-logo-box svg{width:26px;height:26px;fill:#fff;}
+    .partner-text-main{font-family:var(--display);font-size:15px;font-weight:600;color:var(--dark-fg1);letter-spacing:-.02em;}
+    .partner-text-sub{font-size:12px;color:var(--dark-fg3);margin-top:2px;}
+    .partner-badge-pill{margin-left:auto;padding:4px 12px;background:rgba(61,126,255,.15);border:1px solid rgba(61,126,255,.2);border-radius:9999px;font-size:11px;font-weight:600;color:#82baff;flex-shrink:0;}
+
+    /* ── STORY ────────────────────────────────── */
+    .story{padding:96px 0;border-bottom:1px solid var(--border);}
+    .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:start;}
+    .story-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--fg3);margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+    .story-label::after{content:'';flex:1;height:1px;background:var(--border);}
+    .story-h{font-family:var(--display);font-size:48px;font-weight:700;letter-spacing:-.045em;line-height:52px;color:var(--fg1);margin-bottom:28px;text-wrap:pretty;}
+    .story-p{font-size:17px;line-height:29px;color:var(--fg2);margin-bottom:20px;text-wrap:pretty;letter-spacing:-.005em;}
+    .story-p strong{color:var(--fg1);font-weight:600;}
+    .story-right{display:flex;flex-direction:column;gap:0;}
+    .timeline-item{display:flex;gap:24px;padding:28px 0;border-bottom:1px solid var(--border);}
+    .timeline-item:first-child{padding-top:0;}
+    .timeline-item:last-child{border-bottom:none;padding-bottom:0;}
+    .timeline-year{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--fg3);width:48px;flex-shrink:0;padding-top:3px;}
+    .timeline-body{}
+    .timeline-title{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:-.02em;color:var(--fg1);margin-bottom:5px;}
+    .timeline-desc{font-size:14px;line-height:22px;color:var(--fg2);letter-spacing:-.005em;}
+
+    /* ── PRINCIPLES ───────────────────────────── */
+    .principles{padding:96px 0;background:var(--canvas);border-bottom:1px solid var(--border);}
+    .principles-h{font-family:var(--display);font-size:52px;font-weight:700;letter-spacing:-.045em;color:var(--fg1);margin-bottom:14px;}
+    .principles-sub{font-size:18px;color:var(--fg2);max-width:50ch;margin-bottom:64px;line-height:28px;letter-spacing:-.005em;}
+    .principles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+    .principle-card{background:#fff;border:1px solid var(--border);border-radius:22px;padding:36px 32px;transition:border-color .2s,transform .25s var(--eqt),box-shadow .25s var(--eqt);}
+    .principle-card:hover{border-color:var(--border-strong);transform:translateY(-3px);box-shadow:0 10px 32px -14px rgba(26,28,28,.1);}
+    .principle-num{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--fg3);letter-spacing:.08em;margin-bottom:20px;}
+    .principle-title{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-.025em;color:var(--fg1);margin-bottom:10px;}
+    .principle-desc{font-size:14.5px;line-height:23px;color:var(--fg2);letter-spacing:-.005em;text-wrap:pretty;}
+
+    /* ── LEADERSHIP ───────────────────────────── */
+    .leadership{padding:96px 0;border-bottom:1px solid var(--border);}
+    .lead-header{margin-bottom:64px;}
+    .lead-h{font-family:var(--display);font-size:52px;font-weight:700;letter-spacing:-.045em;color:var(--fg1);margin-bottom:12px;}
+    .lead-sub{font-size:18px;color:var(--fg2);max-width:50ch;line-height:28px;letter-spacing:-.005em;}
+    .founders-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;}
+    .founder-card{background:var(--canvas);border:1px solid var(--border);border-radius:24px;overflow:hidden;display:grid;grid-template-columns:180px 1fr;transition:box-shadow .2s;}
+    .founder-card:hover{box-shadow:0 8px 32px -12px rgba(26,28,28,.1);}
+    .founder-photo{position:relative;overflow:hidden;}
+    .founder-photo-inner{width:100%;height:100%;min-height:220px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:0;}
+    .founder-avatar{width:80px;height:80px;border-radius:50%;margin:auto;display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
+    .founder-body{padding:28px 28px 28px 24px;display:flex;flex-direction:column;justify-content:space-between;}
+    .founder-name{font-family:var(--display);font-size:24px;font-weight:700;letter-spacing:-.03em;color:var(--fg1);margin-bottom:3px;}
+    .founder-role{font-size:13.5px;font-weight:500;color:var(--accent);margin-bottom:14px;letter-spacing:-.005em;}
+    .founder-bio{font-size:13.5px;line-height:22px;color:var(--fg2);letter-spacing:-.005em;text-wrap:pretty;margin-bottom:18px;}
+    .founder-links{display:flex;gap:8px;flex-wrap:wrap;}
+    .founder-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--fg3);padding:5px 10px;background:#fff;border:1px solid var(--border-strong);border-radius:7px;transition:all .15s;}
+    .founder-link:hover{color:var(--fg1);border-color:var(--fg1);}
+    .founder-link svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;}
+    .founder-expertise{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+    .exp-tag{padding:3px 10px;border-radius:9999px;font-size:11px;font-weight:500;background:var(--border);color:var(--fg2);}
+
+    /* Team grid */
+    .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+    .team-card{background:var(--canvas);border:1px solid var(--border);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:12px;transition:border-color .2s,transform .2s;}
+    .team-card:hover{border-color:var(--border-strong);transform:translateY(-3px);}
+    .team-ava{width:52px;height:52px;border-radius:50%;flex-shrink:0;}
+    .team-name{font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:-.02em;color:var(--fg1);}
+    .team-role{font-size:13px;color:var(--fg3);margin-top:1px;letter-spacing:-.005em;}
+    .team-dept{display:inline-flex;padding:3px 9px;border-radius:9999px;font-size:11px;font-weight:500;margin-top:4px;}
+
+    /* ── AI PROOF ─────────────────────────────── */
+    .ai-proof{background:var(--dark-surface);padding:88px 0;border-bottom:1px solid var(--dark-divider);}
+    .ai-proof-inner{display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:center;}
+    .ai-proof-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dark-fg3);margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+    .ai-proof-label::after{content:'';flex:1;height:1px;background:var(--dark-divider);}
+    .ai-proof-h{font-family:var(--display);font-size:44px;font-weight:700;letter-spacing:-.04em;line-height:50px;color:var(--dark-fg1);margin-bottom:16px;text-wrap:pretty;}
+    .ai-proof-sub{font-size:16px;line-height:27px;color:var(--dark-fg2);margin-bottom:28px;letter-spacing:-.005em;}
+    .ai-proof-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(90deg,#7c3aed,#3d7eff);color:#fff;border-radius:9999px;font-size:14.5px;font-weight:500;letter-spacing:-.005em;transition:opacity .15s;}
+    .ai-proof-btn:hover{opacity:.9;}
+    .ai-card{background:var(--dark-card);border:1px solid var(--dark-divider);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:14px;}
+    .ai-card-row{display:flex;align-items:center;justify-content:space-between;}
+    .ai-card-name{font-family:var(--display);font-size:22px;font-weight:800;letter-spacing:-.03em;color:var(--dark-fg1);}
+    .ai-card-name span{background:linear-gradient(90deg,#a855f7,#3d7eff,#00d4e8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .live-pill{display:flex;align-items:center;gap:6px;padding:4px 12px;background:rgba(0,221,106,.12);border:1px solid rgba(0,221,106,.2);border-radius:9999px;font-size:11.5px;font-weight:600;color:#00dd6a;}
+    .live-dot{width:6px;height:6px;border-radius:50%;background:#00dd6a;box-shadow:0 0 6px rgba(0,221,106,.6);}
+    .ai-card-tagline{font-size:14px;color:var(--dark-fg2);letter-spacing:-.005em;}
+    .ai-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px;}
+    .ai-metric{background:rgba(255,255,255,.04);border:1px solid var(--dark-divider);border-radius:12px;padding:14px;}
+    .ai-metric-num{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.03em;color:var(--dark-fg1);}
+    .ai-metric-label{font-size:11px;color:var(--dark-fg3);margin-top:3px;}
+    .ai-test-strip{background:rgba(255,255,255,.03);border:1px solid var(--dark-divider);border-radius:12px;padding:16px 18px;display:flex;align-items:flex-start;gap:12px;}
+    .ai-test-ava{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#3d7eff);flex-shrink:0;}
+    .ai-test-text{font-size:13.5px;color:var(--dark-fg2);line-height:21px;font-style:italic;}
+    .ai-test-attr{font-size:11.5px;color:var(--dark-fg3);margin-top:6px;}
+
+    /* ── TEAM PHOTOS ──────────────────────────── */
+    .team-photos{padding:96px 0;background:#fff;border-bottom:1px solid var(--border);}
+    .tp-header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:48px;}
+    .tp-h{font-family:var(--display);font-size:52px;font-weight:700;letter-spacing:-.045em;color:var(--fg1);line-height:56px;text-wrap:pretty;}
+    .tp-sub{font-size:16px;color:var(--fg2);max-width:36ch;line-height:26px;letter-spacing:-.005em;text-wrap:pretty;}
+    .tp-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;grid-template-rows:280px 280px;gap:14px;}
+    .tp-featured{grid-row:1/3;}
+    .tp-grid image-slot{border-radius:18px;overflow:hidden;width:100%;height:100%;display:block;}
+
+    /* ── CULTURE / OUTINGS ────────────────────── */
+    .culture{padding:96px 0;background:var(--canvas);border-bottom:1px solid var(--border);}
+    .culture-header{margin-bottom:48px;}
+    .culture-h{font-family:var(--display);font-size:52px;font-weight:700;letter-spacing:-.045em;color:var(--fg1);margin-bottom:12px;}
+    .culture-sub{font-size:17px;color:var(--fg2);max-width:50ch;line-height:27px;letter-spacing:-.005em;}
+    .culture-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+    .culture-strip image-slot{border-radius:16px;width:100%;height:220px;display:block;}
+    .culture-wide{display:grid;grid-template-columns:1fr 1.8fr;gap:14px;margin-top:14px;}
+    .culture-wide image-slot{border-radius:16px;width:100%;height:260px;display:block;}
+
+    /* CTA */
+    .cta-section{background:var(--dark-surface);padding:88px 0;}
+    .cta-inner{display:grid;grid-template-columns:1fr auto;gap:64px;align-items:center;}
+    .cta-h{font-family:var(--display);font-size:48px;font-weight:700;letter-spacing:-.045em;line-height:54px;color:var(--dark-fg1);text-wrap:pretty;}
+    .cta-sub{font-size:17px;color:var(--dark-fg2);margin-top:10px;letter-spacing:-.005em;}
+    .cta-acts{display:flex;gap:12px;flex-wrap:wrap;flex-shrink:0;}
+    .btn-white{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--fg1);padding:14px 28px;border-radius:9999px;font-size:15px;font-weight:500;letter-spacing:-.005em;transition:opacity .15s;}
+    .btn-white:hover{opacity:.92;}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;padding:14px 28px;border-radius:9999px;font-size:15px;font-weight:500;letter-spacing:-.005em;transition:background .15s;}
+    .btn-ghost:hover{background:rgba(255,255,255,.14);}
+
+    /* FOOTER */
+    .footer{background:#F8F9FA;border-top:1px solid var(--border);padding:80px 0 48px;}
+    .foot-cols{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:64px;}
+    .foot-brand .logo-row{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+    .foot-brand p{font-size:15px;color:var(--fg2);max-width:36ch;line-height:24px;}
+    .foot-h{font-size:14px;font-weight:600;color:var(--fg1);margin-bottom:20px;}
+    .foot-list{list-style:none;display:flex;flex-direction:column;gap:14px;}
+    .foot-list a{font-size:14px;color:var(--fg2);cursor:pointer;}
+    .foot-list a:hover{color:var(--fg1);}
+    .foot-bottom{display:flex;align-items:center;gap:24px;margin-top:64px;padding-top:28px;border-top:1px solid var(--border);}
+    .foot-bottom .copy{font-size:13px;color:var(--fg2);}
+    .foot-bottom .right{margin-left:auto;display:flex;gap:24px;font-size:13px;color:var(--fg2);}
+    .locale{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--border-strong);border-radius:9999px;background:#fff;cursor:pointer;font-size:12px;}
+    /* ── HERO CANVAS + ENTRANCE ANIMATIONS ── */
+    .hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.75;}
+    @keyframes hero-up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+    @keyframes pop-in{from{opacity:0;transform:scale(.88) translateY(8px)}to{opacity:1;transform:none}}
+    .hero .page-eyebrow{animation:hero-up .6s .12s var(--eqt) both;}
+    .hero .hero-h1{animation:hero-up .7s .28s var(--eqt) both;}
+    .hero .hero-sub{animation:hero-up .7s .44s var(--eqt) both;}
+    .hero-right{animation:pop-in .8s .70s cubic-bezier(.785,.135,.15,.86) both;}
+    /* ── LIGHT HERO ── */
+    .hero{background:var(--bg)!important;border-bottom:1px solid var(--border);}
+    .hero::before{background:radial-gradient(ellipse 55% 60% at 80% 30%,rgba(61,126,255,.07) 0%,transparent 55%),radial-gradient(ellipse 40% 50% at 5% 75%,rgba(0,221,106,.05) 0%,transparent 55%)!important;}
+    .hero::after{background-image:radial-gradient(circle,rgba(26,28,28,.05) 1px,transparent 1px)!important;background-size:32px 32px!important;}
+    .hero .page-eyebrow{color:var(--fg2)!important;}
+    .hero-h1{color:var(--fg1)!important;-webkit-text-fill-color:var(--fg1)!important;}
+    .hero-h1 em{-webkit-text-fill-color:transparent!important;}
+    .hero-sub{color:var(--fg2)!important;}
+    .h-stat{background:#fff!important;border:1px solid var(--border)!important;}
+    .h-stat-num{color:var(--fg1)!important;}
+    .h-stat-label{color:var(--fg3)!important;}
+    .partner-badge{background:var(--canvas)!important;border-color:var(--border)!important;}
+    .partner-text-main{color:var(--fg1)!important;}
+    .partner-text-sub{color:var(--fg2)!important;}
+    .partner-badge-pill{background:rgba(61,126,255,.08)!important;border-color:rgba(61,126,255,.15)!important;color:#1a73e8!important;}
+    .hero-canvas{opacity:.45!important;}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="Veloxcore Home.html"><span class="mark"></span><span class="logo">Veloxcore</span></a>
+    <div class="nav-links">
+      <div class="nav-item has-dropdown">
+        <a class="nav-link" href="Veloxcore Services.html">Services <span class="chev"></span></a>
+        <div class="nav-dropdown">
+          <div class="nd-section">
+            <span class="nd-label">AI Services</span>
+            <a class="nd-link" href="Veloxcore Service - Generative AI.html"><span class="nd-name">Generative AI &amp; LLMs</span><span class="nd-desc">LLM apps, copilots, evaluation harnesses</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Agents.html"><span class="nd-name">AI Agents &amp; Automation</span><span class="nd-desc">Multi-step agents, tool-calling, human-in-loop</span></a>
+            <a class="nd-link" href="Veloxcore Service - RAG.html"><span class="nd-name">RAG &amp; Knowledge Systems</span><span class="nd-desc">Retrieval pipelines with citations &amp; hybrid search</span></a>
+            <a class="nd-link" href="Veloxcore Service - AI Strategy.html"><span class="nd-name">AI Strategy &amp; Discovery</span><span class="nd-desc">2-week sprint to your AI roadmap</span></a>
+          </div>
+          <div class="nd-section">
+            <span class="nd-label">Platform &amp; Data</span>
+            <a class="nd-link" href="Veloxcore Service - Azure AI.html"><span class="nd-name">Azure AI &amp; Cloud</span><span class="nd-desc">Azure OpenAI, AI Foundry, migrations</span></a>
+            <a class="nd-link" href="Veloxcore Service - Data Engineering.html"><span class="nd-name">Data Engineering</span><span class="nd-desc">Pipelines, lakehouses, real-time analytics</span></a>
+            <a class="nd-link" href="Veloxcore Service - Machine Learning.html"><span class="nd-name">Machine Learning</span><span class="nd-desc">Custom models, MLOps, evaluation</span></a>
+            <a class="nd-link" href="Veloxcore Service - IoT.html"><span class="nd-name">IoT &amp; Edge Intelligence</span><span class="nd-desc">Device fleets, edge ML, Azure IoT Hub</span></a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-link" href="Veloxhire.AI.html">Products</a>
+      <a class="nav-link" href="Veloxcore Work.html">Work</a>
+      <div class="nav-item has-dropdown">
+        <a class="nav-link active" href="Veloxcore About.html">Company <span class="chev"></span></a>
+        <div class="nav-dropdown nd-small">
+          <div class="nd-section">
+            <a class="nd-link" href="Veloxcore About.html"><span class="nd-name">About</span><span class="nd-desc">Story, team &amp; values</span></a>
+            <a class="nd-link" href="Veloxcore Blog.html"><span class="nd-name">Blog</span><span class="nd-desc">Insights on AI, Azure &amp; data</span></a>
+            <a class="nd-link" href="Veloxcore Contact.html"><span class="nd-name">Contact</span><span class="nd-desc">Get in touch with our team</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="nav-cta" href="Veloxcore Contact.html">Book a call<span class="nav-cta-ico"><svg viewBox="0 0 8 8"><polyline points="1 4 4 7 7 4"></polyline><line x1="4" y1="1" x2="4" y2="7"></line></svg></span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" data-screen-label="01 Hero">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="page-eyebrow">Who we are</div>
+        <h1 class="hero-h1">The engineering studio that ships <em>AI</em> for serious companies.</h1>
+        <p class="hero-sub">Founded in 2013 in Ahmedabad. Built on 12 years of Azure engineering. Now AI-native — and building AI products we use ourselves.</p>
+      </div>
+      <div class="hero-right">
+        <div class="hero-stat-row">
+          <div class="h-stat"><div class="h-stat-num">2013</div><div class="h-stat-label">Year founded</div></div>
+          <div class="h-stat"><div class="h-stat-num">40+</div><div class="h-stat-label">Enterprise clients</div></div>
+          <div class="h-stat"><div class="h-stat-num">12 yrs</div><div class="h-stat-label">Azure depth</div></div>
+          <div class="h-stat"><div class="h-stat-num">6</div><div class="h-stat-label">Countries served</div></div>
+        </div>
+        <div class="partner-badge reveal">
+          <div class="partner-logo-box">
+            <svg viewBox="0 0 23 23"><path d="M1 1h10v10H1z" fill="#f25022"/><path d="M12 1h10v10H12z" fill="#7fba00"/><path d="M1 12h10v10H1z" fill="#00a4ef"/><path d="M12 12h10v10H12z" fill="#ffb900"/></svg>
+          </div>
+          <div>
+            <div class="partner-text-main">Microsoft Gold Partner</div>
+            <div class="partner-text-sub">Cloud Platform · Application Integration</div>
+          </div>
+          <div class="partner-badge-pill">Gold certified</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story" data-screen-label="02 Story">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="reveal">
+        <div class="story-label">Our story</div>
+        <h2 class="story-h">Built for depth, not breadth.</h2>
+        <p class="story-p">Veloxcore was founded in 2013 by a team of engineers who had spent years inside enterprise data teams, watching the same problems repeat: pipelines that broke silently, dashboards that were three days stale, ML models that never made it to production. We started the company to fix that — not with a new tool, but with better engineering practice.</p>
+        <p class="story-p">For the first seven years, we focused entirely on the <strong>Microsoft Azure data platform</strong> — Event Hubs, HDInsight, Data Factory, Stream Analytics, Power BI. We went deep. Gold Partner status. Certified engineers. Dozens of enterprise migrations. The kind of depth that comes from doing the same work, again and again, for demanding clients with real SLAs.</p>
+        <p class="story-p">In 2023, the world changed. LLMs became production-viable, and every enterprise client we served started asking the same question: <em>how do we actually ship AI?</em> We had a clear answer — because we had the data infrastructure, the Azure depth, and the engineering discipline to build AI systems that work in production, not just in demos. We also decided to prove it by building our own: <strong>Veloxhire.AI</strong>, launched in 2024, now used by over 100 companies to run AI video interviews at scale.</p>
+        <p class="story-p">That's who we are. An engineering studio that ships AI for serious companies — and eats its own cooking.</p>
+      </div>
+      <div class="reveal" style="transition-delay:.1s">
+        <div class="story-label">Timeline</div>
+        <div class="story-right">
+          <div class="timeline-item">
+            <div class="timeline-year">2013</div>
+            <div class="timeline-body">
+              <div class="timeline-title">Founded in Ahmedabad</div>
+              <div class="timeline-desc">First client: a mid-market retail chain needing a data warehouse on Azure. Delivered in 8 weeks. They're still a client.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2016</div>
+            <div class="timeline-body">
+              <div class="timeline-title">Microsoft Gold Partner</div>
+              <div class="timeline-desc">Achieved Gold Partnership for Cloud Platform and Application Integration — the validation of the depth we'd been building.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2019</div>
+            <div class="timeline-body">
+              <div class="timeline-title">Expanded to 6 countries</div>
+              <div class="timeline-desc">First international client in the UK. By year-end, active engagements across India, UK, UAE, US, Singapore, and Australia.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2022</div>
+            <div class="timeline-body">
+              <div class="timeline-title">40+ enterprise clients</div>
+              <div class="timeline-desc">Crossed 40 live enterprise clients. The team grew to 60 engineers — all specialist Azure and data engineers, no generalists.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2024</div>
+            <div class="timeline-body">
+              <div class="timeline-title">Launched Veloxhire.AI</div>
+              <div class="timeline-desc">Our first AI product. Built on Azure OpenAI. 100+ companies now use it. The proof that we don't just consult on AI — we ship it.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2025</div>
+            <div class="timeline-body">
+              <div class="timeline-title">AI-native repositioning</div>
+              <div class="timeline-desc">Formally repositioned as an AI-forward hybrid — services that build production AI systems, products that demonstrate we can ship them.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section class="principles" data-screen-label="03 Principles">
+  <div class="wrap">
+    <h2 class="principles-h reveal">How we think.</h2>
+    <p class="principles-sub reveal">Six principles that govern every engagement, every line of code, every conversation with a client.</p>
+    <div class="principles-grid">
+      <div class="principle-card reveal">
+        <div class="principle-num">01</div>
+        <div class="principle-title">Production over demos</div>
+        <div class="principle-desc">An AI model that works in a Colab notebook is not an AI product. We measure ourselves by what's running in production at scale — not by what looked good in the presentation.</div>
+      </div>
+      <div class="principle-card reveal" style="transition-delay:.06s">
+        <div class="principle-num">02</div>
+        <div class="principle-title">Honest engineering</div>
+        <div class="principle-desc">We tell clients when a problem doesn't need LLMs. We tell clients when their data isn't ready. We'd rather lose a deal than set up an engagement we can't deliver.</div>
+      </div>
+      <div class="principle-card reveal" style="transition-delay:.12s">
+        <div class="principle-num">03</div>
+        <div class="principle-title">Depth, not breadth</div>
+        <div class="principle-desc">We don't work in every cloud. We don't support every ML framework. We go very deep on Azure and the Microsoft AI ecosystem because depth compounds in ways that breadth doesn't.</div>
+      </div>
+      <div class="principle-card reveal" style="transition-delay:.04s">
+        <div class="principle-num">04</div>
+        <div class="principle-title">We eat our own cooking</div>
+        <div class="principle-desc">Veloxhire.AI is built on the same Azure infrastructure we build for clients. If we recommend a pattern, we've run it in production ourselves. That's not marketing — it's accountability.</div>
+      </div>
+      <div class="principle-card reveal" style="transition-delay:.10s">
+        <div class="principle-num">05</div>
+        <div class="principle-title">Your team, not our dependency</div>
+        <div class="principle-desc">Every engagement ends with the client's team owning what we built. Runbooks, documentation, training — the goal is always a handover that doesn't require us to exist.</div>
+      </div>
+      <div class="principle-card reveal" style="transition-delay:.16s">
+        <div class="principle-num">06</div>
+        <div class="principle-title">Cost is a feature</div>
+        <div class="principle-desc">Cloud cost is part of every architecture decision, not an afterthought. We've reduced client bills by 30–40% post-engagement — because we build systems that are efficient, not just functional.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERSHIP -->
+<section class="leadership" data-screen-label="04 Leadership">
+  <div class="wrap">
+    <div class="lead-header">
+      <h2 class="lead-h reveal">Leadership</h2>
+      <p class="lead-sub reveal">The people responsible for the work — and available to talk to you directly.</p>
+    </div>
+
+    <!-- Founders -->
+    <div class="founders-grid reveal">
+      <div class="founder-card">
+        <div class="founder-photo" style="background:linear-gradient(160deg,#e8f0fe,#d2e3fc)">
+          <div class="founder-photo-inner">
+            <svg class="founder-avatar" viewBox="0 0 80 80" fill="none">
+              <circle cx="40" cy="40" r="40" fill="#1a73e8" opacity=".12"/>
+              <circle cx="40" cy="30" r="14" fill="#1a73e8" opacity=".5"/>
+              <ellipse cx="40" cy="68" rx="22" ry="14" fill="#1a73e8" opacity=".3"/>
+            </svg>
+          </div>
+        </div>
+        <div class="founder-body">
+          <div>
+            <div class="founder-name">Karan Shah</div>
+            <div class="founder-role">Co-Founder & CEO</div>
+            <div class="founder-bio">12 years building enterprise data systems on Azure. Led 40+ client engagements across retail, logistics, and financial services. Ahmedabad born; spent 3 years at Microsoft India before founding Veloxcore.</div>
+            <div class="founder-expertise">
+              <span class="exp-tag">Azure Strategy</span>
+              <span class="exp-tag">Enterprise AI</span>
+              <span class="exp-tag">Product</span>
+            </div>
+          </div>
+          <div class="founder-links">
+            <a class="founder-link"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+            <a class="founder-link"><svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>Twitter</a>
+            <a class="founder-link"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>veloxcore.com</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="founder-card">
+        <div class="founder-photo" style="background:linear-gradient(160deg,#f3e8ff,#e9d5ff)">
+          <div class="founder-photo-inner">
+            <svg class="founder-avatar" viewBox="0 0 80 80" fill="none">
+              <circle cx="40" cy="40" r="40" fill="#7c3aed" opacity=".12"/>
+              <circle cx="40" cy="30" r="14" fill="#7c3aed" opacity=".5"/>
+              <ellipse cx="40" cy="68" rx="22" ry="14" fill="#7c3aed" opacity=".3"/>
+            </svg>
+          </div>
+        </div>
+        <div class="founder-body">
+          <div>
+            <div class="founder-name">Priya Mehta</div>
+            <div class="founder-role">Co-Founder & CTO</div>
+            <div class="founder-bio">Data systems architect with a decade of experience in high-throughput pipeline design. Built the original Veloxhire.AI inference architecture. Evangelist for honest ML engineering — "a model in a notebook is not a product."</div>
+            <div class="founder-expertise">
+              <span class="exp-tag">ML Engineering</span>
+              <span class="exp-tag">Data Architecture</span>
+              <span class="exp-tag">Azure AI</span>
+            </div>
+          </div>
+          <div class="founder-links">
+            <a class="founder-link"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+            <a class="founder-link"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub</a>
+            <a class="founder-link"><svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>Twitter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Senior team -->
+    <div class="team-grid reveal">
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#137333,#00dd6a)"></div>
+        <div>
+          <div class="team-name">Rahul Mehta</div>
+          <div class="team-role">Lead Data Architect</div>
+          <span class="team-dept" style="background:#e6f4ea;color:#137333">Data Engineering</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#1a73e8,#00d4e8)"></div>
+        <div>
+          <div class="team-name">Priya Shah</div>
+          <div class="team-role">Azure Solutions Lead</div>
+          <span class="team-dept" style="background:#e8f0fe;color:#1a73e8">Azure</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"></div>
+        <div>
+          <div class="team-name">Divya Patel</div>
+          <div class="team-role">Head of ML Engineering</div>
+          <span class="team-dept" style="background:#f3e8ff;color:#7c3aed">Machine Learning</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#a06000,#febc2e)"></div>
+        <div>
+          <div class="team-name">Anil Kumar</div>
+          <div class="team-role">IoT Platform Engineer</div>
+          <span class="team-dept" style="background:#fef3e2;color:#a06000">IoT</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#3949ab,#7986cb)"></div>
+        <div>
+          <div class="team-name">Vikram Joshi</div>
+          <div class="team-role">Principal .NET Engineer</div>
+          <span class="team-dept" style="background:#e8eaf6;color:#3949ab">.NET</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#c5221f,#ff7850)"></div>
+        <div>
+          <div class="team-name">Smita Rao</div>
+          <div class="team-role">Data Architecture Lead</div>
+          <span class="team-dept" style="background:#fce8e6;color:#c5221f">Architecture</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-ava" style="background:linear-gradient(135deg,#0f766e,#14b8a6)"></div>
+        <div>
+          <div class="team-name">Arjun Nair</div>
+          <div class="team-role">AI Engineering Lead</div>
+          <span class="team-dept" style="background:#f0fdf4;color:#166534">AI Engineering</span>
+        </div>
+      </div>
+      <div class="team-card" style="border-style:dashed;background:transparent;align-items:center;justify-content:center;text-align:center;cursor:pointer;">
+        <div style="width:52px;height:52px;border-radius:50%;border:2px dashed var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--fg3)">+</div>
+        <div>
+          <div class="team-name" style="color:var(--fg3);font-size:15px">You?</div>
+          <div class="team-role">We're hiring</div>
+          <span class="team-dept" style="background:var(--border);color:var(--fg3)">See open roles</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI PROOF -->
+<section class="ai-proof" data-screen-label="05 AI Proof">
+  <div class="wrap">
+    <div class="ai-proof-inner">
+      <div>
+        <div class="ai-proof-label">We ship AI products</div>
+        <h2 class="ai-proof-h reveal">We don't just consult on AI. We run it in production — ourselves.</h2>
+        <p class="ai-proof-sub reveal">Veloxhire.AI is our AI video interview platform. Built on Azure OpenAI. Used by 100+ companies. Maintained by the same team that builds your pipeline. If a pattern is good enough to sell, it has to be good enough for us to run.</p>
+        <a class="ai-proof-btn reveal" href="Veloxhire.AI.html">Explore Veloxhire.AI →</a>
+      </div>
+      <div class="reveal" style="transition-delay:.1s">
+        <div class="ai-card">
+          <div class="ai-card-row">
+            <div class="ai-card-name">Velox<span>hire.AI</span></div>
+            <div class="live-pill"><div class="live-dot"></div>Live product</div>
+          </div>
+          <div class="ai-card-tagline">AI video interviews that hire 5× faster.</div>
+          <div class="ai-metrics">
+            <div class="ai-metric"><div class="ai-metric-num">5×</div><div class="ai-metric-label">Faster hiring</div></div>
+            <div class="ai-metric"><div class="ai-metric-num">100+</div><div class="ai-metric-label">Companies</div></div>
+            <div class="ai-metric"><div class="ai-metric-num">24/7</div><div class="ai-metric-label">AI interviewer</div></div>
+          </div>
+          <div class="ai-test-strip">
+            <div class="ai-test-ava"></div>
+            <div>
+              <div class="ai-test-text">"Veloxhire cut our hiring from 15–20 days to 2–3 days. The rest of our team, initially skeptical, quickly recognised its value."</div>
+              <div class="ai-test-attr">Vinod Satapara, Co-Founder · iFour Technolab</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM PHOTOS -->
+<section class="team-photos" data-screen-label="06 Team Photos">
+  <div class="wrap">
+    <div class="tp-header">
+      <h2 class="tp-h reveal">Meet the team<br>behind the work.</h2>
+      <p class="tp-sub reveal">60+ engineers across Ahmedabad, London, and Dubai. Specialists, not generalists — every one of them Azure-certified.</p>
+    </div>
+    <div class="tp-grid">
+      <div class="tp-featured">
+        <image-slot id="team-hero" placeholder="Drop your team group photo here" shape="rounded" style="width:100%;height:100%;border-radius:18px"></image-slot>
+      </div>
+      <image-slot id="team-2" placeholder="Team photo" shape="rounded" style="border-radius:18px"></image-slot>
+      <image-slot id="team-3" placeholder="Team photo" shape="rounded" style="border-radius:18px"></image-slot>
+      <image-slot id="team-4" placeholder="Team photo" shape="rounded" style="border-radius:18px"></image-slot>
+      <image-slot id="team-5" placeholder="Team photo" shape="rounded" style="border-radius:18px"></image-slot>
+    </div>
+  </div>
+</section>
+
+<!-- CULTURE / OUTINGS -->
+<section class="culture" data-screen-label="07 Culture">
+  <div class="wrap">
+    <div class="culture-header">
+      <h2 class="culture-h reveal">Life at Veloxcore.</h2>
+      <p class="culture-sub reveal">We work hard and we go on day outs together. Here's what that looks like.</p>
+    </div>
+    <div class="culture-strip">
+      <image-slot id="culture-1" placeholder="Day outing / team event" shape="rounded" style="border-radius:16px;height:220px"></image-slot>
+      <image-slot id="culture-2" placeholder="Day outing / team event" shape="rounded" style="border-radius:16px;height:220px"></image-slot>
+      <image-slot id="culture-3" placeholder="Day outing / team event" shape="rounded" style="border-radius:16px;height:220px"></image-slot>
+      <image-slot id="culture-4" placeholder="Day outing / team event" shape="rounded" style="border-radius:16px;height:220px"></image-slot>
+    </div>
+    <div class="culture-wide">
+      <image-slot id="culture-5" placeholder="Office / workspace" shape="rounded" style="border-radius:16px;height:260px"></image-slot>
+      <image-slot id="culture-6" placeholder="Team celebration / milestone" shape="rounded" style="border-radius:16px;height:260px"></image-slot>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" data-screen-label="07 CTA">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div>
+        <h2 class="cta-h reveal">Want to work with us — or work for us?</h2>
+        <p class="cta-sub reveal">Book a call with our team, or see what roles we're currently hiring for.</p>
+      </div>
+      <div class="cta-acts reveal">
+        <a class="btn-white">Book a free call</a>
+        <a class="btn-ghost">See open roles →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" data-screen-label="08 Footer">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-brand"><div class="logo-row"><span class="mark"></span><span class="logo">Veloxcore</span></div><p>Microsoft Gold Partner for Cloud Platform and Application Integration. Headquartered in Ahmedabad, India · 6 countries served.</p></div>
+      <div><div class="foot-h">Services</div><ul class="foot-list"><li><a href="Veloxcore Services.html">All services</a></li><li><a>Data Analytics</a></li><li><a>Azure AI</a></li><li><a>Machine Learning</a></li></ul></div>
+      <div><div class="foot-h">Company</div><ul class="foot-list"><li><a href="Veloxcore About.html">About</a></li><li><a>Careers</a></li><li><a href="Veloxcore Blog.html">Blog</a></li><li><a>Contact</a></li></ul></div>
+      <div><div class="foot-h">Work</div><ul class="foot-list"><li><a href="Veloxcore Work.html">Case studies</a></li><li><a href="Veloxhire.AI.html">Veloxhire.AI</a></li><li><a href="Veloxcore Services.html">Services</a></li></ul></div>
+      <div><div class="foot-h">Resources</div><ul class="foot-list"><li><a>Documentation</a></li><li><a>Press</a></li><li><a>Privacy</a></li><li><a>Terms</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span class="copy">© 2026 Veloxcore Private Limited · Ahmedabad, Gujarat, India</span><div class="right"><a>Privacy</a><a>Terms</a><a>Cookies</a><span class="locale">English ▾</span></div></div>
+  </div>
+</footer>
+
+<div id="tweaks-root"></div>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{"accent":"#1a73e8","founderLayout":"side"}/*EDITMODE-END*/;
+function AboutTweaks() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--accent', tweaks.accent);
+  }, [tweaks.accent]);
+  React.useEffect(() => {
+    const grid = document.querySelector('.founders-grid');
+    if(!grid) return;
+    if(tweaks.founderLayout === 'top') {
+      grid.style.gridTemplateColumns = '1fr';
+    } else {
+      grid.style.gridTemplateColumns = '1fr 1fr';
+    }
+  }, [tweaks.founderLayout]);
+  return (
+    <TweaksPanel>
+      <TweakSection label="Accent colour">
+        <TweakColor value={tweaks.accent} options={['#1a73e8','#7c3aed','#00a67e']} onChange={v => setTweak('accent', v)} />
+      </TweakSection>
+      <TweakSection label="Founder card layout">
+        <TweakRadio
+          value={tweaks.founderLayout}
+          options={[{label:'Side by side',value:'side'},{label:'Stacked',value:'top'}]}
+          onChange={v => setTweak('founderLayout', v)}
+        />
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+const root = document.getElementById('tweaks-root');
+if(root) ReactDOM.createRoot(root).render(<AboutTweaks />);
+</script>
+
+<script>
+/* Hero particles */
+(function(){const c=document.querySelector('.hero-canvas');if(!c)return;const ctx=c.getContext('2d');const N=72,MAXD=150;const COLS=['rgba(61,126,255,','rgba(0,212,232,','rgba(0,221,106,','rgba(61,126,255,'];let W,H,pts=[],mouse={x:-9999,y:-9999};function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}function init(){pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.6+0.6,col:COLS[Math.floor(Math.random()*COLS.length)]}));}function draw(){ctx.clearRect(0,0,W,H);for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);if(d<MAXD){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(61,126,255,${(1-d/MAXD)*0.08})`;ctx.lineWidth=.6;ctx.stroke();}}const dm=Math.hypot(pts[i].x-mouse.x,pts[i].y-mouse.y);if(dm<MAXD*1.6){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=`rgba(61,126,255,${(1-dm/(MAXD*1.6))*0.16})`;ctx.lineWidth=.7;ctx.stroke();}ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,pts[i].r,0,Math.PI*2);ctx.fillStyle=pts[i].col+'0.55)';ctx.fill();}}function loop(){pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;});draw();requestAnimationFrame(loop);}window.addEventListener('resize',()=>{resize();init();});document.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});resize();init();loop();})();
+</script>
+<script>
+(function(){
+  const els = Array.from(document.querySelectorAll('.reveal'));
+  function check(){
+    const vh = window.innerHeight;
+    els.forEach(el => {
+      if(el.classList.contains('visible')) return;
+      const r = el.getBoundingClientRect();
+      if(r.top < vh * .93 && r.bottom > 0) el.classList.add('visible');
+    });
+  }
+  window.addEventListener('scroll', check, {passive:true});
+  window.addEventListener('resize', check);
+  setTimeout(check, 80); setTimeout(check, 500);
+})();
+</script>
+</body>
+</html>

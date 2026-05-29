@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Veloxcore — All Pages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:            #f9f9f9;
+      --surface:       #ffffff;
+      --fg1:           #1a1c1c;
+      --fg2:           #5f6368;
+      --fg3:           #9ea3aa;
+      --border:        #eef0f1;
+      --border-strong: #e0e2e4;
+      --accent:        #005ac1;
+      --display:       'Geist', system-ui, sans-serif;
+      --sans:          'Inter', system-ui, sans-serif;
+      --mono:          'JetBrains Mono', monospace;
+      --eq:            cubic-bezier(.25,.46,.45,.94);
+      --eqt:           cubic-bezier(.165,.84,.44,1);
+      --w:             1320px;
+      --m:             48px;
+    }
+
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:var(--sans); color:var(--fg1); background:var(--bg); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+    a { text-decoration:none; color:inherit; }
+
+    .wrap { max-width:var(--w); margin:0 auto; padding:0 var(--m); }
+
+    /* ── NAV ─────────────────────────────────────── */
+    .nav {
+      position:fixed; top:0; left:0; right:0; z-index:100; height:64px;
+      display:flex; align-items:center; padding:0 var(--m);
+      background:rgba(249,249,249,0.88);
+      backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-inner { max-width:var(--w); margin:0 auto; width:100%; display:flex; align-items:center; justify-content:space-between; }
+    .brand { display:flex; align-items:center; gap:10px; }
+    .mark {
+      width:22px; height:22px; border-radius:6px; flex-shrink:0;
+      background:linear-gradient(135deg,#3d7eff 0%,#00d4e8 35%,#00dd6a 75%,#8ce800 100%);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .mark::after { content:''; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:7.5px solid #fff; transform:translateY(-0.5px); }
+    .logo { font-family:var(--display); font-size:17px; font-weight:800; letter-spacing:-.03em; color:var(--fg1); }
+    .nav-badge {
+      font-family:var(--mono); font-size:11px; color:var(--fg3); letter-spacing:.05em;
+      border:1px solid var(--border-strong); border-radius:4px; padding:3px 8px;
+    }
+
+    /* ── HERO ─────────────────────────────────────── */
+    .hero {
+      padding:144px 0 80px;
+      border-bottom:1px solid var(--border);
+      position:relative; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0; pointer-events:none;
+      background:
+        radial-gradient(ellipse 60% 50% at 100% 0%,rgba(61,126,255,.06) 0%,transparent 60%),
+        radial-gradient(ellipse 40% 40% at 0% 100%,rgba(0,221,106,.04) 0%,transparent 55%);
+    }
+    .hero-inner { position:relative; }
+    .hero-eyebrow {
+      display:inline-flex; align-items:center; gap:8px;
+      font-family:var(--mono); font-size:11px; font-weight:500; letter-spacing:.08em;
+      color:var(--fg3); text-transform:uppercase; margin-bottom:28px;
+    }
+    .hero-eyebrow::before { content:''; width:6px; height:6px; border-radius:50%; background:linear-gradient(135deg,#3d7eff,#00dd6a); flex-shrink:0; }
+    .hero-h1 {
+      font-family:var(--display); font-size:72px; font-weight:800;
+      letter-spacing:-.05em; line-height:1; color:var(--fg1);
+      margin-bottom:24px; max-width:14ch; text-wrap:pretty;
+    }
+    .hero-sub {
+      font-size:18px; line-height:28px; color:var(--fg2);
+      max-width:52ch; margin-bottom:48px; text-wrap:pretty; letter-spacing:-.005em;
+    }
+    .hero-stats {
+      display:flex; align-items:center; gap:48px;
+      border-top:1px solid var(--border); padding-top:40px;
+    }
+    .stat-val { font-family:var(--display); font-size:28px; font-weight:800; letter-spacing:-.04em; color:var(--fg1); }
+    .stat-lbl { font-size:13px; color:var(--fg3); margin-top:4px; letter-spacing:-.005em; }
+
+    /* ── SECTION ──────────────────────────────────── */
+    .section { padding:80px 0; }
+    .section + .section { border-top:1px solid var(--border); }
+
+    .sec-head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:40px; }
+    .sec-label {
+      font-family:var(--mono); font-size:11px; font-weight:500; letter-spacing:.1em;
+      text-transform:uppercase; color:var(--fg3);
+    }
+    .sec-h2 {
+      font-family:var(--display); font-size:32px; font-weight:700;
+      letter-spacing:-.03em; color:var(--fg1); margin-top:10px;
+    }
+    .sec-count {
+      font-family:var(--mono); font-size:12px; color:var(--fg3); letter-spacing:.02em;
+    }
+
+    /* ── PAGE GRID ────────────────────────────────── */
+    .page-grid { display:grid; gap:16px; }
+    .page-grid.cols-3 { grid-template-columns:repeat(3,1fr); }
+    .page-grid.cols-4 { grid-template-columns:repeat(4,1fr); }
+    .page-grid.cols-2 { grid-template-columns:repeat(2,1fr); }
+    .page-grid.cols-5 { grid-template-columns:repeat(5,1fr); }
+
+    /* ── PAGE CARD ────────────────────────────────── */
+    .page-card {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:12px; overflow:hidden; cursor:pointer;
+      transition:border-color .18s var(--eq), transform .22s var(--eqt);
+      display:flex; flex-direction:column;
+      text-decoration:none; color:inherit;
+    }
+    .page-card:hover { border-color:var(--border-strong); transform:translateY(-3px); }
+
+    /* Card visual area */
+    .card-visual {
+      height:160px; position:relative; overflow:hidden; flex-shrink:0;
+    }
+    .card-visual.tall { height:220px; }
+    .card-visual.short { height:120px; }
+
+    /* Visual themes */
+    .v-home { background:linear-gradient(135deg,#0b0c10 0%,#151821 100%); }
+    .v-home::before {
+      content:''; position:absolute; inset:0;
+      background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(61,126,255,.28) 0%,transparent 60%),
+                 radial-gradient(ellipse 40% 50% at 10% 80%,rgba(0,221,106,.18) 0%,transparent 55%);
+    }
+    .v-services { background:linear-gradient(135deg,#f0f4ff 0%,#e8f0fe 100%); }
+    .v-work { background:linear-gradient(135deg,#f9f9f9 0%,#f0f0f0 100%); }
+    .v-blog { background:linear-gradient(135deg,#1a1c1c 0%,#2d2f31 100%); }
+    .v-contact { background:linear-gradient(135deg,#1E2127 0%,#262A31 100%); }
+    .v-about { background:linear-gradient(135deg,#fafafa 0%,#f2f2f2 100%); }
+    .v-ai { background:linear-gradient(135deg,#0b0e1a 0%,#131829 100%); }
+    .v-ai::before {
+      content:''; position:absolute; inset:0;
+      background:radial-gradient(ellipse 70% 90% at 50% 10%,rgba(100,140,255,.25) 0%,transparent 65%);
+    }
+    .v-azure { background:linear-gradient(135deg,#e8f2ff 0%,#d1e8ff 100%); }
+    .v-data { background:linear-gradient(135deg,#0a1628 0%,#0d1f3c 100%); }
+    .v-iot { background:linear-gradient(135deg,#0a1a0f 0%,#0d2415 100%); }
+    .v-ml { background:linear-gradient(135deg,#120a28 0%,#1a0f3c 100%); }
+    .v-rag { background:linear-gradient(135deg,#1a0a00 0%,#2d1500 100%); }
+    .v-hire { background:linear-gradient(135deg,#05050a 0%,#0c0c14 100%); }
+    .v-hire::before {
+      content:''; position:absolute; inset:0;
+      background:radial-gradient(ellipse 70% 70% at 50% 40%,rgba(140,100,255,.22) 0%,transparent 65%);
+    }
+    .v-case-ai { background:linear-gradient(135deg,#101520 0%,#1a2030 100%); }
+    .v-case-azure { background:linear-gradient(135deg,#0d1a3d 0%,#162660 100%); }
+    .v-case-retail { background:linear-gradient(135deg,#0d1a10 0%,#162616 100%); }
+    .v-post { background:linear-gradient(135deg,#f5f5f5 0%,#ebebeb 100%); }
+    .v-post-broad { background:linear-gradient(135deg,#1a1a1a 0%,#252525 100%); }
+    .v-post-cin { background:linear-gradient(135deg,#080808 0%,#121212 100%); }
+    .v-post-side { background:linear-gradient(135deg,#f7f5f0 0%,#eeeae3 100%); }
+    .v-post-typo { background:linear-gradient(135deg,#ffffff 0%,#f5f5f5 100%); }
+
+    /* Card visual decorations */
+    .card-visual-inner {
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    }
+    .card-label {
+      position:absolute; bottom:14px; left:16px; right:16px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .card-tag {
+      font-family:var(--mono); font-size:10px; letter-spacing:.06em;
+      text-transform:uppercase; padding:3px 8px; border-radius:3px;
+    }
+    .tag-dark { background:rgba(255,255,255,.1); color:rgba(255,255,255,.7); }
+    .tag-light { background:rgba(26,28,28,.06); color:var(--fg3); }
+    .card-arr {
+      width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+      background:rgba(255,255,255,.12); color:rgba(255,255,255,.8); font-size:11px;
+      flex-shrink:0;
+    }
+    .card-arr.dark { background:rgba(26,28,28,.07); color:var(--fg2); }
+
+    /* Card body */
+    .card-body { padding:20px 20px 22px; flex:1; display:flex; flex-direction:column; gap:6px; }
+    .card-title {
+      font-family:var(--display); font-size:16px; font-weight:700;
+      letter-spacing:-.025em; color:var(--fg1); line-height:1.25;
+    }
+    .card-desc { font-size:13px; line-height:20px; color:var(--fg2); letter-spacing:-.005em; }
+    .card-link {
+      margin-top:auto; padding-top:12px;
+      font-size:12.5px; color:var(--accent); font-weight:500; letter-spacing:-.005em;
+      display:inline-flex; align-items:center; gap:4px;
+    }
+
+    /* Decorative elements inside card visuals */
+    .deco-dots {
+      position:absolute; inset:0;
+      background-image:radial-gradient(circle,rgba(255,255,255,.12) 1px,transparent 1px);
+      background-size:18px 18px;
+    }
+    .deco-lines {
+      position:absolute; inset:0;
+      background-image:repeating-linear-gradient(
+        90deg,rgba(255,255,255,.04) 0px,rgba(255,255,255,.04) 1px,transparent 1px,transparent 60px
+      );
+    }
+    .deco-word {
+      font-family:var(--display); font-weight:800; letter-spacing:-.04em;
+      position:absolute; white-space:nowrap;
+    }
+    .deco-grid {
+      position:absolute; inset:0;
+      background-image:
+        linear-gradient(rgba(26,28,28,.05) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(26,28,28,.05) 1px,transparent 1px);
+      background-size:40px 40px;
+    }
+    .deco-bar {
+      position:absolute; bottom:0; left:0; right:0; height:3px;
+    }
+
+    /* ── FEATURED CARD (spans 2 cols) ─────────────── */
+    .page-card.featured .card-visual { height:260px; }
+
+    /* ── FOOTER ───────────────────────────────────── */
+    .foot {
+      border-top:1px solid var(--border); padding:40px 0;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .foot-brand { font-family:var(--display); font-size:14px; font-weight:800; letter-spacing:-.03em; color:var(--fg1); }
+    .foot-note { font-size:12px; color:var(--fg3); letter-spacing:-.005em; }
+
+    /* ── REVEAL ANIMATION ─────────────────────────── */
+    .reveal { opacity:0; transform:translateY(16px); transition:opacity .55s var(--eqt), transform .55s var(--eqt); }
+    .reveal.visible { opacity:1; transform:none; }
+
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="mark"></div>
+      <span class="logo">Veloxcore</span>
+    </div>
+    <span class="nav-badge">ALL PAGES · 26 SCREENS</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-eyebrow">Design System · Public App</div>
+    <h1 class="hero-h1">All Pages.</h1>
+    <p class="hero-sub">The complete Veloxcore public-facing design — every page, every surface, every layout. Browse the full site architecture below.</p>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-val">6</div>
+        <div class="stat-lbl">Main pages</div>
+      </div>
+      <div>
+        <div class="stat-val">8</div>
+        <div class="stat-lbl">Service pages</div>
+      </div>
+      <div>
+        <div class="stat-val">3</div>
+        <div class="stat-lbl">Case studies</div>
+      </div>
+      <div>
+        <div class="stat-val">5</div>
+        <div class="stat-lbl">Blog layouts</div>
+      </div>
+      <div>
+        <div class="stat-val">1</div>
+        <div class="stat-lbl">Product</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN PAGES -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-label">01 · Core</div>
+        <h2 class="sec-h2">Main pages</h2>
+      </div>
+      <span class="sec-count">6 pages</span>
+    </div>
+
+    <div class="page-grid cols-3">
+
+      <!-- Home — featured -->
+      <a class="page-card featured reveal" href="Veloxcore Home.html" style="grid-column:span 2;">
+        <div class="card-visual tall v-home">
+          <div class="deco-dots"></div>
+          <div class="deco-lines"></div>
+          <div class="card-visual-inner">
+            <div class="deco-word" style="font-size:52px;color:rgba(255,255,255,.08);bottom:28px;left:24px;">Unleash value of DATA.</div>
+            <div style="text-align:left;padding:0 28px;position:absolute;top:28px;left:0;">
+              <div style="font-family:var(--display);font-size:13px;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:-.01em;margin-bottom:10px;">Microsoft Gold Partner · Azure Cloud Platform</div>
+              <div style="font-family:var(--display);font-size:40px;font-weight:800;letter-spacing:-.04em;color:#fff;line-height:1;">Unleash value<br>of DATA.</div>
+            </div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">Home</span>
+            <span class="card-arr">→</span>
+          </div>
+          <div class="deco-bar" style="background:linear-gradient(90deg,#3d7eff,#00d4e8,#00dd6a,#8ce800);"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Home</div>
+          <div class="card-desc">Hero with typewriter, feature explorer, use-cases slider, stats, blog teasers, and dual CTA sections.</div>
+          <span class="card-link">Open page →</span>
+        </div>
+      </a>
+
+      <!-- About -->
+      <a class="page-card reveal" href="Veloxcore About.html">
+        <div class="card-visual v-about">
+          <div class="deco-grid"></div>
+          <div class="card-visual-inner">
+            <div style="font-family:var(--display);font-size:32px;font-weight:800;letter-spacing:-.04em;color:rgba(26,28,28,.12);">About us</div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-light">About</span>
+            <span class="card-arr dark">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">About</div>
+          <div class="card-desc">Company story, team, Microsoft Gold Partner credentials and values.</div>
+          <span class="card-link">Open page →</span>
+        </div>
+      </a>
+
+      <!-- Services -->
+      <a class="page-card reveal" href="Veloxcore Services.html">
+        <div class="card-visual v-services">
+          <div class="card-visual-inner">
+            <div style="display:flex;flex-direction:column;gap:6px;padding:0 20px;">
+              <div style="height:8px;width:80%;background:rgba(0,90,193,.15);border-radius:2px;"></div>
+              <div style="height:8px;width:60%;background:rgba(0,90,193,.1);border-radius:2px;"></div>
+              <div style="height:8px;width:90%;background:rgba(0,90,193,.12);border-radius:2px;"></div>
+              <div style="height:8px;width:50%;background:rgba(0,90,193,.08);border-radius:2px;"></div>
+            </div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-light">Services</span>
+            <span class="card-arr dark">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Services</div>
+          <div class="card-desc">Full services overview — data analytics, cloud, AI, IoT, and .NET development.</div>
+          <span class="card-link">Open page →</span>
+        </div>
+      </a>
+
+      <!-- Work -->
+      <a class="page-card reveal" href="Veloxcore Work.html">
+        <div class="card-visual v-work">
+          <div class="deco-grid"></div>
+          <div class="card-visual-inner" style="align-items:flex-start;padding:20px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;">
+              <div style="height:48px;background:rgba(26,28,28,.06);border-radius:6px;"></div>
+              <div style="height:48px;background:rgba(26,28,28,.04);border-radius:6px;"></div>
+              <div style="height:48px;background:rgba(26,28,28,.04);border-radius:6px;"></div>
+              <div style="height:48px;background:rgba(26,28,28,.06);border-radius:6px;"></div>
+            </div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-light">Work</span>
+            <span class="card-arr dark">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Work &amp; Case Studies</div>
+          <div class="card-desc">Filterable project grid — case studies across industries with outcomes and metrics.</div>
+          <span class="card-link">Open page →</span>
+        </div>
+      </a>
+
+      <!-- Blog -->
+      <a class="page-card reveal" href="Veloxcore Blog.html">
+        <div class="card-visual v-blog">
+          <div class="deco-dots"></div>
+          <div class="card-visual-inner" style="padding:16px;align-items:flex-start;">
+            <div style="width:100%;">
+              <div style="height:32px;width:75%;background:rgba(255,255,255,.07);border-radius:4px;margin-bottom:8px;"></div>
+              <div style="height:12px;width:90%;background:rgba(255,255,255,.04);border-radius:3px;margin-bottom:5px;"></div>
+              <div style="height:12px;width:65%;background:rgba(255,255,255,.04);border-radius:3px;"></div>
+            </div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">Blog</span>
+            <span class="card-arr">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Blog</div>
+          <div class="card-desc">Article index with filters, featured post, and multi-column editorial grid.</div>
+          <span class="card-link">Open page →</span>
+        </div>
+      </a>
+
+      <!-- Contact -->
+      <a class="page-card reveal" href="Veloxcore Contact.html">
+        <div class="card-visual v-contact">
+          <div class="deco-dots"></div>
+          <div class="card-visual-inner" style="padding:16px;align-items:flex-start;">
+            <div style="width:100%;">
+              <div style="height:24px;width:55%;background:rgba(255,255,255,.08);border-radius:4px;margin-bottom:10px;"></div>
+              <div style="height:36px;width:100%;background:rgba(255,255,255,.04);border-radius:6px;margin-bottom:6px;border:1px solid rgba(255,255,255,.07);"></div>
+              <div style="height:36px;width:100%;background:rgba(255,255,255,.04);border-radius:6px;border:1px solid rgba(255,255,255,.07);"></div>
+            </div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">Contact</span>
+            <span class="card-arr">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Contact &amp; Book a Call</div>
+          <div class="card-desc">Dark-hero contact page with meeting-booking flow and inquiry form.</div>
+          <span class="card-link">Open page →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-label">02 · Services</div>
+        <h2 class="sec-h2">Service pages</h2>
+      </div>
+      <span class="sec-count">8 pages</span>
+    </div>
+
+    <div class="page-grid cols-4">
+
+      <a class="page-card reveal" href="Veloxcore Service - Generative AI.html">
+        <div class="card-visual v-ai short">
+          <div class="deco-dots"></div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">Generative AI</span>
+            <span class="card-arr">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Generative AI</div>
+          <div class="card-desc">LLM strategy, fine-tuning, and production deployment for enterprise workflows.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+      <a class="page-card reveal" href="Veloxcore Service - AI Agents.html">
+        <div class="card-visual v-ai short">
+          <div class="deco-lines"></div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">AI Agents</span>
+            <span class="card-arr">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">AI Agents</div>
+          <div class="card-desc">Multi-agent architectures, orchestration, and autonomous task execution.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+      <a class="page-card reveal" href="Veloxcore Service - RAG.html">
+        <div class="card-visual v-rag short">
+          <div class="deco-dots"></div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">RAG</span>
+            <span class="card-arr">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">RAG &amp; Knowledge Systems</div>
+          <div class="card-desc">Retrieval-augmented generation, vector stores, and document intelligence.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+      <a class="page-card reveal" href="Veloxcore Service - AI Strategy.html">
+        <div class="card-visual v-azure short">
+          <div class="card-label">
+            <span class="card-tag tag-light">AI Strategy</span>
+            <span class="card-arr dark">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">AI Strategy</div>
+          <div class="card-desc">Roadmapping, readiness assessment, and organisational AI transformation.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+      <a class="page-card reveal" href="Veloxcore Service - Azure AI.html">
+        <div class="card-visual v-azure short">
+          <div class="deco-grid"></div>
+          <div class="card-label">
+            <span class="card-tag tag-light">Azure AI</span>
+            <span class="card-arr dark">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Azure AI</div>
+          <div class="card-desc">Azure OpenAI, Cognitive Services, AI Search, and the full Azure AI stack.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+      <a class="page-card reveal" href="Veloxcore Service - Data Engineering.html">
+        <div class="card-visual v-data short">
+          <div class="deco-dots"></div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">Data Engineering</span>
+            <span class="card-arr">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Data Engineering</div>
+          <div class="card-desc">Pipelines, lakehouses, Synapse Analytics, and real-time data infrastructure.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+      <a class="page-card reveal" href="Veloxcore Service - Machine Learning.html">
+        <div class="card-visual v-ml short">
+          <div class="deco-dots"></div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">Machine Learning</span>
+            <span class="card-arr">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Machine Learning</div>
+          <div class="card-desc">Model development, MLOps, and predictive analytics at scale on Azure ML.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+      <a class="page-card reveal" href="Veloxcore Service - IoT.html">
+        <div class="card-visual v-iot short">
+          <div class="deco-lines"></div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">IoT</span>
+            <span class="card-arr">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">IoT &amp; Edge</div>
+          <div class="card-desc">Azure IoT Hub, edge compute, device management, and industrial telemetry.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-label">03 · Work</div>
+        <h2 class="sec-h2">Case studies</h2>
+      </div>
+      <span class="sec-count">3 pages</span>
+    </div>
+
+    <div class="page-grid cols-3">
+
+      <a class="page-card reveal" href="Veloxcore Case Study - AI Copilot.html">
+        <div class="card-visual v-case-ai">
+          <div class="deco-dots"></div>
+          <div class="card-visual-inner">
+            <div style="font-family:var(--display);font-size:28px;font-weight:800;letter-spacing:-.04em;color:rgba(255,255,255,.08);text-align:center;">AI Copilot</div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">Case Study</span>
+            <span class="card-arr">→</span>
+          </div>
+          <div class="deco-bar" style="background:linear-gradient(90deg,#3d7eff,#00d4e8);"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">AI Copilot — Enterprise</div>
+          <div class="card-desc">Building an internal AI copilot for a 12,000-person financial services firm on Azure OpenAI.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+      <a class="page-card reveal" href="Veloxcore Case Study - Azure Migration.html">
+        <div class="card-visual v-case-azure">
+          <div class="deco-dots"></div>
+          <div class="card-visual-inner">
+            <div style="font-family:var(--display);font-size:28px;font-weight:800;letter-spacing:-.04em;color:rgba(255,255,255,.08);text-align:center;">Azure Migration</div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">Case Study</span>
+            <span class="card-arr">→</span>
+          </div>
+          <div class="deco-bar" style="background:linear-gradient(90deg,#1a73e8,#00d4e8);"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Azure Migration — Manufacturing</div>
+          <div class="card-desc">Zero-downtime lift-and-shift of 180+ on-prem workloads to Azure for a manufacturing conglomerate.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+      <a class="page-card reveal" href="Veloxcore Case Study - Retail Analytics.html">
+        <div class="card-visual v-case-retail">
+          <div class="deco-dots"></div>
+          <div class="card-visual-inner">
+            <div style="font-family:var(--display);font-size:28px;font-weight:800;letter-spacing:-.04em;color:rgba(255,255,255,.08);text-align:center;">Retail Analytics</div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">Case Study</span>
+            <span class="card-arr">→</span>
+          </div>
+          <div class="deco-bar" style="background:linear-gradient(90deg,#00dd6a,#8ce800);"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Retail Analytics — E-commerce</div>
+          <div class="card-desc">Real-time demand sensing and inventory optimisation for a top-10 Indian e-commerce platform.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- BLOG LAYOUTS -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-label">04 · Editorial</div>
+        <h2 class="sec-h2">Blog post layouts</h2>
+      </div>
+      <span class="sec-count">5 layouts</span>
+    </div>
+
+    <div class="page-grid cols-5">
+
+      <a class="page-card reveal" href="Veloxcore Blog Post.html">
+        <div class="card-visual v-post short">
+          <div class="deco-grid"></div>
+          <div class="card-visual-inner" style="padding:12px;align-items:flex-start;">
+            <div style="width:100%;">
+              <div style="height:10px;width:70%;background:rgba(26,28,28,.08);border-radius:2px;margin-bottom:6px;"></div>
+              <div style="height:10px;width:90%;background:rgba(26,28,28,.05);border-radius:2px;margin-bottom:4px;"></div>
+              <div style="height:10px;width:55%;background:rgba(26,28,28,.05);border-radius:2px;"></div>
+            </div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-light">Standard</span>
+            <span class="card-arr dark">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Standard</div>
+          <div class="card-desc">Clean single-column article with header image.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+      <a class="page-card reveal" href="Veloxcore Blog Post - Broadsheet.html">
+        <div class="card-visual v-post-broad short">
+          <div class="card-visual-inner" style="padding:12px;align-items:flex-start;">
+            <div style="width:100%;display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+              <div style="height:40px;background:rgba(255,255,255,.06);border-radius:2px;"></div>
+              <div style="height:40px;background:rgba(255,255,255,.04);border-radius:2px;"></div>
+            </div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">Broadsheet</span>
+            <span class="card-arr">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Broadsheet</div>
+          <div class="card-desc">Two-column newspaper-style typographic layout.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+      <a class="page-card reveal" href="Veloxcore Blog Post - Cinematic.html">
+        <div class="card-visual v-post-cin short">
+          <div class="deco-dots" style="background-image:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px);"></div>
+          <div class="card-visual-inner">
+            <div style="font-family:var(--display);font-size:18px;font-weight:800;letter-spacing:-.04em;color:rgba(255,255,255,.15);">Cinematic</div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">Cinematic</span>
+            <span class="card-arr">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Cinematic</div>
+          <div class="card-desc">Full-bleed dark hero with scroll-driven reveal sections.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+      <a class="page-card reveal" href="Veloxcore Blog Post - Sidebar.html">
+        <div class="card-visual v-post-side short">
+          <div class="card-visual-inner" style="padding:12px;align-items:flex-start;">
+            <div style="width:100%;display:grid;grid-template-columns:2fr 1fr;gap:6px;">
+              <div>
+                <div style="height:8px;width:80%;background:rgba(26,28,28,.08);border-radius:2px;margin-bottom:5px;"></div>
+                <div style="height:8px;width:100%;background:rgba(26,28,28,.05);border-radius:2px;margin-bottom:4px;"></div>
+                <div style="height:8px;width:60%;background:rgba(26,28,28,.05);border-radius:2px;"></div>
+              </div>
+              <div style="background:rgba(26,28,28,.04);border-radius:4px;height:100%;"></div>
+            </div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-light">Sidebar</span>
+            <span class="card-arr dark">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Sidebar</div>
+          <div class="card-desc">Article with sticky aside — TOC, author, related posts.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+      <a class="page-card reveal" href="Veloxcore Blog Post - Typographic.html">
+        <div class="card-visual v-post-typo short">
+          <div class="card-visual-inner" style="padding:12px;align-items:flex-start;">
+            <div style="width:100%;">
+              <div style="height:20px;width:85%;background:rgba(26,28,28,.07);border-radius:2px;margin-bottom:6px;font-family:var(--display);"></div>
+              <div style="height:8px;width:95%;background:rgba(26,28,28,.04);border-radius:2px;margin-bottom:4px;"></div>
+              <div style="height:8px;width:70%;background:rgba(26,28,28,.04);border-radius:2px;"></div>
+            </div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-light">Typographic</span>
+            <span class="card-arr dark">→</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Typographic</div>
+          <div class="card-desc">Typography-first, no hero image — weight and scale carry the visual story.</div>
+          <span class="card-link">Open →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-label">05 · Products</div>
+        <h2 class="sec-h2">Linked products</h2>
+      </div>
+      <span class="sec-count">1 product</span>
+    </div>
+
+    <div class="page-grid cols-3">
+
+      <a class="page-card featured reveal" href="Veloxhire.AI.html" style="grid-column:span 2;">
+        <div class="card-visual v-hire" style="height:200px;">
+          <div class="deco-dots" style="background-image:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px);"></div>
+          <div class="card-visual-inner">
+            <div style="text-align:center;position:relative;z-index:2;">
+              <div style="font-family:var(--display);font-size:36px;font-weight:800;letter-spacing:-.04em;color:#fff;margin-bottom:8px;">Veloxhire<span style="color:rgba(160,120,255,.9);">.AI</span></div>
+              <div style="font-size:13px;color:rgba(255,255,255,.4);letter-spacing:-.005em;">Intelligent Talent Acquisition Platform</div>
+            </div>
+          </div>
+          <div class="card-label">
+            <span class="card-tag tag-dark">Product</span>
+            <span class="card-arr">→</span>
+          </div>
+          <div class="deco-bar" style="background:linear-gradient(90deg,#7c3aed,#a855f7,#c084fc);"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Veloxhire.AI</div>
+          <div class="card-desc">AI-powered recruitment platform — JD analysis, candidate matching, interview automation, and talent pipeline intelligence. A Veloxcore-built SaaS product.</div>
+          <span class="card-link">Open product →</span>
+        </div>
+      </a>
+
+      <!-- Summary card -->
+      <div class="page-card reveal" style="cursor:default;background:var(--bg);">
+        <div class="card-body" style="padding:28px 24px;gap:20px;">
+          <div>
+            <div class="sec-label" style="margin-bottom:12px;">Page inventory</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13.5px;">
+                <span style="color:var(--fg2);">Core pages</span>
+                <span style="font-family:var(--mono);font-size:12px;color:var(--fg1);font-weight:500;">6</span>
+              </div>
+              <div style="height:1px;background:var(--border);"></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13.5px;">
+                <span style="color:var(--fg2);">Service pages</span>
+                <span style="font-family:var(--mono);font-size:12px;color:var(--fg1);font-weight:500;">8</span>
+              </div>
+              <div style="height:1px;background:var(--border);"></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13.5px;">
+                <span style="color:var(--fg2);">Case studies</span>
+                <span style="font-family:var(--mono);font-size:12px;color:var(--fg1);font-weight:500;">3</span>
+              </div>
+              <div style="height:1px;background:var(--border);"></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13.5px;">
+                <span style="color:var(--fg2);">Blog layouts</span>
+                <span style="font-family:var(--mono);font-size:12px;color:var(--fg1);font-weight:500;">5</span>
+              </div>
+              <div style="height:1px;background:var(--border);"></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13.5px;">
+                <span style="color:var(--fg2);">Products</span>
+                <span style="font-family:var(--mono);font-size:12px;color:var(--fg1);font-weight:500;">1</span>
+              </div>
+              <div style="height:1px;background:var(--border);"></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600;">
+                <span style="color:var(--fg1);">Total</span>
+                <span style="font-family:var(--mono);font-size:13px;color:var(--fg1);">23</span>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:auto;padding-top:16px;border-top:1px solid var(--border);font-size:12px;color:var(--fg3);line-height:18px;">
+            Veloxcore Design System · Antigravity Minimalist · v1.0
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="section" style="padding-bottom:48px;">
+  <div class="wrap">
+    <div class="foot">
+      <span class="foot-brand">Veloxcore</span>
+      <span class="foot-note">Microsoft Gold Partner · Ahmedabad, India</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = `${(i % 4) * 0.06}s`;
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>

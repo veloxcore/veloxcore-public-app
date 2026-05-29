@@ -1,0 +1,53 @@
+---
+const { post } = Astro.props as { post: any };
+const { Content } = await post.render();
+const d = post.data;
+const fmt = (date: Date) => date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const TAG_MAP: Record<string, string> = {
+  'Big Data': 'tag-bigdata', 'Azure': 'tag-azure', 'Machine Learning': 'tag-ml',
+  'IoT': 'tag-iot', '.NET': 'tag-dotnet', 'Architecture': 'tag-arch',
+};
+const tagCls = TAG_MAP[d.tag] ?? 'tag-azure';
+---
+<div class="bp-cin-hero"
+  style={d.coverImage ? `background-image:linear-gradient(to top,rgba(6,6,20,.96) 0%,rgba(6,6,20,.65) 40%,rgba(6,6,20,.12) 100%),url(${d.coverImage});background-size:cover;background-position:center` : undefined}>
+  <div class="bp-cin-content">
+    <div class="bp-cin-breadcrumb">
+      <a href="/blog">Blog</a><span class="sep">›</span><span>{d.tag}</span>
+    </div>
+    <span class={`tag ${tagCls}`} style="margin-bottom:20px;display:inline-flex">{d.tag}</span>
+    <h1 class="bp-cin-h1">{d.title}</h1>
+    <div class="bp-cin-meta">
+      <div class="bp-cin-avatar"></div>
+      <span>{d.author}</span><span>·</span><span>{fmt(d.date)}</span>
+      {d.readTime && <><span>·</span><span>{d.readTime} read</span></>}
+    </div>
+  </div>
+  <div class="bp-cin-scroll"><div class="bp-cin-scroll-line"></div>Scroll</div>
+</div>
+
+<div class="bp-cin-body">
+  <div class="bp-cin-metabar">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="bp-avatar"></div>
+      <strong style="color:var(--fg1)">{d.author}</strong>
+    </div>
+    <span>·</span><span>{fmt(d.date)}</span>
+    {d.readTime && <><span>·</span><span>{d.readTime} read</span></>}
+    <span style="margin-left:auto"><span class={`tag ${tagCls}`}>{d.tag}</span></span>
+  </div>
+
+  <div class="art-body bp-cin-art">
+    {d.stats && d.stats.length > 0 && (
+      <div class="bp-cin-stats">
+        {d.stats.map((s: any) => (
+          <div class="bp-cin-stat">
+            <div class="bp-cin-stat-num">{s.num}</div>
+            <div class="bp-cin-stat-label">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    )}
+    <Content />
+  </div>
+</div>
