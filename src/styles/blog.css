@@ -660,3 +660,38 @@
   .bp-tp-lede-grid { grid-template-columns: 1fr; gap: 24px; }
   .bp-tp-lede { font-size: 20px; line-height: 28px; }
 }
+
+/* ── MDX PROSE TABLES (all art-body templates) ─────────── */
+.art-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 22px;
+  margin: 32px 0;
+}
+.art-body thead th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--fg3);
+  border-bottom: 1px solid var(--border-strong);
+  padding: 0 16px 10px;
+}
+.art-body tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+.art-body tbody tr:last-child {
+  border-bottom: none;
+}
+.art-body tbody td {
+  padding: 10px 16px;
+  color: var(--fg2);
+  vertical-align: top;
+}
+.art-body tbody td:first-child {
+  color: var(--fg1);
+  font-weight: 500;
+  white-space: nowrap;
+}

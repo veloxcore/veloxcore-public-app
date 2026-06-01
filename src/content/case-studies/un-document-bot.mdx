@@ -1,13 +1,70 @@
 ---
-title: "Multi-lingual RAG across 40 years of UN resolutions and reports"
-client: "United Nations"
-category: "Government · RAG"
+title: "Multilingual RAG chatbot across 40 years of UN resolutions"
+client: "United Nations DGACM"
+category: "Government · AI Agents"
 coverTheme: "cov-un"
-stats: []
-excerpt: "1.2M documents, 18 languages, cited answers in under 3 seconds. Built on Azure AI Search + GPT-4o."
-featured: false
-order: 3
+stats:
+  - { value: "6", label: "Official languages" }
+  - { value: "2", label: "Specialised agents" }
+  - { value: "<3s", label: "Query response time" }
+excerpt: "Hundreds of thousands of documents, six official languages, voting data unified in one conversation. Built on Azure OpenAI, LangGraph, and Azure AI Search."
+featured: true
+order: 1
 shortTag: "RAG"
 coverImage: "/assets/case-studies/un-document-bot.png"
+heroGradient: "linear-gradient(135deg, #0a1628 0%, #0d2444 60%, #0a1e38 100%)"
+meta:
+  client: "UN Dept. for General Assembly & Conference Management"
+  industry: "Government / International Organization"
+  engagement: "AI Knowledge Assistant"
+  delivered: "2026"
+  region: "New York, USA (global)"
+tags:
+  - { label: "Azure OpenAI", cls: "tag-azure" }
+  - { label: "RAG", cls: "tag-ai" }
+  - { label: "AI Agents", cls: "tag-agents" }
+  - { label: "Multilingual", cls: "tag-data" }
+sidebarOutcomes:
+  - { num: "6", label: "UN official languages with native retrieval" }
+  - { num: "2", label: "Specialised agents — DGACM Mini + Athena" }
+  - { num: "<3s", label: "Document + voting query response time" }
+  - { num: "4", label: "Continuous evaluation dimensions" }
+techStack:
+  - { name: "Azure OpenAI", iconBg: "#0078d4", iconColor: "#fff", icon: "azure" }
+  - { name: "Azure AI Search", iconBg: "#0078d4", iconColor: "#fff", icon: "search" }
+  - { name: "LangGraph", iconBg: "#1a1a1a", iconColor: "#00d4e8", icon: "graph" }
+  - { name: "FastAPI", iconBg: "#009688", iconColor: "#fff", icon: "api" }
+  - { name: "LibreChat", iconBg: "#1a1a1a", iconColor: "#fff", icon: "chat" }
+  - { name: "SQL Server", iconBg: "#cc2927", iconColor: "#fff", icon: "db" }
+related:
+  - { slug: "pmi-pia", category: "Enterprise · AI Agents", title: "Portfolio intelligence across 2,400+ live project portfolios", thumbStyle: "cov-pmi" }
+  - { slug: "veloxhire", category: "Product · AI Agents", title: "Agentic interview platform for high-volume hiring", thumbStyle: "cov-veloxhire" }
 ---
-Case study body placeholder (detail page out of scope this session).
+
+## The problem
+
+The UN Department for General Assembly and Conference Management (DGACM) produces tens of thousands of official documents every year across six constitutional languages: English, French, Arabic, Spanish, Russian, and Chinese. The Official Document System (ODS) held this corpus — invaluable and effectively unsearchable under time pressure.
+
+Traditional keyword search failed in two ways. A query in English would not surface Arabic or Chinese equivalents without knowing the precise terminology in each language. And voting records — how each member state voted on each resolution — lived in a separate SQL Server database with no unified interface. Answering a simple question like "How did the P5 vote on Resolution 2334?" meant switching systems and synthesising results manually.
+
+## The solution
+
+We built a conversational AI assistant behind a customised LibreChat frontend. Two specialised agents were deployed:
+
+**DGACM Mini** handles queries over the ODS document corpus and voting database. It is the primary interface for staff and delegates — natural language questions in any of the six official languages, answered with grounded citations.
+
+**Athena Help Assistant** is scoped to DGACM's internal Athena documentation system, handling support queries without touching the main document corpus.
+
+Each UN official language has its own dedicated Azure AI Search index. A question in Arabic is embedded, searched, and answered from the Arabic corpus — no translation, native-language retrieval throughout. Semantic hybrid search (dense HNSW vectors plus sparse keyword matching, scored by Azure's semantic reranker) ensures precision at scale.
+
+## Architecture
+
+The backend is a FastAPI application orchestrated by LangGraph's ReAct pattern. An `AgentFactory` maps request types to concrete agent classes. Each agent reasons about which retrieval tools to invoke, executes them iteratively, and synthesises a grounded response — rather than following a fixed pipeline.
+
+The `VotingDataAgent` translates natural language into parameterised SQL, queries the SQL Server database, and returns structured results that the main agent weaves into its response alongside document context. Two middleware layers handle authentication and PII detection before any query reaches the language model.
+
+Answer quality is measured continuously through Azure AI Foundry across four dimensions: relevance, coherence, groundedness, and intent resolution. Both positive and negative evaluation datasets are maintained so regressions surface before users encounter them.
+
+## Outcome
+
+Staff and delegates can now ask a single natural language question — in any of the six official languages — and receive a unified answer that draws on document content and voting records together. What previously required consulting two separate systems, two sets of credentials, and manual synthesis now resolves in one conversation turn. The Athena Help Assistant has absorbed a class of internal support queries that previously required human intervention. The modular architecture means new document collections or specialised agents can be added without rearchitecting the system.

@@ -1,13 +1,79 @@
 ---
-title: "Portfolio intelligence across 2,400+ live project portfolios"
+title: "From hours of report-pulling to instant answers for 40+ hotel properties"
 client: "PMI"
-category: "Enterprise · AI Agents"
+category: "Hospitality · AI Agents"
 coverTheme: "cov-pmi"
-stats: []
-excerpt: "AI agents surfacing risk, budget variance, and timeline drift for PMI's global project network in real time."
-featured: false
+stats:
+  - { value: "3 hrs", label: "Saved per GM per week" }
+  - { value: "<5s", label: "Time to first answer" }
+  - { value: "87%", label: "Queries self-served" }
+excerpt: "PIA gives hotel GMs on-demand access to P&L insights, forecasts, and operational data via a conversational AI layer built on Azure OpenAI GPT-4.1 and RAG — without leaving the PMI platform."
+featured: true
 order: 2
-shortTag: "AI Agents"
+shortTag: "RAG"
 coverImage: "/assets/case-studies/pmi-pia.png"
+heroGradient: "linear-gradient(135deg, #0d2f60 0%, #1b4f9a 55%, #1a6fba 100%)"
+meta:
+  client: "PMI — Productivity & Management Intelligence"
+  industry: "Hospitality / Hotel Management"
+  engagement: "Conversational AI Assistant (PIA)"
+  delivered: "2026"
+  region: "International · 40+ properties"
+tags:
+  - { label: "Azure OpenAI", cls: "tag-azure" }
+  - { label: "RAG", cls: "tag-ai" }
+  - { label: ".NET", cls: "tag-net" }
+  - { label: "AI Agents", cls: "tag-agents" }
+sidebarOutcomes:
+  - { num: "3 hrs/wk", label: "Reporting time reclaimed per GM" }
+  - { num: "87%", label: "Support queries self-served without a ticket" }
+  - { num: "<5s", label: "Time to first streamed answer" }
+  - { num: "40+", label: "Properties live on PIA" }
+techStack:
+  - { name: "Azure OpenAI GPT-4.1", iconBg: "#0078d4", iconColor: "#fff", icon: "azure" }
+  - { name: "Azure AI Search", iconBg: "#0078d4", iconColor: "#fff", icon: "search" }
+  - { name: "Azure Cosmos DB", iconBg: "#0078d4", iconColor: "#fff", icon: "db" }
+  - { name: ".NET 8", iconBg: "#512bd4", iconColor: "#fff", icon: "dotnet" }
+  - { name: "Angular 20+", iconBg: "#dd0031", iconColor: "#fff", icon: "angular" }
+related:
+  - { slug: "un-document-bot", category: "Government · AI Agents", title: "Multilingual RAG chatbot across 40 years of UN resolutions", thumbStyle: "cov-un" }
+  - { slug: "veloxhire", category: "Product · AI Agents", title: "Agentic interview platform for high-volume hiring", thumbStyle: "cov-veloxhire" }
 ---
-Case study body placeholder (detail page out of scope this session).
+
+## The problem
+
+Before PIA, getting a straight answer about last night's GOP meant opening four different modules inside the PMI platform, applying the right filter combination, and waiting for exports to load. General Managers at properties across the group were spending three to four hours per week just navigating reports — time taken away from running the property.
+
+The friction had four forms. **Manual navigation overload**: P&L, forecasts, GoGreen, and KPI data lived in separate screens with no unified view. **Support ticket drain**: a large share of incoming tickets were "how do I find X" questions — process queries, not real problems. **Silent data errors**: unmapped accounts and TKS departments skewed reports without any visible warning. And **context-switching cost**: by the time a GM had pulled the right numbers, the morning briefing had already started.
+
+> "By the time I'd pulled the right filter combination for our weekend F&B numbers, the morning briefing was already happening. I needed answers, not exports."
+>
+> — General Manager, Flagship Property · International Hotel Group · 250+ keys
+
+## The solution
+
+PIA (PMI Intelligent Assistant) is a conversational AI layer embedded directly in the PMI platform. GMs type questions in plain English — "What's my GOP vs. forecast this month?" — and receive streamed, cited answers in seconds, without leaving the platform.
+
+Six capabilities make up the system. **Instant Q&A** draws on live data and platform context to answer management questions conversationally. **Semantic knowledge search** indexes over 200 PMI knowledge articles with vector embeddings, surfacing citation links alongside every answer. **Module-scoped query templates** for Budget and Forecast, GoGreen, Live Forecast, and KPI Targets reduce the question to a single tap. **Screenshot and file analysis** lets GMs upload a P&L PDF, an Excel export, or a chart screenshot — GPT-4.1 Vision interprets and explains it. **Proactive data-quality alerts** surface unmapped accounts, pending TKS mappings, and stale import status in-chat before a GM acts on incomplete data. And **smart support escalation** raises a ticket with the full conversation attached when PIA can't resolve an issue — one click, no context lost.
+
+## How it works
+
+When a GM submits a question, the current PMI module context (Budget, GoGreen, Forecast) is automatically passed with the query. GPT-4.1 classifies the intent in milliseconds — general Q&A, import status check, mapping check, or support request — and routes to the right handler. Azure AI Search performs semantic and vector search across the knowledge base, filtered to the GM's active modules and property. GPT-4.1 then streams the answer character by character via Server-Sent Events, with citations linking back to source articles. Chat history is preserved in Cosmos DB per user. If the response doesn't resolve the issue, one click raises a support ticket with the full conversation pre-attached.
+
+## Before and after
+
+| Before PIA | After PIA | Metric |
+|---|---|---|
+| Open 3–4 modules, apply filters, wait for load | Ask one question in plain English | ~20 min to &lt;5 sec |
+| Call or email support for "how to find" questions | PIA answers with KB citations instantly | 87% resolved without ticket |
+| Silently wrong totals from unmapped accounts | Proactive data-quality alerts in chat | Detected same session |
+| Export PDF, open Excel, interpret manually | Upload file, PIA explains it | GPT-4.1 Vision, &lt;10 MB |
+| Support tickets missing context, slow resolution | One-click escalation with full chat history | Ticket context: automatic |
+
+## Results
+
+Outcomes measured over the first 90 days across participating properties: GMs reclaimed **3 hours per week** previously spent navigating modules and waiting for exports. **87% of support queries** were self-served by PIA's knowledge base without reaching the support team. Time to first answer dropped from 20+ minutes to **under 5 seconds**. GMs reported arriving at morning briefings with GOP, occupancy, and F&B numbers already verified — pulled conversationally.
+
+## Admin controls
+
+Chain-level admins configure PIA without developer involvement. GPT temperature, response length, nucleus sampling, and context window size (1–10 past messages) are all adjustable in the admin panel. System prompts, query library templates, welcome messages, and image analysis prompts are configurable per module and per property. Usage reporting exports to Excel by property, user, and month — including token counts and query volumes — for any date range.
