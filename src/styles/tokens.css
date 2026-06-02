@@ -22,6 +22,14 @@
   --tag-bg:        #e8f0fe;
   --tag-fg:        #1a73e8;
 
+  /* Luminous / data-viz ramp — the decorative gradient brand language.
+     Used only inside gradients (eyebrow dots, cover art, avatars, bars),
+     never as a flat UI color. Distinct tier from --accent on purpose. */
+  --viz-blue:      #3d7eff;
+  --viz-cyan:      #00d4e8;
+  --viz-green:     #00dd6a;
+  --viz-lime:      #8ce800;
+
   /* Dark surface system */
   --dark-surface:  #1E2127;
   --dark-card:     #262A31;

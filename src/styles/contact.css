@@ -439,7 +439,7 @@
   content: '';
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: #00dd6a;
+  background: var(--viz-green);
   flex-shrink: 0;
 }
 
@@ -494,7 +494,7 @@
 .cal-btn {
   display: block; text-align: center;
   padding: 10px;
-  background: linear-gradient(90deg, #1a73e8, #3d7eff);
+  background: linear-gradient(90deg, #1a73e8, var(--viz-blue));
   color: #fff; border-radius: 9999px;
   font-size: 13px; font-weight: 500;
   margin-top: 4px; cursor: pointer;

@@ -5,7 +5,7 @@
 .pv-step-num { width: 22px; height: 22px; border-radius: 50%; background: rgba(99,102,241,.2); border: 1px solid rgba(99,102,241,.3); font-size: 10px; font-weight: 700; color: #a5b4fc; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .pv-step-name { font-size: 12.5px; font-weight: 600; color: var(--dark-fg1); letter-spacing: -.01em; }
 .pv-step-sub { font-size: 10.5px; color: var(--dark-fg3); margin-top: 1px; }
-.pv-step-badge { margin-left: auto; font-family: var(--mono); font-size: 9.5px; padding: 2px 8px; border-radius: 9999px; background: rgba(0,221,106,.1); color: #00dd6a; flex-shrink: 0; }
+.pv-step-badge { margin-left: auto; font-family: var(--mono); font-size: 9.5px; padding: 2px 8px; border-radius: 9999px; background: rgba(0,221,106,.1); color: var(--viz-green); flex-shrink: 0; }
 .pv-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
 .pv-stat { background: var(--dark-card); border: 1px solid var(--dark-divider); border-radius: 10px; padding: 12px; }
 .pv-stat-num { font-family: var(--display); font-size: 18px; font-weight: 700; letter-spacing: -.03em; color: var(--dark-fg1); }
@@ -21,7 +21,7 @@
 .agent-node-name { font-size: 12px; font-weight: 600; color: var(--dark-fg1); letter-spacing: -.01em; }
 .agent-node-sub { font-size: 10px; color: var(--dark-fg3); margin-top: 1px; }
 .agent-node-status { margin-left: auto; font-family: var(--mono); font-size: 9px; padding: 2px 8px; border-radius: 9999px; }
-.status-done { background: rgba(0,221,106,.1); color: #00dd6a; }
+.status-done { background: rgba(0,221,106,.1); color: var(--viz-green); }
 .status-run { background: rgba(8,145,178,.15); color: #67e8f9; }
 .status-wait { background: rgba(255,255,255,.06); color: var(--dark-fg3); }
 .agent-arrow { display: flex; align-items: center; justify-content: center; color: var(--dark-fg3); font-size: 11px; padding: 2px 0; }
@@ -72,7 +72,7 @@
 .a-node { background: var(--dark-card); border: 1px solid var(--dark-divider); border-radius: 10px; padding: 12px 13px; }
 .a-node-name { font-size: 11.5px; font-weight: 600; color: var(--dark-fg1); letter-spacing: -.01em; }
 .a-node-sub { font-size: 10px; color: var(--dark-fg3); margin-top: 2px; }
-.a-node-live { display: flex; align-items: center; gap: 4px; font-size: 9.5px; color: #00dd6a; margin-top: 4px; }
+.a-node-live { display: flex; align-items: center; gap: 4px; font-size: 9.5px; color: var(--viz-green); margin-top: 4px; }
 .arch-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
 
 /* ══ DATA PIPELINE (Data Engineering) ══════════════════════ */
@@ -87,7 +87,7 @@
 .m-cell { background: var(--dark-card); border: 1px solid var(--dark-divider); border-radius: 10px; padding: 12px; }
 .m-num { font-family: var(--display); font-size: 18px; font-weight: 700; letter-spacing: -.03em; color: var(--dark-fg1); }
 .m-label { font-size: 10px; color: var(--dark-fg3); margin-top: 2px; }
-.live-dot { width: 6px; height: 6px; border-radius: 50%; background: #00dd6a; box-shadow: 0 0 6px rgba(0,221,106,.6); display: inline-block; margin-right: 4px; }
+.live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--viz-green); box-shadow: 0 0 6px rgba(0,221,106,.6); display: inline-block; margin-right: 4px; }
 
 /* ══ MODEL REGISTRY (Machine Learning) ═════════════════════ */
 .model-vis { background: var(--dark-surface); border-radius: 22px; padding: 32px; display: flex; flex-direction: column; gap: 14px; }
@@ -106,8 +106,8 @@
 
 /* ══ DEVICE VIS (IoT) ══════════════════════════════════════ */
 .device-vis { background: #0d1200; border-radius: 22px; padding: 32px; display: flex; flex-direction: column; gap: 14px; }
-.dv-label-iot { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #8ce800; display: flex; align-items: center; gap: 6px; }
-.pulse { width: 6px; height: 6px; border-radius: 50%; background: #8ce800; box-shadow: 0 0 6px rgba(140,232,0,.6); flex-shrink: 0; }
+.dv-label-iot { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--viz-lime); display: flex; align-items: center; gap: 6px; }
+.pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--viz-lime); box-shadow: 0 0 6px rgba(140,232,0,.6); flex-shrink: 0; }
 .device-map { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
 .dev-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 9px; padding: 10px 11px; cursor: pointer; transition: border-color .2s; }
 .dev-card.alert { border-color: rgba(255,120,80,.35); }
@@ -115,7 +115,7 @@
 .dev-id { font-family: var(--mono); font-size: 8.5px; color: rgba(255,255,255,.35); letter-spacing: .05em; }
 .dev-val { font-family: var(--display); font-size: 15px; font-weight: 700; color: #fff; letter-spacing: -.02em; }
 .dev-unit { font-size: 8.5px; color: rgba(255,255,255,.3); }
-.dev-status { font-size: 9px; color: #8ce800; display: flex; align-items: center; gap: 4px; margin-top: 2px; }
+.dev-status { font-size: 9px; color: var(--viz-lime); display: flex; align-items: center; gap: 4px; margin-top: 2px; }
 .dev-status.alert { color: rgba(255,120,80,.9); }
 .dev-status .dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
 .summary-row { display: flex; gap: 8px; }
