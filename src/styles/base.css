@@ -6,7 +6,10 @@ body  {
   color: var(--fg1);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  /* clip (not hidden): prevents horizontal overflow WITHOUT making body a
+     scroll container, which would break position:sticky (e.g. the work filter
+     bar) in Safari/Firefox. */
+  overflow-x: clip;
 }
 a   { text-decoration: none; color: inherit; cursor: pointer; }
 img, svg { display: block; }
