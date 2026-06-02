@@ -15,8 +15,10 @@ import Nav from '../components/nav/Nav.astro';
 import Footer from '../components/footer/Footer.astro';
 import MotionGlue from '../components/motion/MotionGlue.astro';
 
-interface Props { title: string; description?: string; accent?: string; }
-const { title, description = 'Production-grade AI for enterprise and growth-stage teams.', accent } = Astro.props;
+interface Props { title: string; description?: string; accent?: string; image?: string; }
+const { title, description = 'Production-grade AI for enterprise and growth-stage teams.', accent, image = '/assets/og-default.jpg' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(image, Astro.site);
 ---
 <!doctype html>
 <html lang="en">
@@ -26,12 +28,17 @@ const { title, description = 'Production-grade AI for enterprise and growth-stag
   <link rel="icon" type="image/svg+xml" href="/assets/veloxcore-logo-mark.svg" />
   <title>{title}</title>
   <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:site_name" content="Veloxcore" />
+  <meta property="og:image" content={ogImageURL} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageURL} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />

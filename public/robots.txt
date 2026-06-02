@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://veloxcore.com/sitemap-index.xml

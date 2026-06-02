@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
 import { readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
@@ -45,7 +46,7 @@ export default defineConfig({
   site,
   base,
   output: 'static',
-  integrations: [mdx(), basePathRewrite(BASE_PATH)],
+  integrations: [mdx(), sitemap(), basePathRewrite(BASE_PATH)],
   vite: {
     optimizeDeps: { include: ['lenis', 'motion'] },
   },
