@@ -53,8 +53,6 @@ This is not translation. A question asked in Arabic is embedded and searched aga
 
 Retrieval inside each index uses **semantic hybrid search**: dense vector similarity via an HNSW index combined with sparse keyword matching, then scored by Azure's semantic reranker on a 0–4 scale. Results below a configurable threshold are filtered before reaching the language model. This two-stage approach catches documents that keyword search misses and eliminates low-confidence results that a pure vector search might surface.
 
-![Diagram showing six language-specific Azure AI Search indexes feeding into a LangGraph ReAct orchestration layer, with DGACM Mini agent on the left and Athena Help Assistant on the right](/assets/blog/un-dgacm-multilingual-rag-chatbot-azure-arch.png)
-
 <h2 id="architecture">Under the hood</h2>
 
 The backend is a **FastAPI** application running Python 3.13, structured around a multi-agent orchestration layer built with **LangGraph**. Agent instantiation is handled by an `AgentFactory` that maps an `AgentType` enum to a concrete agent class.
