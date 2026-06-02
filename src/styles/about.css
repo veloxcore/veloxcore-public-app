@@ -179,7 +179,7 @@
 
 /* ── STORY ────────────────────────────────────────────── */
 .story {
-  padding: 96px 0;
+  padding: var(--section-y) 0;
   border-bottom: 1px solid var(--border);
 }
 .story-grid {
@@ -259,7 +259,7 @@
 
 /* ── PRINCIPLES ───────────────────────────────────────── */
 .principles {
-  padding: 96px 0;
+  padding: var(--section-y) 0;
   background: var(--canvas);
   border-bottom: 1px solid var(--border);
 }
@@ -322,7 +322,7 @@
 
 /* ── LEADERSHIP ───────────────────────────────────────── */
 .leadership {
-  padding: 96px 0;
+  padding: var(--section-y) 0;
   border-bottom: 1px solid var(--border);
 }
 .lead-header { margin-bottom: 64px; }
@@ -500,7 +500,7 @@
 /* ── AI PROOF ─────────────────────────────────────────── */
 .ai-proof {
   background: var(--dark-surface);
-  padding: 88px 0;
+  padding: var(--section-y) 0;
   border-bottom: 1px solid var(--dark-divider);
 }
 .ai-proof-inner {
@@ -662,7 +662,7 @@
 
 /* ── TEAM PHOTOS ──────────────────────────────────────── */
 .team-photos {
-  padding: 96px 0;
+  padding: var(--section-y) 0;
   background: #fff;
   border-bottom: 1px solid var(--border);
 }
@@ -709,7 +709,7 @@
 
 /* ── CULTURE / OUTINGS ────────────────────────────────── */
 .culture {
-  padding: 96px 0;
+  padding: var(--section-y) 0;
   background: var(--canvas);
   border-bottom: 1px solid var(--border);
 }
@@ -760,7 +760,7 @@
 /* ── CTA SECTION ─────────────────────────────────────── */
 .about-cta {
   background: var(--dark-surface);
-  padding: 88px 0;
+  padding: var(--section-y) 0;
 }
 .about-cta-inner {
   display: grid;

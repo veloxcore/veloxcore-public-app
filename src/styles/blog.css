@@ -94,7 +94,7 @@
 }
 
 /* ── SECTION SHELL ─────────────────────────────────────── */
-.blog-section { padding: 88px 0; }
+.blog-section { padding: var(--section-y) 0; }
 .blog-section + .blog-section { border-top: 1px solid var(--border); }
 .section-row {
   display: flex;

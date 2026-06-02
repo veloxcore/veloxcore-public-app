@@ -62,6 +62,21 @@
   --eic:  cubic-bezier(.785, .135, .15, .86);
   --eiqt: cubic-bezier(.77, 0, .175, 1);
 
+  /* Spacing scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+
+  /* Section vertical rhythm — canonical padding for standard content sections.
+     Was split 88/96 across pages; unified here. Bespoke heroes/bands keep
+     their own values. */
+  --section-y: 88px;
+
   /* Layout */
   --w: 1320px;
   --m: 48px;

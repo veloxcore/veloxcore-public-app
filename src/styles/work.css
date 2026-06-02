@@ -67,5 +67,5 @@
 .dot-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); flex-shrink: 0; }
 
 /* CTA band (work page variant — no side border, 1fr auto grid) */
-.cta-band { background: var(--dark-surface); padding: 88px 0; }
+.cta-band { background: var(--dark-surface); padding: var(--section-y) 0; }
 .cta-band .cta-inner { grid-template-columns: 1fr auto; gap: 64px; }
