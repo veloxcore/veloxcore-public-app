@@ -99,6 +99,7 @@
   border-top: 1px solid var(--border);
   padding: 8px var(--m) 20px;
   box-shadow: 0 22px 44px -18px rgba(26,28,28,.18);
+  max-height: calc(100dvh - 68px); overflow-y: auto;
 }
 .nav.nav-open .nav-mobile { display: flex; }
 .nav-mobile a {
@@ -106,6 +107,12 @@
   border-bottom: 1px solid var(--border); letter-spacing: -.01em;
 }
 .nav-mobile a:last-of-type { border-bottom: none; }
+.nav-mobile-label {
+  padding: 16px 6px 4px; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .08em; color: var(--fg3);
+}
+.nav-mobile a.nav-mobile-sub { padding: 11px 6px 11px 18px; font-size: 15px; color: var(--fg2); }
+.nav-mobile a.nav-mobile-all { color: var(--accent); font-weight: 500; }
 .nav-mobile-cta {
   margin-top: 14px; background: var(--fg1); color: #fff !important;
   border-radius: 9999px; text-align: center; font-weight: 500;
