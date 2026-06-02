@@ -20,7 +20,7 @@
   --accent:        #1a73e8;
   --accent-soft:   #adc6ff;
   --tag-bg:        #e8f0fe;
-  --tag-fg:        #1a73e8;
+  --tag-fg:        #1668d4; /* darker than --accent for WCAG AA on --tag-bg (4.6:1) */
 
   /* Luminous / data-viz ramp — the decorative gradient brand language.
      Used only inside gradients (eyebrow dots, cover art, avatars, bars),
