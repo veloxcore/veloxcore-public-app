@@ -122,6 +122,7 @@ const services = defineCollection({
     ctaSub: z.string(),
     pricingH: z.string().optional(),
     pricing: z.array(priceCard).optional(),
+    showBento: z.boolean().optional(),
   }),
 });
 

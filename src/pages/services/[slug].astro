@@ -10,6 +10,7 @@ import ServiceProof from '../../components/services/ServiceProof.astro';
 import ServiceFaq from '../../components/services/ServiceFaq.astro';
 import ServicePricing from '../../components/services/ServicePricing.astro';
 import { visualMap } from '../../components/services/visuals/index.ts';
+import BentoGrid from '../../components/sections/BentoGrid.astro';
 
 export async function getStaticPaths() {
   const services = await getCollection('services');
@@ -25,6 +26,7 @@ const Visual = visualMap[d.visual];
   <ServiceWho whoH={d.whoH} whoSub={d.whoSub} who={d.who} />
   <ServiceDeliver deliverH={d.deliverH} deliverSub={d.deliverSub} deliver={d.deliver} Visual={Visual} />
   <ServiceApproach approachH={d.approachH} approach={d.approach} />
+  {d.showBento && <BentoGrid />}
   {d.pricing && <ServicePricing pricingH={d.pricingH} pricing={d.pricing} />}
   <ServiceTech techH={d.techH} techSub={d.techSub} tech={d.tech} />
   {d.proof && <ServiceProof proofH={d.proofH} ctaGradient={d.ctaGradient} proof={d.proof} />}

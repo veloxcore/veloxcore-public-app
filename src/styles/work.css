@@ -17,14 +17,14 @@
 .hnum-label { font-size: 12px; color: var(--fg3); margin-top: 4px; letter-spacing: -.005em; }
 
 /* Filter bar */
-.filter-section { padding: 36px 0; border-bottom: 1px solid var(--border); background: var(--canvas); position: sticky; top: 68px; z-index: 20; }
-.filter-inner { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
-.filter-label { font-size: 13px; color: var(--fg3); font-weight: 500; flex-shrink: 0; letter-spacing: -.005em; }
+.filter-section { padding: 20px 0; border-bottom: 1px solid var(--border); background: var(--canvas); position: sticky; top: 68px; z-index: 20; }
+.filter-row { display: flex; align-items: center; gap: 16px; }
+.filter-row + .filter-row { margin-top: 10px; }
+.filter-label { font-size: 11.5px; color: var(--fg3); font-weight: 500; flex-shrink: 0; letter-spacing: .02em; text-transform: uppercase; width: 76px; }
 .filter-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.fpill { display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 9999px; font-size: 13px; border: 1.5px solid var(--border-strong); color: var(--fg2); background: #fff; cursor: pointer; transition: all .15s; letter-spacing: -.005em; }
+.fpill { display: inline-flex; align-items: center; padding: 5px 14px; border-radius: 9999px; font-size: 13px; border: 1.5px solid var(--border-strong); color: var(--fg2); background: #fff; cursor: pointer; transition: all .15s; letter-spacing: -.005em; }
 .fpill:hover { border-color: var(--fg1); color: var(--fg1); }
 .fpill.active { background: var(--fg1); color: #fff; border-color: var(--fg1); font-weight: 500; }
-.filter-divider { width: 1px; height: 20px; background: var(--border-strong); flex-shrink: 0; }
 
 /* Case studies section */
 .cs-section { padding: 72px 0 96px; }

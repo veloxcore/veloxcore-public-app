@@ -40,3 +40,31 @@ import BrandMark from '../ui/BrandMark.astro';
     <a class="nav-cta" href="/contact">Book a call<span class="nav-cta-ico"><svg viewBox="0 0 8 8"><polyline points="1 4 4 7 7 4"></polyline><line x1="4" y1="1" x2="4" y2="7"></line></svg></span></a>
   </div>
 </nav>
+
+<script is:inline>
+  (function () {
+    var nav = document.querySelector('.nav');
+    if (!nav) return;
+    var lastY = window.scrollY;
+    var ticking = false;
+    function update() {
+      var y = window.scrollY;
+      var delta = y - lastY;
+      if (Math.abs(delta) > 4) {
+        if (delta > 0 && y > 80) {
+          nav.classList.add('nav--hidden');
+        } else if (delta < 0) {
+          nav.classList.remove('nav--hidden');
+        }
+        lastY = y;
+      }
+      ticking = false;
+    }
+    update();
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    }, { passive: true });
+  })();
+</script>
