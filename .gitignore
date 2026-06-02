@@ -4,3 +4,7 @@ dist/
 test-results/
 playwright-report/
 .worktrees/
+.design-import/
+.gstack/
+.cate/
+tmp/
