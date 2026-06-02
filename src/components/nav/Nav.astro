@@ -63,8 +63,10 @@ import BrandMark from '../ui/BrandMark.astro';
       if (Math.abs(delta) > 4) {
         if (delta > 0 && y > 80) {
           nav.classList.add('nav--hidden');
+          document.documentElement.classList.add('nav-hidden');
         } else if (delta < 0) {
           nav.classList.remove('nav--hidden');
+          document.documentElement.classList.remove('nav-hidden');
         }
         lastY = y;
       }
