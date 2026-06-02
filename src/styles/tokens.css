@@ -43,6 +43,19 @@
   --sans:    'Google Sans Flex', system-ui, sans-serif;
   --mono:    'JetBrains Mono', monospace;
 
+  /* Type scale (whole-px) — the small/UI working scale. Display/hero sizes
+     stay per-page (intentional one-off moments, not part of the scale). */
+  --text-3xs:  10px;
+  --text-2xs:  11px;
+  --text-xs:   12px;
+  --text-sm:   13px;
+  --text-base: 14px;
+  --text-md:   15px;
+  --text-lg:   16px;
+  --text-xl:   18px;
+  --text-2xl:  20px;
+  --text-3xl:  24px;
+
   /* Easing */
   --eq:   cubic-bezier(.25, .46, .45, .94);
   --eqt:  cubic-bezier(.165, .84, .44, 1);

@@ -20,7 +20,7 @@
 .filter-section { padding: 20px 0; border-bottom: 1px solid var(--border); background: var(--canvas); position: sticky; top: 68px; z-index: 20; }
 .filter-row { display: flex; align-items: center; gap: 16px; }
 .filter-row + .filter-row { margin-top: 10px; }
-.filter-label { font-size: 11.5px; color: var(--fg3); font-weight: 500; flex-shrink: 0; letter-spacing: .02em; text-transform: uppercase; width: 76px; }
+.filter-label { font-size: 11px; color: var(--fg3); font-weight: 500; flex-shrink: 0; letter-spacing: .02em; text-transform: uppercase; width: 76px; }
 .filter-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .fpill { display: inline-flex; align-items: center; padding: 5px 14px; border-radius: 9999px; font-size: 13px; border: 1.5px solid var(--border-strong); color: var(--fg2); background: #fff; cursor: pointer; transition: all .15s; letter-spacing: -.005em; }
 .fpill:hover { border-color: var(--fg1); color: var(--fg1); }
@@ -58,7 +58,7 @@
 .cs-card-eyebrow { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--fg3); margin-bottom: 2px; }
 .cs-card-h { font-family: var(--display); font-size: 18px; font-weight: 600; letter-spacing: -.025em; line-height: 25px; color: var(--fg1); text-wrap: pretty; }
 .cs-card:hover .cs-card-h { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--border-strong); }
-.cs-card-desc { font-size: 13.5px; line-height: 21px; color: var(--fg2); text-wrap: pretty; }
+.cs-card-desc { font-size: 14px; line-height: 21px; color: var(--fg2); text-wrap: pretty; }
 .cs-card-nums { display: flex; gap: 18px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border); }
 .cs-card-num { display: flex; flex-direction: column; gap: 2px; }
 .cs-card-num-val { font-family: var(--display); font-size: 18px; font-weight: 700; letter-spacing: -.03em; color: var(--fg1); }
