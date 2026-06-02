@@ -122,3 +122,8 @@
 .sum-cell { flex: 1; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07); border-radius: 9px; padding: 12px; }
 .sum-num { font-family: var(--display); font-size: 20px; font-weight: 700; letter-spacing: -.03em; color: #fff; }
 .sum-label { font-size: 10px; color: rgba(255,255,255,.35); margin-top: 2px; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .device-map { grid-template-columns: repeat(2, 1fr); }
+}

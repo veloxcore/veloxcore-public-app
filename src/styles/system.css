@@ -77,6 +77,46 @@
   stroke-linecap: round; stroke-linejoin: round;
 }
 
+/* ── MOBILE NAV (hamburger) ─────────────────────────────────── */
+.nav-burger {
+  display: none; margin-left: auto;
+  flex-direction: column; justify-content: center; gap: 5px;
+  width: 42px; height: 42px; border-radius: 10px; background: transparent;
+}
+.nav-burger span {
+  display: block; width: 20px; height: 2px; margin: 0 auto;
+  background: var(--fg1); border-radius: 2px;
+  transition: transform .25s var(--eqt), opacity .25s;
+}
+.nav.nav-open .nav-burger span:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
+.nav.nav-open .nav-burger span:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg); }
+.nav-mobile {
+  display: none; position: absolute; top: 68px; left: 0; right: 0;
+  flex-direction: column; gap: 0;
+  background: rgba(255,255,255,.97);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border-top: 1px solid var(--border);
+  padding: 8px var(--m) 20px;
+  box-shadow: 0 22px 44px -18px rgba(26,28,28,.18);
+}
+.nav.nav-open .nav-mobile { display: flex; }
+.nav-mobile a {
+  padding: 14px 6px; font-size: 16px; color: var(--fg1);
+  border-bottom: 1px solid var(--border); letter-spacing: -.01em;
+}
+.nav-mobile a:last-of-type { border-bottom: none; }
+.nav-mobile-cta {
+  margin-top: 14px; background: var(--fg1); color: #fff !important;
+  border-radius: 9999px; text-align: center; font-weight: 500;
+  border-bottom: none !important; padding: 14px !important;
+}
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-cta   { display: none; }
+  .nav-burger { display: flex; }
+}
+
 /* ── PAGE EYEBROW ──────────────────────────────────────────── */
 .page-eyebrow {
   display: inline-flex; align-items: center; gap: 10px;
@@ -501,3 +541,33 @@
 .nd-small { min-width: 220px; }
 .nav-item .chev { transition: transform .15s; }
 .nav-item:hover .chev { transform: rotate(180deg); }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────
+   Service-template breakpoints. Collapse multi-column section grids
+   and scale hero/display type so content fits small screens. */
+@media (max-width: 1024px) {
+  .hero-inner    { grid-template-columns: 1fr; gap: 48px; }
+  /* scoped under .hero-inner so it beats home.css's global .hero-h1 (imported later) */
+  .hero-inner .hero-h1 { font-size: 56px; line-height: 60px; }
+  .persona-grid  { grid-template-columns: repeat(2, 1fr); }
+  .approach-grid { grid-template-columns: repeat(2, 1fr); }
+  .tech-grid     { grid-template-columns: repeat(2, 1fr); }
+  .proof-grid    { grid-template-columns: 1fr; }
+  .faq-grid      { grid-template-columns: 1fr; gap: 40px; }
+  .cta-inner     { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (max-width: 640px) {
+  .hero          { padding: 116px 0 56px; }
+  .hero-inner .hero-h1  { font-size: 40px; line-height: 44px; letter-spacing: -.04em; }
+  .hero-inner .hero-sub { font-size: 16px; line-height: 26px; }
+  .hero-right    { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .hero-right > *, .h-kpi { min-width: 0; }
+  .persona-grid  { grid-template-columns: 1fr; gap: 14px; }
+  .deliver-grid  { grid-template-columns: 1fr; gap: 32px; }
+  .approach-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 32px; }
+  .tech-grid     { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tech-h        { font-size: 32px; }
+  .tech-sub      { font-size: 15px; margin-bottom: 32px; }
+  /* desktop hover dropdown must not force overflow on phones */
+  .nav-dropdown  { min-width: 0; max-width: calc(100vw - 32px); }
+}

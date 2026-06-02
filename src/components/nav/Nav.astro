@@ -38,6 +38,16 @@ import BrandMark from '../ui/BrandMark.astro';
       </div>
     </div>
     <a class="nav-cta" href="/contact">Book a call<span class="nav-cta-ico"><svg viewBox="0 0 8 8"><polyline points="1 4 4 7 7 4"></polyline><line x1="4" y1="1" x2="4" y2="7"></line></svg></span></a>
+    <button class="nav-burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navMobile"><span></span><span></span></button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="/services">Services</a>
+    <a href="https://veloxhire.ai" target="_blank" rel="noopener">Products</a>
+    <a href="/work">Work</a>
+    <a href="/about">About</a>
+    <a href="/blog">Blog</a>
+    <a href="/contact">Contact</a>
+    <a class="nav-mobile-cta" href="/contact">Book a call</a>
   </div>
 </nav>
 
@@ -66,5 +76,20 @@ import BrandMark from '../ui/BrandMark.astro';
       ticking = true;
       requestAnimationFrame(update);
     }, { passive: true });
+
+    // Mobile menu toggle
+    var burger = nav.querySelector('.nav-burger');
+    if (burger) {
+      burger.addEventListener('click', function () {
+        var open = nav.classList.toggle('nav-open');
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      nav.querySelectorAll('.nav-mobile a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          nav.classList.remove('nav-open');
+          burger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
   })();
 </script>

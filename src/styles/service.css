@@ -63,3 +63,11 @@
 .price-cta-dark:hover { opacity: .86; }
 .price-cta-soft { background: #f1f3f4; color: var(--fg1); }
 .price-cta-soft:hover { background: #e8eaed; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .pricing-grid { grid-template-columns: 1fr; gap: 16px; max-width: 480px; margin: 0 auto; }
+}
+@media (max-width: 640px) {
+  .pricing-h { font-size: 30px; margin-bottom: 32px; }
+}

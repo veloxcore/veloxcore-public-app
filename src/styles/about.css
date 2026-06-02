@@ -818,3 +818,22 @@
   transition: background .15s;
 }
 .btn-ghost:hover { background: rgba(255,255,255,.14); }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .about-hero .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  .story-grid     { grid-template-columns: 1fr; }
+  .principles-grid{ grid-template-columns: repeat(2, 1fr); }
+  .founders-grid  { grid-template-columns: 1fr; }
+  .team-grid      { grid-template-columns: repeat(2, 1fr); }
+  .ai-proof-inner { grid-template-columns: 1fr; }
+  .tp-grid        { grid-template-columns: 1fr; }
+  .culture-strip  { grid-template-columns: repeat(2, 1fr); }
+  .culture-wide   { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .about-hero .hero-h1 { font-size: 40px; line-height: 44px; letter-spacing: -.03em; }
+  .hero-stat-row  { grid-template-columns: 1fr 1fr; }
+  .principles-grid{ grid-template-columns: 1fr; }
+  .ai-metrics     { grid-template-columns: repeat(3, 1fr); }
+}

@@ -363,3 +363,22 @@
 @media (prefers-reduced-motion:reduce) {
   .bento-section [style*="animation"] { animation:none !important; }
 }
+
+/* ── RESPONSIVE (content sections) ──────────────────────────── */
+@media (max-width: 640px) {
+  .hero-grid     { grid-template-columns: 1fr; gap: 40px; }
+  .device-content{ grid-template-columns: 1fr; }
+  .pillars       { grid-template-columns: 1fr; gap: 16px; }
+  .wp-featured   { grid-template-columns: 1fr; }
+  .wp-grid       { grid-template-columns: 1fr; gap: 16px; }
+  .feature-grid  { grid-template-columns: 1fr; gap: 40px; }
+  .feature-stats { gap: 32px; flex-wrap: wrap; }
+  .blog-grid     { grid-template-columns: 1fr; gap: 20px; }
+  .hero-acts     { flex-wrap: wrap; }
+  .cta-acts      { flex-wrap: wrap; }
+  .code-panel    { overflow-x: auto; }
+  .hero-h1       { font-size: 44px; line-height: 48px; }
+  .sec-h2        { font-size: 36px; line-height: 40px; }
+  .feature h2    { font-size: 34px; line-height: 38px; }
+  .cta h2        { font-size: 44px; line-height: 48px; }
+}

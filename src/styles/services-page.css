@@ -249,3 +249,48 @@
 .cta-card { background: var(--dark-card); border: 1px solid var(--dark-divider); border-radius: 16px; padding: 24px; }
 .cta-card-num { font-family: var(--display); font-size: 32px; font-weight: 800; letter-spacing: -.04em; color: var(--dark-fg1); }
 .cta-card-label { font-size: 13px; color: var(--dark-fg3); margin-top: 4px; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────
+   Services hub + service-detail sections. */
+@media (max-width: 1024px) {
+  .si-hero-inner   { grid-template-columns: 1fr; gap: 48px; padding-bottom: 64px; }
+  .page-hero .hero-h1 { font-size: 56px; line-height: 60px; }
+  .svc-grid        { grid-template-columns: 1fr; gap: 48px; }
+  .svc-grid.flip   { direction: ltr; }
+  .platform-grid   { grid-template-columns: repeat(2, 1fr); }
+  .test-grid       { grid-template-columns: repeat(2, 1fr); }
+  .prod-grid       { grid-template-columns: 1fr; }
+  .steps           { grid-template-columns: 1fr; gap: 12px; }
+  .step            { border-radius: 16px !important; }
+  .step::after, .step-arr { display: none; }
+}
+@media (max-width: 640px) {
+  .page-hero       { padding-top: 112px; }
+  .page-hero .hero-h1 { font-size: 40px; line-height: 44px; letter-spacing: -.04em; }
+  .page-hero .hero-sub { font-size: 16px; line-height: 26px; }
+  .si-hero-inner   { gap: 36px; padding-bottom: 48px; }
+  .svc-grid        { gap: 32px; }
+  .svc-h2          { font-size: 30px; line-height: 36px; }
+  .svc-desc        { font-size: 15px; line-height: 26px; }
+  .panel-analytics, .panel-viz, .panel-arch, .panel-ml, .panel-iot, .panel-dotnet { padding: 22px; min-height: 0; }
+  .arch-nodes      { grid-template-columns: repeat(2, 1fr); }
+  .iot-map         { grid-template-columns: repeat(2, 1fr); }
+  .code-body       { overflow-x: auto; }
+  .code-body pre   { font-size: 12px; }
+  .platform-grid   { grid-template-columns: 1fr; }
+  .platform-h      { font-size: 28px; }
+  .platform-sub    { margin-bottom: 32px; }
+  .process-h       { font-size: 32px; }
+  .process-sub     { margin-bottom: 40px; }
+  .step            { padding: 28px 24px; }
+  .step-num        { font-size: 40px; margin-bottom: 14px; }
+  .prod-h          { font-size: 32px; line-height: 38px; }
+  .prod-sub        { margin-bottom: 36px; }
+  .prod-name       { font-size: 30px; }
+  .prod-featured-top { padding: 28px 24px 0; }
+  .prod-future     { min-height: 0; padding: 36px 24px; }
+  .test-grid       { grid-template-columns: 1fr; }
+  .test-h          { font-size: 30px; margin-bottom: 32px; }
+  .test-card       { padding: 24px; }
+  .cta-section--cards .cta-inner { grid-template-columns: 1fr; gap: 40px; }
+}

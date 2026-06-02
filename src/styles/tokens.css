@@ -81,3 +81,13 @@
   --w: 1320px;
   --m: 48px;
 }
+
+/* ── RESPONSIVE TOKEN OVERRIDES ─────────────────────────────────
+   Shrink the container gutter and section rhythm at smaller widths.
+   Every .wrap and section using these tokens adapts automatically. */
+@media (max-width: 1024px) {
+  :root { --m: 32px; --section-y: 72px; }
+}
+@media (max-width: 640px) {
+  :root { --m: 20px; --section-y: 56px; }
+}

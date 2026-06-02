@@ -91,3 +91,14 @@
 .related-all { margin-top: 28px; text-align: center; }
 .related-all a { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--fg1); padding: 12px 24px; border: 1.5px solid var(--border-strong); border-radius: 9999px; transition: border-color .15s; }
 .related-all a:hover { border-color: var(--fg1); }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .article-grid  { grid-template-columns: 1fr; gap: 48px; padding: 48px 0 72px; }
+  .arch-metrics  { grid-template-columns: repeat(2, 1fr); }
+  .related-grid  { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .meta-inner    { display: flex; flex-wrap: wrap; gap: 12px 20px; }
+  .outcomes-grid { grid-template-columns: 1fr; }
+}
