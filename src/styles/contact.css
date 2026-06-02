@@ -35,7 +35,7 @@
 
 /* Hero entrance animations (path-cards) */
 .path-cards {
-  animation: pop-in .8s .60s cubic-bezier(.785,.135,.15,.86) both;
+  animation: pop-in .8s .60s var(--eic) both;
 }
 
 /* ── PATH CARDS ────────────────────────────────────────────── */

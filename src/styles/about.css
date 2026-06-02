@@ -175,7 +175,7 @@
 .about-hero .page-eyebrow { animation: about-hero-up .6s .12s var(--eqt) both; }
 .about-hero .hero-h1      { animation: about-hero-up .7s .28s var(--eqt) both; }
 .about-hero .hero-sub     { animation: about-hero-up .7s .44s var(--eqt) both; }
-.about-hero .hero-right   { animation: about-pop-in .8s .70s cubic-bezier(.785,.135,.15,.86) both; }
+.about-hero .hero-right   { animation: about-pop-in .8s .70s var(--eic) both; }
 
 /* ── STORY ────────────────────────────────────────────── */
 .story {

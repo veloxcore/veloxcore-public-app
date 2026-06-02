@@ -61,6 +61,7 @@
   --eqt:  cubic-bezier(.165, .84, .44, 1);
   --eic:  cubic-bezier(.785, .135, .15, .86);
   --eiqt: cubic-bezier(.77, 0, .175, 1);
+  --ebounce: cubic-bezier(.34, 1.36, .64, 1); /* springy entrance/pop overshoot */
 
   /* Spacing scale */
   --space-1:  4px;

@@ -42,3 +42,17 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 .blog-card.reveal.visible { opacity:1; transform:none; }
 .scale-enter { opacity:0; transform:scale(0.9); transition:transform 700ms var(--eic), opacity 500ms var(--eqt); }
 .scale-enter.in-view { opacity:1; transform:none; }
+
+/* ── REDUCED MOTION ─────────────────────────────────────────────
+   Global safety net: honour the OS preference everywhere, not just in
+   components that opted in. .01ms (not 0) lets transitionend still fire
+   and `both`-filled animations land on their end state (content stays shown). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html { scroll-behavior: auto; }
+}

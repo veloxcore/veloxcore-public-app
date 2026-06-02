@@ -9,7 +9,7 @@
   -webkit-backdrop-filter: blur(20px) saturate(1.6);
   border-bottom: none;
   transform: translateY(0);
-  transition: transform .32s cubic-bezier(.165,.84,.44,1);
+  transition: transform .32s var(--eqt);
 }
 .nav--hidden { animation: none !important; transform: translateY(-100%) !important; }
 .nav-inner {
@@ -417,7 +417,7 @@
 /* Right column */
 .hero-right {
   display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-  animation: pop-in .8s .72s cubic-bezier(.785,.135,.15,.86) both;
+  animation: pop-in .8s .72s var(--eic) both;
 }
 
 /* KPI cards */

@@ -18,13 +18,13 @@
 /* Entrances */
 .nav        { animation:nav-in 0.5s var(--eqt) both; }
 .nav-cta    { animation:hero-up .5s .35s var(--eqt) both; }
-.brand .mark{ animation:mark-spin 0.6s 0.1s cubic-bezier(.34,1.2,.64,1) both; }
+.brand .mark{ animation:mark-spin 0.6s 0.1s var(--ebounce) both; }
 .hero-tag   { animation:hero-up 0.6s 0.15s var(--eqt) both; }
 .hero-h1    { animation:hero-up 0.7s 0.28s var(--eqt) both; }
 .hero-sub   { animation:hero-up 0.7s 0.44s var(--eqt) both; }
 .hero-acts  { animation:hero-up 0.6s 0.58s var(--eqt) both; }
 .hero-device{ animation:pop-in  0.8s 0.7s  var(--eic)  both; }
-.float-chip { animation:pop-in  0.6s 1.1s  cubic-bezier(.34,1.36,.64,1) both, float-bob 4s 1.8s ease-in-out infinite; }
+.float-chip { animation:pop-in  0.6s 1.1s  var(--ebounce) both, float-bob 4s 1.8s ease-in-out infinite; }
 .stream-fill{ animation:bar-fill 1.2s var(--eqt) both; }
 .stream:nth-child(1) .stream-fill { animation-delay:.9s }
 .stream:nth-child(2) .stream-fill { animation-delay:1.1s }
