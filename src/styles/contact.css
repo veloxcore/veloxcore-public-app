@@ -588,3 +588,11 @@
 @media (max-width: 640px) {
   .intent-row { grid-template-columns: 1fr; }
 }
+
+.contact-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+}

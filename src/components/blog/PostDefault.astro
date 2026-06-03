@@ -13,6 +13,14 @@ const tagCls = TAG_MAP[d.tag] ?? 'tag-azure';
   style={d.coverImage
     ? `background-image:url(${d.coverImage});background-size:cover;background-position:center`
     : `background:var(--dark-surface)`}>
+  {d.coverImage && (
+    <img
+      src={d.coverImage}
+      alt=""
+      loading="eager"
+      style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;"
+    />
+  )}
 </div>
 
 <div class="bp-content">
@@ -22,7 +30,7 @@ const tagCls = TAG_MAP[d.tag] ?? 'tag-azure';
   <div class="bp-tag-row"><span class={`tag ${tagCls}`}>{d.tag}</span></div>
   <h1 class="bp-h1">{d.title}</h1>
   <div class="bp-meta">
-    <div class="bp-avatar"></div>
+    <div class="bp-avatar">{(() => { const p = (post.data.author ?? '').split(' '); return (p[0]?.[0] ?? '') + (p[1]?.[0] ?? ''); })()}</div>
     <span style="font-weight:500;color:var(--fg1)">{d.author}</span>
     <span>·</span><span>{fmt(d.date)}</span>
     {d.readTime && <><span>·</span><span>{d.readTime} read</span></>}

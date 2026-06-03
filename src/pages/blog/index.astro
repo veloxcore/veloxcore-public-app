@@ -37,14 +37,16 @@ const cats = [...new Set(posts.map(p => tagOf(p.data.tag).slug))];
       <div class="blog-page-eyebrow">From the blog</div>
       <h1>Ideas on AI,<br>cloud &amp; engineering.</h1>
       <p>Deep dives from the Veloxcore team on production AI, LLMs, agents, RAG, and the Azure infrastructure behind it all.</p>
-      <div class="filter-bar" id="filter-bar">
-        <button class="filter-pill active" data-filter="all">All posts</button>
-        {cats.map(slug => (
-          <button class="filter-pill" data-filter={slug}>
-            {posts.find(p => tagOf(p.data.tag).slug === slug)?.data.tag}
-          </button>
-        ))}
-      </div>
+      {posts.length >= 5 && (
+        <div class="filter-bar" id="filter-bar">
+          <button class="filter-pill active" data-filter="all">All posts</button>
+          {cats.map(slug => (
+            <button class="filter-pill" data-filter={slug}>
+              {posts.find(p => tagOf(p.data.tag).slug === slug)?.data.tag}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   </header>
 
@@ -66,7 +68,7 @@ const cats = [...new Set(posts.map(p => tagOf(p.data.tag).slug))];
           {hero.data.excerpt && <p class="excerpt">{hero.data.excerpt}</p>}
           <div class="hero-meta">
             <div style="display:flex;align-items:center;gap:8px">
-              <div class="hero-avatar"></div>
+              <div class="hero-avatar">{(() => { const p = (hero.data.author ?? '').split(' '); return (p[0]?.[0] ?? '') + (p[1]?.[0] ?? ''); })()}</div>
               <span>{hero.data.author}</span>
             </div>
             <span>·</span>
