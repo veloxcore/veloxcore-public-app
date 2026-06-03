@@ -73,6 +73,12 @@
   --space-7:  48px;
   --space-8:  64px;
 
+  /* Border-radius scale */
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  20px;
+  --radius-xl:  28px;
+
   /* Section vertical rhythm — canonical padding for standard content sections.
      Was split 88/96 across pages; unified here. Bespoke heroes/bands keep
      their own values. */
