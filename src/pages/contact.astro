@@ -10,25 +10,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="hero-inner">
         <div class="page-eyebrow">Get in touch</div>
         <h1 class="hero-h1">Let's talk about<br>your AI project.</h1>
-        <p class="hero-sub">Pick your path. Book a quick call with one of our engineers — or send us the details and we'll come back with a project estimate within 48 hours.</p>
-        <div class="path-cards">
-          <div class="path-card primary" id="card-call">
-            <div class="path-card-badge">Fastest</div>
-            <div class="path-card-ico" style="background:rgba(255,255,255,.15);color:#fff">
-              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.27 10a19.79 19.79 0 01-3.07-8.67A2 2 0 013.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>
-            </div>
-            <div class="path-card-title">Book a free call</div>
-            <div class="path-card-desc">45 minutes with a senior engineer. No sales pitch — just an honest look at your problem. Pick a slot that works for you.</div>
-            <div class="path-card-cta">Choose a time <span class="path-card-arrow"><svg viewBox="0 0 10 10"><line x1="2" y1="8" x2="8" y2="2"/><polyline points="4 2 8 2 8 6"/></svg></span></div>
-          </div>
-          <div class="path-card secondary" id="card-estimate">
-            <div class="path-card-ico" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)">
-              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-            </div>
-            <div class="path-card-title">Get a project estimate</div>
-            <div class="path-card-desc">Tell us what you're building. We'll scope the work, advise on architecture, and send you a written estimate — no obligation.</div>
-            <div class="path-card-cta">Fill in the brief <span class="path-card-arrow"><svg viewBox="0 0 10 10"><line x1="2" y1="8" x2="8" y2="2"/><polyline points="4 2 8 2 8 6"/></svg></span></div>
-          </div>
+        <p class="hero-sub">Book a free call with a senior engineer, or send us your brief and we'll come back with a project estimate within 48 hours.</p>
+        <div class="hero-acts">
+          <a class="btn-dark" href="#contact-form">Get in touch</a>
+          <a class="btn-soft" href="#contact-form">Request an estimate</a>
         </div>
       </div>
     </div>
@@ -41,6 +26,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
         <!-- FORM AREA -->
         <div class="form-wrap reveal">
+          <div class="contact-intent">
+  <p class="contact-intent-label">How can we help?</p>
+  <div class="intent-row">
+    <button type="button" class="intent-opt active" data-tab="call">
+      <span class="intent-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.27 10a19.79 19.79 0 01-3.07-8.67A2 2 0 013.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg></span>
+      <span class="intent-label">Book a call</span>
+      <span class="intent-desc">45 min with an engineer</span>
+    </button>
+    <button type="button" class="intent-opt" data-tab="estimate">
+      <span class="intent-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+      <span class="intent-label">Get an estimate</span>
+      <span class="intent-desc">Project brief + written quote</span>
+    </button>
+    <button type="button" class="intent-opt" data-tab="general">
+      <span class="intent-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
+      <span class="intent-label">General enquiry</span>
+      <span class="intent-desc">Press, partnerships, other</span>
+    </button>
+  </div>
+</div>
           <div class="form-tabs">
             <div class="form-tab active" id="tab-call">Book a call</div>
             <div class="form-tab" id="tab-estimate">Get an estimate</div>
@@ -362,6 +367,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </div>
 
 </BaseLayout>
+
+<script is:inline>
+(function () {
+  var intentBtns = document.querySelectorAll('.intent-opt');
+  intentBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      intentBtns.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var tab = btn.dataset.tab;
+      var formTab = document.getElementById('tab-' + tab);
+      if (formTab) formTab.click();
+    });
+  });
+})();
+</script>
 
 <script>
 (function(){
