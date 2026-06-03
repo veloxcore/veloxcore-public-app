@@ -465,7 +465,7 @@
 .persona-role { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: 12px; }
 .persona-title { font-family: var(--display); font-size: 18px; font-weight: 700; letter-spacing: -.025em; color: var(--fg1); margin-bottom: 8px; }
 .persona-pain { font-size: 14px; line-height: 22px; color: var(--fg2); margin-bottom: 14px; }
-.persona-quote { font-size: 14px; color: var(--fg1); font-style: italic; padding: 10px 14px; background: #fff; border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; }
+.persona-quote { font-size: 14px; color: var(--fg1); padding: 10px 14px; background: rgba(0,0,0,.03); border-radius: 8px; }
 
 /* Deliver */
 .deliver { padding: var(--section-y) 0; background: var(--canvas); border-bottom: 1px solid var(--border); }
