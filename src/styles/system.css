@@ -358,12 +358,6 @@
     radial-gradient(ellipse 40% 50% at 5% 80%,  rgba(0,212,232,.05)  0%, transparent 55%);
   pointer-events: none;
 }
-.hero::after {
-  content: ''; position: absolute; inset: 0;
-  background-image: radial-gradient(circle, rgba(26,28,28,.055) 1px, transparent 1px);
-  background-size: 28px 28px;
-  pointer-events: none;
-}
 
 /* Inner two-column grid */
 .hero-inner {
