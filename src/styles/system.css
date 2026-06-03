@@ -482,10 +482,8 @@
 /* Approach */
 .approach { padding: var(--section-y) 0; border-bottom: 1px solid var(--border); }
 .approach-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; margin-top: 48px; }
-.ap-step { background: var(--canvas); border: 1px solid var(--border); border-radius: 20px; padding: 28px; transition: border-color .2s, box-shadow .2s; }
-.ap-step:hover { border-color: var(--border-strong); box-shadow: 0 6px 24px -10px rgba(26,28,28,.1); }
-.ap-num { font-family: var(--display); font-size: 48px; font-weight: 900; letter-spacing: -.06em; color: var(--border-strong); line-height: 1; margin-bottom: 16px; transition: color .2s; }
-.ap-step:hover .ap-num { color: var(--accent); }
+.ap-step { background: var(--canvas); border: 1px solid var(--border); border-radius: 20px; padding: 28px; }
+.ap-num { font-family: var(--display); font-size: 48px; font-weight: 900; letter-spacing: -.06em; color: var(--fg3); line-height: 1; margin-bottom: 16px; }
 .ap-title { font-family: var(--display); font-size: 17px; font-weight: 700; letter-spacing: -.025em; color: var(--fg1); margin-bottom: 8px; }
 .ap-desc { font-size: 14px; color: var(--fg2); line-height: 21px; letter-spacing: -.005em; }
 .ap-dur { font-size: 11px; color: var(--fg3); margin-top: 14px; font-family: var(--mono); }
@@ -526,7 +524,7 @@
 .nav-item { position: relative; display: inline-flex; }
 .nav-dropdown {
   position: absolute;
-  top: calc(100% + 10px); left: 50%;
+  top: calc(100% + 2px); left: 50%;
   transform: translateX(-50%) translateY(-6px);
   background: #fff;
   border: 1px solid var(--border-strong);
