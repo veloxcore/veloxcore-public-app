@@ -21,6 +21,22 @@ const tpl = post.data.template ?? 'default';
   {tpl === 'sidebar'      && <PostSidebar      post={post} />}
   {tpl === 'typographic'  && <PostTypographic  post={post} />}
   {tpl === 'default'      && <PostDefault      post={post} />}
+  <div id="read-progress" aria-hidden="true" style="position:fixed;top:68px;left:0;width:0;height:2px;background:var(--accent);z-index:49;pointer-events:none;transition:width .1s linear;"></div>
+
+  <script is:inline>
+  (function () {
+    var el = document.getElementById('read-progress');
+    if (!el) return;
+    function update() {
+      var scrollable = document.body.scrollHeight - window.innerHeight;
+      if (scrollable <= 0) { el.style.width = '100%'; return; }
+      var pct = Math.min(window.scrollY / scrollable * 100, 100);
+      el.style.width = pct + '%';
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+  </script>
 </BaseLayout>
 
 <script>
