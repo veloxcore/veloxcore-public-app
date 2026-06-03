@@ -259,7 +259,9 @@
 /* ── AVATAR ────────────────────────────────────────────────── */
 .avatar {
   width: 28px; height: 28px; border-radius: 50%;
-  background: linear-gradient(135deg,var(--viz-blue),var(--viz-green));
+  background: var(--fg1); color: #fff;
+  font-size: 10px; font-weight: 700; letter-spacing: .01em;
+  display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
 
