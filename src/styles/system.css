@@ -303,7 +303,7 @@
   width: 22px; height: 22px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%; background: var(--border);
-  transition: all .2s; margin-top: 1px;
+  transition: background .2s, box-shadow .2s; margin-top: 1px;
 }
 .faq-ico svg {
   width: 10px; height: 10px;
@@ -315,9 +315,14 @@
 .faq-item.open .faq-ico svg { stroke: #fff; transform: rotate(45deg); }
 .faq-a {
   font-size: 14px; line-height: 24px; color: var(--fg2);
-  padding: 0 0 18px; display: none; letter-spacing: -.005em;
+  max-height: 0; overflow: hidden;
+  padding: 0; letter-spacing: -.005em;
+  transition: max-height .22s cubic-bezier(.4, 0, .2, 1), padding .22s cubic-bezier(.4, 0, .2, 1);
 }
-.faq-item.open .faq-a { display: block; }
+.faq-item.open .faq-a {
+  max-height: 1000px;
+  padding-bottom: 18px;
+}
 
 /* ══════════════════════════════════════════════════════════════
    HERO SYSTEM
