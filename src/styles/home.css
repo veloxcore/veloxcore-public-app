@@ -127,8 +127,7 @@
 .trust-inner { display:flex; align-items:center; justify-content:space-between; gap:40px; flex-wrap:wrap; }
 .trust-label { font-size:14px; color:var(--fg2); letter-spacing:-.005em; }
 .trust-row { display:flex; align-items:center; gap:56px; flex-wrap:wrap; }
-.trust-item { font-family:var(--display); font-size:24px; font-weight:700; color:var(--fg1); letter-spacing:-.025em; opacity:.7; user-select:none; transition:opacity .2s; }
-.trust-item:hover { opacity:1; }
+.trust-item { font-family:var(--display); font-size:24px; font-weight:700; color:var(--fg1); letter-spacing:-.025em; user-select:none; }
 .trust-item small { font-family:var(--sans); font-size:12px; font-weight:500; color:var(--fg3); display:block; letter-spacing:-.005em; margin-top:4px; }
 
 /* ── SECTION ────────────────────────────────── */
