@@ -1,12 +1,16 @@
 ---
 import BrandMark from '../ui/BrandMark.astro';
+const { pathname } = Astro.url;
+const isServices = pathname.startsWith('/services');
+const isWork     = pathname === '/work' || pathname.startsWith('/work/');
+const isCompany  = pathname.startsWith('/about') || pathname.startsWith('/blog') || pathname.startsWith('/contact');
 ---
 <nav class="nav">
   <div class="nav-inner">
     <BrandMark href="/" />
     <div class="nav-links">
       <div class="nav-item has-dropdown">
-        <a class="nav-link" href="/services">Services <span class="chev"></span></a>
+        <a class:list={["nav-link", { active: isServices }]} href="/services">Services <span class="chev"></span></a>
         <div class="nav-dropdown">
           <div class="nd-section">
             <span class="nd-label">AI Services</span>
@@ -25,9 +29,9 @@ import BrandMark from '../ui/BrandMark.astro';
         </div>
       </div>
       <a class="nav-link" href="https://veloxhire.ai" target="_blank" rel="noopener">Products</a>
-      <a class="nav-link" href="/work">Work</a>
+      <a class:list={["nav-link", { active: isWork }]} href="/work">Work</a>
       <div class="nav-item has-dropdown">
-        <a class="nav-link" href="/about">Company <span class="chev"></span></a>
+        <a class:list={["nav-link", { active: isCompany }]} href="/about">Company <span class="chev"></span></a>
         <div class="nav-dropdown nd-small">
           <div class="nd-section">
             <a class="nd-link" href="/about"><span class="nd-name">About</span><span class="nd-desc">Story, team &amp; values</span></a>
