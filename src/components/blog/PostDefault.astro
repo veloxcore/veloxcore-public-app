@@ -13,6 +13,14 @@ const tagCls = TAG_MAP[d.tag] ?? 'tag-azure';
   style={d.coverImage
     ? `background-image:url(${d.coverImage});background-size:cover;background-position:center`
     : `background:var(--dark-surface)`}>
+  {d.coverImage && (
+    <img
+      src={d.coverImage}
+      alt=""
+      loading="eager"
+      style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;"
+    />
+  )}
 </div>
 
 <div class="bp-content">
