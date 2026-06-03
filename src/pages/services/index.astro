@@ -66,8 +66,20 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   </div>
 </section>
 
+<!-- STICKY ANCHOR NAV -->
+<nav class="svc-anchor-nav" aria-label="Jump to service">
+  <div class="svc-anchor-inner">
+    <a class="svc-anchor-pill" href="#data-analytics">Data Analytics</a>
+    <a class="svc-anchor-pill" href="#data-viz">Data Viz</a>
+    <a class="svc-anchor-pill" href="#azure">Azure</a>
+    <a class="svc-anchor-pill" href="#machine-learning">Machine Learning</a>
+    <a class="svc-anchor-pill" href="#iot">IoT</a>
+    <a class="svc-anchor-pill" href="#dotnet">.NET</a>
+  </div>
+</nav>
+
 <!-- ── SERVICE 01 — DATA ANALYTICS ──────────────── -->
-<section class="service-section" data-screen-label="02 Data Analytics">
+<section class="service-section" id="data-analytics" data-screen-label="02 Data Analytics">
   <div class="wrap">
     <div class="svc-grid reveal">
       <div>
@@ -129,7 +141,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 </section>
 
 <!-- ── SERVICE 02 — VISUALISATION ───────────────── -->
-<section class="service-section" data-screen-label="03 Visualisation">
+<section class="service-section" id="data-viz" data-screen-label="03 Visualisation">
   <div class="wrap">
     <div class="svc-grid flip reveal">
       <div>
@@ -181,7 +193,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 </section>
 
 <!-- ── SERVICE 03 — AZURE ARCHITECTURE ──────────── -->
-<section class="service-section" data-screen-label="04 Architecture">
+<section class="service-section" id="azure" data-screen-label="04 Architecture">
   <div class="wrap">
     <div class="svc-grid reveal">
       <div>
@@ -251,7 +263,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 </section>
 
 <!-- ── SERVICE 04 — MACHINE LEARNING ────────────── -->
-<section class="service-section" data-screen-label="05 Machine Learning">
+<section class="service-section" id="machine-learning" data-screen-label="05 Machine Learning">
   <div class="wrap">
     <div class="svc-grid flip reveal">
       <div>
@@ -323,7 +335,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 </section>
 
 <!-- ── SERVICE 05 — IoT ──────────────────────────── -->
-<section class="service-section" data-screen-label="06 IoT">
+<section class="service-section" id="iot" data-screen-label="06 IoT">
   <div class="wrap">
     <div class="svc-grid reveal">
       <div>
@@ -371,7 +383,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 </section>
 
 <!-- ── SERVICE 06 — .NET ─────────────────────────── -->
-<section class="service-section" data-screen-label="07 .NET Development">
+<section class="service-section" id="dotnet" data-screen-label="07 .NET Development">
   <div class="wrap">
     <div class="svc-grid flip reveal">
       <div>
@@ -665,6 +677,25 @@ app.<span class="fn">Run</span>();</pre>
   window.addEventListener('resize', check);
   setTimeout(check, 80);
   setTimeout(check, 500);
+})();
+</script>
+<script is:inline>
+(function () {
+  var sections = ['data-analytics','data-viz','azure','machine-learning','iot','dotnet']
+    .map(function(id) { return document.getElementById(id); })
+    .filter(Boolean);
+  var pills = document.querySelectorAll('.svc-anchor-pill');
+  function update() {
+    var active = sections[0];
+    sections.forEach(function(s) {
+      if (s.getBoundingClientRect().top <= 120) active = s;
+    });
+    pills.forEach(function(p) {
+      p.classList.toggle('active', p.getAttribute('href') === '#' + active.id);
+    });
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
 })();
 </script>
 </BaseLayout>

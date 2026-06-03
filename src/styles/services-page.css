@@ -294,3 +294,44 @@
   .test-card       { padding: 24px; }
   .cta-section--cards .cta-inner { grid-template-columns: 1fr; gap: 40px; }
 }
+
+/* ── SERVICE ANCHOR NAV ─────────────────────────────────── */
+.svc-anchor-nav {
+  position: sticky;
+  top: 68px;
+  z-index: 40;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.svc-anchor-inner {
+  max-width: var(--w);
+  margin: 0 auto;
+  padding: 8px var(--m);
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.svc-anchor-inner::-webkit-scrollbar { display: none; }
+.svc-anchor-pill {
+  flex-shrink: 0;
+  padding: 7px 16px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg2);
+  letter-spacing: -.005em;
+  transition: background .15s, color .15s;
+  white-space: nowrap;
+}
+.svc-anchor-pill:hover {
+  background: var(--canvas);
+  color: var(--fg1);
+}
+.svc-anchor-pill.active {
+  background: var(--fg1);
+  color: #fff;
+}
