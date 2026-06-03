@@ -515,7 +515,7 @@
 .cs-n-label { font-size: 11px; color: var(--fg3); }
 .quotes { display: flex; flex-direction: column; gap: 16px; }
 .quote-card { background: var(--canvas); border: 1px solid var(--border); border-radius: 18px; padding: 24px; }
-.quote-text { font-size: 14px; line-height: 24px; color: var(--fg2); margin-bottom: 14px; font-style: italic; }
+.quote-text { font-size: 14px; line-height: 24px; color: var(--fg2); margin-bottom: 14px; }
 .quote-foot { display: flex; align-items: center; gap: 10px; }
 .q-ava { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; }
 .q-name { font-size: 14px; font-weight: 600; color: var(--fg1); }
