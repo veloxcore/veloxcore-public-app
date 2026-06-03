@@ -6,7 +6,6 @@
 
 /* ── KEYFRAMES ──────────────────────────────── */
 @keyframes blink      { 0%,100%{opacity:1} 50%{opacity:0} }
-@keyframes caret-color{ 0%{background:var(--accent)} 50%{background:#ea4335} 100%{background:var(--accent)} }
 @keyframes nav-in     { from{opacity:0} to{opacity:1} }
 @keyframes hero-up    { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
 @keyframes pop-in     { from{opacity:0;transform:scale(0.88) translateY(8px)} to{opacity:1;transform:none} }
@@ -67,7 +66,7 @@
 .sec-h2.tw-target { min-height:70px; }
 .feature h2.tw-target { min-height:62px; }
 .cta h2.tw-target { min-height:96px; }
-.caret { display:inline-block; width:4px; height:.78em; background:var(--accent); vertical-align:-.05em; margin-left:4px; animation:blink 1s step-end infinite, caret-color 4s linear infinite; }
+.caret { display:inline-block; width:4px; height:.78em; background:var(--accent); vertical-align:-.05em; margin-left:4px; animation:blink 1s step-end infinite; }
 .hero-h1 .caret { width:4px; height:.78em; margin-left:6px; }
 .feature h2 .caret { background:var(--accent-soft); }
 
