@@ -142,7 +142,8 @@
   gap: 0;
 }
 .form-tabs {
-  display: flex; gap: 4px;
+  display: none; /* hidden — intent selector above replaces this visual tab row; tabs still exist for JS tab-switching */
+  gap: 4px;
   background: var(--canvas);
   border-radius: 14px;
   padding: 4px;
