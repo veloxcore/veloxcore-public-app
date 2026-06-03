@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+
+const services = await getCollection('services');
+const caseStudies = await getCollection('case-studies');
+const blog = (await getCollection('blog')).filter(p => !p.data.draft);
+
+// Static top-level pages
+const staticPages = [
+  { section: 'Page', title: 'Home',     url: '/' },
+  { section: 'Page', title: 'Services', url: '/services' },
+  { section: 'Page', title: 'Work',     url: '/work' },
+  { section: 'Page', title: 'About',    url: '/about' },
+  { section: 'Page', title: 'Blog',     url: '/blog' },
+  { section: 'Page', title: 'Contact',  url: '/contact' },
+];
+
+const index = [
+  ...staticPages,
+  ...services.map(s => ({ section: 'Service', title: s.data.title, url: `/services/${s.slug}` })),
+  ...caseStudies.map(c => ({ section: 'Case Study', title: c.data.title, url: `/work/${c.slug}` })),
+  ...blog.map(p => ({ section: 'Post', title: p.data.title, url: `/blog/${p.slug}` })),
+];
+---
+
+<div class="cmdk" id="cmdk" aria-hidden="true">
+  <div class="cmdk-backdrop" data-cmdk-close></div>
+  <div class="cmdk-panel" role="dialog" aria-label="Search the site">
+    <div class="cmdk-input-row">
+      <span class="cmdk-prompt">&gt;</span>
+      <input class="cmdk-input" id="cmdk-input" type="text" placeholder="Search pages, services, work, posts..." autocomplete="off" spellcheck="false" />
+      <kbd class="cmdk-esc">ESC</kbd>
+    </div>
+    <ul class="cmdk-results" id="cmdk-results"></ul>
+    <div class="cmdk-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<button class="cmdk-hint" id="cmdk-hint" aria-label="Search (Command K)">
+  <span>Search</span><kbd>⌘K</kbd>
+</button>
+
+<script define:vars={{ index }}>
+  window.__VELOX_INDEX = index;
+</script>
+<script>import './command-palette.ts';</script>
