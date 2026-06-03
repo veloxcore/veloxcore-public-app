@@ -387,7 +387,9 @@
 .svc-badge {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 5px 14px;
+  background: rgba(26,115,232,.10);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid rgba(26,115,232,.20);
   border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   border-radius: 9999px;
   font-size: 12px; font-weight: 600; color: var(--accent);
