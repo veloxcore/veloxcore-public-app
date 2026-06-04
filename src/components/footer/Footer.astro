@@ -1,30 +1,54 @@
 ---
 import Ticker from './Ticker.astro';
 import FooterWordmark from './FooterWordmark.astro';
+
+const arrow = `<svg viewBox="0 0 13 13" aria-hidden="true"><line x1="2" y1="11" x2="11" y2="2"/><polyline points="5 2 11 2 11 8"/></svg>`;
 ---
 <footer class="footer" data-screen-label="06 Footer">
   <Ticker />
-  <div class="foot-top">
-    <span class="foot-tagline">AI engineering, shipped.</span>
-    <nav class="foot-nav">
-      <div class="foot-col">
-        <a href="/services/data-engineering">Data Engineering</a>
-        <a href="/services/generative-ai">Generative AI</a>
-        <a href="/services/ai-agents">AI Agents</a>
-        <a href="/services/azure-ai">Azure AI &amp; Cloud</a>
-        <a href="/services/iot">IoT &amp; Edge</a>
+
+  <!-- ── CLOSING CTA + LIVE STATUS ──────────────────────── -->
+  <div class="foot-cta">
+    <div class="foot-cta-left">
+      <span class="foot-cta-eyebrow"><span class="foot-cta-dot"></span>Let's build</span>
+      <a href="/contact" class="foot-cta-line">
+        Have something<br>hard to ship?
+        <span class="foot-cta-arrow" set:html={arrow} />
+      </a>
+    </div>
+    <div class="foot-cta-right">
+      <div class="foot-status">
+        <span class="foot-status-pulse"></span>
+        Open for projects
       </div>
-      <div class="foot-col">
-        <a href="/about">About</a>
-        <a href="/work">Work</a>
-        <a href="/blog">Blog</a>
-        <a href="/contact">Contact</a>
-      </div>
-    </nav>
+      <div class="foot-clock" data-foot-clock>Ahmedabad · 00:00 IST</div>
+      <nav class="foot-nav">
+        <div class="foot-col">
+          <a href="/services/generative-ai">Generative AI</a>
+          <a href="/services/ai-agents">AI Agents</a>
+          <a href="/services/azure-ai">Azure AI &amp; Cloud</a>
+          <a href="/services/data-engineering">Data Engineering</a>
+          <a href="/services/iot">IoT &amp; Edge</a>
+        </div>
+        <div class="foot-col">
+          <a href="/about">About</a>
+          <a href="/work">Work</a>
+          <a href="/blog">Blog</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </nav>
+    </div>
   </div>
-  <FooterWordmark />
+
+  <!-- ── WORDMARK STAGE (grid horizon + flowing gradient) ──── -->
+  <div class="foot-wm-stage">
+    <div class="foot-grid" aria-hidden="true"></div>
+    <FooterWordmark />
+  </div>
+
   <div class="foot-bottom">
     <span class="foot-copy">© 2026 Veloxcore Private Limited · Ahmedabad, India</span>
+    <span class="foot-tagline-sm">AI engineering, shipped.</span>
     <div class="foot-legal">
       <a href="#">Privacy</a>
       <a href="#">Terms</a>
@@ -32,3 +56,18 @@ import FooterWordmark from './FooterWordmark.astro';
     </div>
   </div>
 </footer>
+
+<script>
+  // Live studio clock — real local time in Ahmedabad (Asia/Kolkata).
+  const el = document.querySelector('[data-foot-clock]');
+  if (el) {
+    const tick = () => {
+      const t = new Date().toLocaleTimeString('en-GB', {
+        hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata',
+      });
+      el.textContent = `Ahmedabad · ${t} IST`;
+    };
+    tick();
+    setInterval(tick, 20000);
+  }
+</script>

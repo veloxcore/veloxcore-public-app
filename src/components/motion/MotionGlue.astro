@@ -64,6 +64,13 @@
       wm.style.fontSize = '100px'; wm.style.width = 'max-content';
       const tw = wm.offsetWidth; wm.style.width = '';
       wm.style.fontSize = Math.floor(100 * wm.parentElement!.clientWidth / tw) + 'px';
+      // Continuous gradient: offset each letter by its x position so the rainbow
+      // flows across the whole word as one field instead of resetting per glyph.
+      const lts = wm.querySelectorAll<HTMLElement>('.letter');
+      if (lts.length) {
+        const base = lts[0].offsetLeft;
+        lts.forEach((l) => l.style.setProperty('--lx', (l.offsetLeft - base) + 'px'));
+      }
     };
     if (document.fonts?.ready) document.fonts.ready.then(fit);
     setTimeout(fit, 200); fit();
