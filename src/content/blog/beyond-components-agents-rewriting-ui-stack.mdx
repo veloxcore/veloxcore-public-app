@@ -1,0 +1,102 @@
+---
+title: "Beyond Components: How Agents Are Rewriting the UI Stack"
+tag: "AI Agents"
+date: 2026-06-22
+coverTheme: "cover-b"
+excerpt: "Static components, declarative JSON, generative HTML at runtime — AI-driven UI has three distinct eras. Here's what each looks like in production and why MCP apps are the right delivery layer for all of them."
+author: "Veloxcore Team"
+readTime: "7 min"
+template: "sidebar"
+coverClass: "cov-neural"
+topics: ["AI Agents", "Generative AI"]
+toc:
+  - { id: "new-computer", label: "The new computer" }
+  - { id: "static", label: "Static components" }
+  - { id: "declarative", label: "Declarative UI" }
+  - { id: "generative", label: "Generative components" }
+  - { id: "mcp-sandbox", label: "MCP as delivery layer" }
+  - { id: "collaboration", label: "Human-agent collaboration" }
+  - { id: "veloxcore", label: "Veloxcore in practice" }
+---
+
+In November 2022, the workflow was: open ChatGPT, paste your component spec, copy the output, fix the TypeScript errors, repeat. You asked it to reply in code blocks. It was crude. It sort of worked. Nobody expected it to write better front-end code than them.
+
+Three years later, that assumption is gone. Frontier models write accessible, well-structured React with thoughtful CSS. They generate search components with blur animations out of the box. The quality is there. So why is most agent-driven UI still stuck in a fundamentally old paradigm?
+
+<h2 id="new-computer">The New Computer We Don't Know How to Use Yet</h2>
+
+Andrej Karpathy's framing is useful: we have a new computer. Interacting with it is like talking to a terminal. You have direct access to the operating system. The GUI hasn't been invented yet. We're in the 1970s, and everything is still text.
+
+> We have a super-intelligence but we don't have a mature interface language.
+
+The symptom is visible everywhere. Most SaaS companies responded to this new computer by bolting a chat window onto their homepage. Chat isn't wrong. It's just not the final interface. It's the first television broadcasts reimagining radio shows with a camera, technically possible but missing what the medium is actually for.
+
+The more important question isn't where the UI runs. It's what the model generates. There are three distinct answers to that question today, and each one sits at a different point in the maturity curve.
+
+<h2 id="static">Static Components: The Familiar Model</h2>
+
+Most agent UI today uses static component rendering. The agent acts as an orchestrator: it makes a tool call via MCP or direct function calling, receives parameters and data, and passes them as props to predefined React components a developer already built.
+
+This is conceptually identical to what we've been doing for 20 years. A server sends data, the client renders it. The only difference is the agent generates the data and decides which props to fill.
+
+Two production examples worth knowing:
+
+**AGUI protocol** provides a client-side SDK where you register React components against tool call signatures. When the agent calls a tool, the props map directly to your component. The agent picks the data shape, your component handles the rendering.
+
+**Goose Auto Visualizer** takes any structured data returned by an MCP tool and matches it against a set of predefined visualization components. No custom code per data type. The agent picks the representation, Goose's components do the rest.
+
+This model is predictable, fast, and cheap to run. It also has a ceiling: the agent can only express what your component library knows how to show. Anything outside that vocabulary disappears.
+
+<h2 id="declarative">Declarative UI: More Flexibility, Same Floor</h2>
+
+Declarative generative UI moves the model one level up the abstraction stack. Instead of passing raw props, the agent emits a descriptor, typically JSON or YAML, that maps to your component tree. A rendering engine translates the descriptor into the final UI.
+
+The model still can't invent new components. But it can compose them, reorder them, and personalize the layout based on context. Netflix has operated a version of this for years: server-driven UI where the homepage layout is personalized per user but stays inside Netflix's component vocabulary.
+
+**JSON Render from Vercel** is the current best-in-class tool. It recently added YAML support and produces genuinely complex, interactive layouts from a schema. The LLM generates the JSON descriptor. JSON Render converts it into components. The LLM never touches the rendering path.
+
+This is the right default for most teams right now. You keep design system consistency. You get real personalization. You spend tokens on the descriptor, not on generating raw HTML. The predictability has concrete value in production: you can test against the descriptor, version it, and reason about failures. The flexibility ceiling is still there but it's much higher.
+
+<h2 id="generative">Generative Components: Let the Model Write the Code</h2>
+
+The third tier is where things get genuinely different, and genuinely uncomfortable.
+
+Frontier models from mid-2025 onward can write production-quality front-end code. Not "it compiles" quality. Actually thoughtful: accessible markup, well-scoped CSS, real interactivity, edge cases handled. The quality gap between model output and senior engineer output has closed fast.
+
+The experiment that illustrates what this unlocks: a weather agent that calls a weather API, generates a joke about the forecast, then writes the entire HTML, CSS, and JavaScript for the UI in a single tool call. No component library. No design system. No predefined vocabulary. Pure generative output rendered directly to the user.
+
+The result looks different every time. The agent invents its own visual language for the data. Sometimes surprisingly good. Always imaginative in ways a static component system can't be.
+
+The obvious problem: you can't trust arbitrary code running in your app's security context, and LLM-generated code is no exception. Generative component UI needs a distribution model with real containment, real sandboxing, and a controlled message-passing boundary between the generated UI and the rest of your system. Without it, you've just shipped a code injection surface.
+
+<h2 id="mcp-sandbox">MCP Apps as the Right Delivery Layer</h2>
+
+This is where MCP apps become architecturally important beyond their role as a tool-calling protocol.
+
+MCP apps ship with a double-iframe sandbox by default. They include authentication, tool calling, and message passing as first-class features. They're the current standard for third-party UI delivery. That means the containment model generative component UI needs already exists.
+
+Anthropic's visualizer feature is a useful signal. They could have built a proprietary rendering architecture for Claude's first-party UI inside the product. They chose MCP apps instead. The reason is direct: MCP apps already provide the boundary, the auth, and the sandboxing that generated UIs require. Building a parallel system would have been redundant.
+
+If MCP apps are good enough for Anthropic's own first-party UI, they're the right delivery layer for generative UI in production systems. Especially when the components themselves are being written by the model at runtime, you want the delivery mechanism to handle security by default rather than by configuration.
+
+<h2 id="collaboration">Beyond Output: The Collaboration Model</h2>
+
+The obvious future vision is Jarvis. Floating windows. UI that appears and disappears on voice command. That's the television-era imagination applied to a radio-era technology. Technically extrapolated, but missing what the medium actually enables.
+
+The more interesting signal is the **Excalidraw MCP app**. It doesn't just visualize agent output. It creates a shared canvas where a human and an agent work in the same space simultaneously. You prompt the agent to sketch an architecture diagram. You click and adjust the canvas directly. The agent responds to your modifications. The output belongs to both of you.
+
+That's a different model entirely. Not "agent generates UI for the human to consume." Human and agent collaborating on a shared artifact, each contributing to the same persistent space in real time.
+
+The final interface for the new computer probably looks more like that: persistent shared artifacts, iterative back-and-forth, UI that reflects and extends the conversation rather than replacing it. We don't have enough imagination yet to know exactly what form it takes. But the shared-artifact model points at something that chat and static component rendering both miss.
+
+<h2 id="veloxcore">What This Looks Like at Veloxcore</h2>
+
+We build production agent systems on Azure, and the generative UI question surfaces on almost every engagement now. **Veloxhire.AI**, our agentic interview platform, sits at the center of this stack: it presents structured evaluation data to hiring managers while an AI agent drives the interview session in real time.
+
+Our current architecture uses declarative UI for structured outputs, evaluation summaries, scoring grids, candidate comparisons, and MCP-sandboxed generative components for dynamic session views where the agent needs to create context-specific UI on the fly. The containment MCP apps provide is non-negotiable in enterprise hiring contexts where data boundaries matter.
+
+Vinit B Yadav covered this direction at Dot Net Day 2025, specifically how MCP tool calling integrates with Azure-hosted agents when the outputs are user-facing rather than internal data pipelines. As a Microsoft Solutions Partner in Data & AI, we've worked through the auth and containment challenges that generative component UI creates at scale.
+
+If you're figuring out where your agent UI stack should be in 12 months, [talk to us](/contact). The architecture decisions you make now will be harder to undo once your component library has grown around the wrong model.
+
+The new computer is here. The interface language is still being written.
